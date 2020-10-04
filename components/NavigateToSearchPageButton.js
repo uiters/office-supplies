@@ -17,24 +17,24 @@ const NavigateToSearchPageButton = (props) => {
   );
 };
 
-const styles=StyleSheet.create({
-    subcontainer:{
-        flexDirection:"row",
-        justifyContent:"flex-start",
-        height:60,
-        backgroundColor:"#D3D3D3",
-        marginBottom:20
-    },
-    button:{
-        padding:15
-    },
-    textview:{
-        padding:10
-    },
-    text:{
-        fontWeight:"bold",
-        fontSize:20
-    }
+const styles = StyleSheet.create({
+  subcontainer: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    height: 60,
+    backgroundColor: "#D3D3D3",
+    marginTop:50
+  },
+  button: {
+    padding: 15,
+  },
+  textview: {
+    padding: 10,
+  },
+  text: {
+    fontWeight: "bold",
+    fontSize: 20,
+  },
 });
 
 export default NavigateToSearchPageButton;

@@ -7,7 +7,7 @@ const ShoppingCartButton = (props) => {
     <TouchableOpacity
       style={{ marginRight: 10 }}
     >
-      <AntDesign name="shoppingcart" size={40} color="black" />
+      <AntDesign name="shoppingcart" size={40} color="white" />
     </TouchableOpacity>
   );
 };
