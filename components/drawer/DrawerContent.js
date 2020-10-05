@@ -101,7 +101,7 @@ const DrawerContent = (props) => {
             <DrawerItem
               icon={({ color, size }) => (
                 <Image
-                  source={require("../assets/coupon.png")}
+                  source={require("../../assets/coupon.png")}
                   style={{ width: size, height: size, tintColor: color }}
                 />
               )}
@@ -114,7 +114,7 @@ const DrawerContent = (props) => {
             <DrawerItem
               icon={({ color, size }) => (
                 <Image
-                  source={require("../assets/menu.png")}
+                  source={require("../../assets/menu.png")}
                   style={{ width: size, height: size, tintColor: color }}
                 />
               )}

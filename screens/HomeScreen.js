@@ -6,36 +6,78 @@ import {
   View,
   ImageBackground,
   TextInput,
+  ScrollView,
+  FlatList,
 } from "react-native";
-import DrawerButton from "../components/DrawerButton";
-import ShoppingCartButton from "../components/ShoppingCartButton";
-import NavigateToSearchPageButton from "../components/NavigateToSearchPageButton";
+import { AppLoading } from "expo";
+import data from "../fakedata/homebookflatitem";
+import * as Font from "expo-font";
+import HomeScreenBookFlatListItem from "../components/homescreen/HomeScreenBookFlatListItem";
+
+const fetchFonts = () => {
+  return Font.loadAsync({
+    "SansitaSwashed-BlackItalic": require("../assets/fonts/SansitaSwashed-BlackItalic.ttf"),
+    "SansitaSwashed-MediumItalic": require("../assets/fonts/SansitaSwashed-MediumItalic.ttf"),
+  });
+};
 
 const HomeScreen = ({ route, navigation }) => {
   const [text, setText] = useState("");
+  const [fontLoaded, setFontLoaded] = useState(false);
 
-  const onSubmitEditing = () => {
-    console.log(text);
-  };
-  return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={{
-          uri:
-            "https://nongsansay.vn/wp-content/uploads/2020/04/5120x2880-light-green-solid-color-background-scaled.jpg",
-        }}
-        style={styles.ImageBackground}
-      >
-        <TextInput
-          style={styles.TextInput}
-          value={text}
-          onChangeText={(text) => setText(text)}
-          placeholder="What are you looking for?"
-          onSubmitEditing={onSubmitEditing}
-        />
-      </ImageBackground>
-    </View>
-  );
+  if (!fontLoaded) {
+    return (
+      <AppLoading
+        startAsync={fetchFonts}
+        onFinish={() => setFontLoaded(true)}
+        onError={(error) => console.log(error)}
+      />
+    );
+  } else {
+    const onSubmitEditing = () => {
+      console.log(text);
+    };
+
+    return (
+      <View style={styles.container}>
+        <ImageBackground
+          source={{
+            uri:
+              "https://nongsansay.vn/wp-content/uploads/2020/04/5120x2880-light-green-solid-color-background-scaled.jpg",
+          }}
+          style={styles.ImageBackground}
+        >
+          <TextInput
+            style={styles.TextInput}
+            value={text}
+            onChangeText={(text) => setText(text)}
+            placeholder="What are you looking for?"
+            onSubmitEditing={onSubmitEditing}
+          />
+        </ImageBackground>
+        <ScrollView style={styles.ScrollView}>
+          <View>
+            <View style={styles.newarrival}>
+              <Text style={styles.newarrivaltitle}>New Arrival:</Text>
+              <FlatList
+                horizontal={true}
+                data={data}
+                renderItem={({ item }) => (
+                  <HomeScreenBookFlatListItem
+                    source={item.image}
+                    title={item.title}
+                    price={item.price}
+                    navigation={navigation}
+                  />
+                )}
+                keyExtractor={(item) => item.id}
+              />
+            </View>
+          </View>
+        </ScrollView>
+      </View>
+    );
+  }
 };
 const styles = StyleSheet.create({
   container: {
@@ -65,6 +107,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.34,
     shadowRadius: 6.27,
     elevation: 10,
+  },
+  ScrollView: {
+    marginTop: 40,
+  },
+  newarrival: {},
+  newarrivaltitle: {
+    marginLeft: 10,
+    color: "black",
+    fontSize: 25,
+    fontFamily: "SansitaSwashed-BlackItalic",
   },
 });
 

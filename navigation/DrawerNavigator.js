@@ -2,7 +2,7 @@ import * as React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import DetailScreen from "../screens/DetailScreen";
 import StackNavigator from './StackNavigator';
-import DrawerContent from '../components/DrawerContent';
+import DrawerContent from '../components/drawer/DrawerContent';
 
 
 
