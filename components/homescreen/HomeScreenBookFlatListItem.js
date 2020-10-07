@@ -35,7 +35,7 @@ const HomeScreenBookFlatListItem = (props) => {
     );
   }
   return (
-    <TouchableOpacity style={styles.TouchableOpacity}>
+    <TouchableOpacity style={styles.TouchableOpacity} onPress={props.onPress}>
       <View style={styles.container}>
         <Image source={{
             uri:props.source

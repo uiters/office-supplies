@@ -70,7 +70,11 @@ const HomeScreen = ({ route, navigation }) => {
                     source={item.image}
                     title={item.title}
                     price={item.price}
-                    navigation={navigation}
+                    onPress={() => navigation.navigate("ProductDetailScreen",{
+                      source:item.image,
+                      title:item.title,
+                      price:item.price
+                    })}
                   />
                 )}
                 keyExtractor={(item) => item.id}
@@ -86,7 +90,7 @@ const HomeScreen = ({ route, navigation }) => {
                 <HomeScreenCategoryItem
                   source={item.source}
                   title={item.title}
-                  navigation={navigation}
+                  onPress={() => navigation.navigate("NewArrivalDetailScreen")}
                 />
               )}
               keyExtractor={(item) => item.id}

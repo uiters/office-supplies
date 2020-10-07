@@ -1,8 +1,9 @@
 import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../screens/HomeScreen";
-import DetailScreen from "../screens/DetailScreen";
+import ProductDetailScreen from "../screens/ProductDetailScreen";
 import HomeHeader from "../components/homeheader/HomeHeader";
+import ProductDetailHeader from "../components/productdetailheadbar/ProductDetailHeader";
 
 const Stack = createStackNavigator();
 
@@ -23,7 +24,12 @@ const stackNavigator = () => {
           header:({ navigation }) => <HomeHeader navigation={navigation}/>
         }}
       />
-      <Stack.Screen name="Details" component={DetailScreen} />
+      <Stack.Screen name="ProductDetailScreen" 
+      component={ProductDetailScreen}
+      options={{
+        header:({ navigation }) => <ProductDetailHeader navigation={navigation}/>
+      }} 
+      />
     </Stack.Navigator>
   );
 };

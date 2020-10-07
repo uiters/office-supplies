@@ -36,7 +36,7 @@ const HomeScreenCategoryItem = props => {
   }
 
   return (
-    <TouchableOpacity style={styles.TouchableOpacity}>
+    <TouchableOpacity style={styles.TouchableOpacity} onPress={props.onPress}>
       <View style={styles.container}>
         <Image
           source={{
