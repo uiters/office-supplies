@@ -11,13 +11,16 @@ import {
 } from "react-native";
 import { AppLoading } from "expo";
 import data from "../fakedata/homebookflatitem";
+import fakecategories from "../fakedata/fakecategories";
 import * as Font from "expo-font";
 import HomeScreenBookFlatListItem from "../components/homescreen/HomeScreenBookFlatListItem";
+import HomeScreenCategoryItem from "../components/homescreen/HomeScreenCategoryItem";
 
 const fetchFonts = () => {
   return Font.loadAsync({
     "SansitaSwashed-BlackItalic": require("../assets/fonts/SansitaSwashed-BlackItalic.ttf"),
     "SansitaSwashed-MediumItalic": require("../assets/fonts/SansitaSwashed-MediumItalic.ttf"),
+    "SansitaSwashed-ExtraBoldItalic": require("../assets/fonts/SansitaSwashed-ExtraBoldItalic.ttf"),
   });
 };
 
@@ -55,7 +58,7 @@ const HomeScreen = ({ route, navigation }) => {
             onSubmitEditing={onSubmitEditing}
           />
         </ImageBackground>
-        <ScrollView style={styles.ScrollView}>
+        <ScrollView style={styles.newarrival}>
           <View>
             <View style={styles.newarrival}>
               <Text style={styles.newarrivaltitle}>New Arrival:</Text>
@@ -73,6 +76,21 @@ const HomeScreen = ({ route, navigation }) => {
                 keyExtractor={(item) => item.id}
               />
             </View>
+          </View>
+          <View style={styles.homeCategory}>
+            <Text style={styles.categoryTitle}>Categories:</Text>
+            <FlatList
+            numColumns={2}
+              data={fakecategories}
+              renderItem={({ item }) => (
+                <HomeScreenCategoryItem
+                  source={item.source}
+                  title={item.title}
+                  navigation={navigation}
+                />
+              )}
+              keyExtractor={(item) => item.id}
+            />
           </View>
         </ScrollView>
       </View>
@@ -108,15 +126,23 @@ const styles = StyleSheet.create({
     shadowRadius: 6.27,
     elevation: 10,
   },
-  ScrollView: {
-    marginTop: 40,
+  newarrival: {
+    marginTop: 25,
   },
-  newarrival: {},
   newarrivaltitle: {
     marginLeft: 10,
     color: "black",
     fontSize: 25,
-    fontFamily: "SansitaSwashed-BlackItalic",
+    fontFamily: "SansitaSwashed-MediumItalic",
+  },
+  homeCategory: {
+    marginTop: 50,
+  },
+  categoryTitle: {
+    marginLeft: 10,
+    color: "black",
+    fontSize: 25,
+    fontFamily: "SansitaSwashed-ExtraBoldItalic",
   },
 });
 

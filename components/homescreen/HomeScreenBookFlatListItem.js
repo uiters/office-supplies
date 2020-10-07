@@ -11,7 +11,6 @@ import {
   TouchableOpacity,
   Image
 } from "react-native";
-import { AppLoading } from "expo";
 
 const HomeScreenBookFlatListItem = (props) => {
   return (
