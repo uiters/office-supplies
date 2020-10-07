@@ -48,7 +48,7 @@ const HomeScreen = ({ route, navigation }) => {
             uri:
               "https://nongsansay.vn/wp-content/uploads/2020/04/5120x2880-light-green-solid-color-background-scaled.jpg",
           }}
-          style={styles.ImageBackground}
+          style={styles.NewArrivalImageBackground}
         >
           <TextInput
             style={styles.TextInput}
@@ -58,7 +58,7 @@ const HomeScreen = ({ route, navigation }) => {
             onSubmitEditing={onSubmitEditing}
           />
         </ImageBackground>
-        <ScrollView style={styles.newarrival}>
+        <ScrollView style={styles.ScrollView}>
           <View>
             <View style={styles.newarrival}>
               <Text style={styles.newarrivaltitle}>New Arrival:</Text>
@@ -101,17 +101,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  ImageBackground: {
-    height: 50,
+  NewArrivalImageBackground: {
+    height: 40,
     width: "100%",
     alignItems: "center",
   },
+
   TextInput: {
     height: 50,
-    paddingLeft: 10,
+    paddingLeft: 15,
     width: "85%",
     borderColor: "gray",
-    marginTop: 25,
+    marginTop:15,
     borderWidth: 0.2,
     backgroundColor: "white",
     color: "black",
@@ -126,8 +127,8 @@ const styles = StyleSheet.create({
     shadowRadius: 6.27,
     elevation: 10,
   },
-  newarrival: {
-    marginTop: 25,
+  ScrollView: {
+    marginTop: 40,
   },
   newarrivaltitle: {
     marginLeft: 10,
@@ -144,6 +145,10 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontFamily: "SansitaSwashed-ExtraBoldItalic",
   },
+  categoryImageBackGround:{
+    width:"100%",
+    height:"100%"
+  }
 });
 
 export default HomeScreen;

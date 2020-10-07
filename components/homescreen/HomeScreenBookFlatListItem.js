@@ -11,8 +11,29 @@ import {
   TouchableOpacity,
   Image
 } from "react-native";
+import * as Font from "expo-font";
+import { AppLoading } from "expo";
+
+const fetchFonts = () => {
+  return Font.loadAsync({
+    "ShadowsIntoLight-Regular":require("../../assets/fonts/ShadowsIntoLight-Regular.ttf"),
+    "IndieFlower-Regular":require("../../assets/fonts/IndieFlower-Regular.ttf"),
+    "DancingScript-VariableFont_wght":require("../../assets/fonts/DancingScript-VariableFont_wght.ttf"),
+    "ArchitectsDaughter-Regular":require("../../assets/fonts/ArchitectsDaughter-Regular.ttf")
+  });
+};
 
 const HomeScreenBookFlatListItem = (props) => {
+  const [fontLoaded, setFontLoaded] = useState(false);
+  if(!fontLoaded){
+    return (
+      <AppLoading
+        startAsync={fetchFonts}
+        onFinish={() => setFontLoaded(true)}
+        onError={(error) => console.log(error)}
+      />
+    );
+  }
   return (
     <TouchableOpacity style={styles.TouchableOpacity}>
       <View style={styles.container}>
@@ -57,7 +78,10 @@ elevation: 15,
     width: "70%",
   },
   itemTitle: {
+    marginTop:10,
     fontSize: 17,
+    fontFamily:"ArchitectsDaughter-Regular",
+    
   },
   itemPrice: {
     color: "red",
