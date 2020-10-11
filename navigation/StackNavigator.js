@@ -11,11 +11,6 @@ const stackNavigator = () => {
   return (
     <Stack.Navigator
       initialRouteName="Home"
-      screenOptions={{
-        headerStyle: {
-          height: 110,
-        },
-      }}
     >
       <Stack.Screen
         name="Home"

@@ -73,7 +73,8 @@ const HomeScreen = ({ route, navigation }) => {
                     onPress={() => navigation.navigate("ProductDetailScreen",{
                       source:item.image,
                       title:item.title,
-                      price:item.price
+                      summary:item.summary,
+                      price:item.price,
                     })}
                   />
                 )}

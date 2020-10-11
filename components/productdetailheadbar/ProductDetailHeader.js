@@ -35,7 +35,6 @@ const ProductDetailHeader = ({ navigation }) => {
       <View style={styles.container}>
         <View style={styles.subcontainer}>
           <BackButton onPress={()=>navigation.goBack()}/>
-          <Text style={styles.TextTitle}>Product Details</Text>
           <ShoppingCartButton />
         </View>
       </View>
@@ -46,7 +45,7 @@ const ProductDetailHeader = ({ navigation }) => {
 const styles = StyleSheet.create({
   ImageBackground: {
     width: "100%",
-    height: 130,
+    height: 100,
   },
   container: {
     height: "100%",
