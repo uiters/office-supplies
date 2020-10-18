@@ -20,6 +20,66 @@ const DrawerContent = (props) => {
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
+          <Drawer.Section style={styles.drawerSection}>
+            <DrawerItem
+              icon={({ color, size }) => (
+                <Icon name="home-outline" color={color} size={size} />
+              )}
+              label="Home"
+              onPress={() => {
+                props.navigation.navigate("Home");
+              }}
+            />
+            <DrawerItem
+              icon={({ color, size }) => (
+                <Icon name="account-outline" color={color} size={size} />
+              )}
+              label="Sign In"
+              onPress={() => {
+                props.navigation.navigate("SignIn");
+              }}
+            />
+            <View style={{ flexDirection: "row" }}>
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <Icon name="account" color={color} size={size} />
+                )}
+                label="Sign Up"
+                onPress={() => {
+                  props.navigation.navigate("SignUp");
+                }}
+                style={{ width: "80%" }}
+              />
+            </View>
+          </Drawer.Section>
+          <Drawer.Section>
+            <DrawerItem
+              icon={({ color, size }) => (
+                <Image
+                  source={require("../../assets/menu.png")}
+                  style={{ width: size, height: size, tintColor: color }}
+                />
+              )}
+              label="Categories"
+              onPress={() => {}}
+            />
+
+            <DrawerItem
+              icon={({ color, size }) => (
+                <Icon name="settings-outline" color={color} size={size} />
+              )}
+              label="Settings"
+              onPress={() => {}}
+            />
+          </Drawer.Section>
+        </View>
+      </DrawerContentScrollView>
+    </View>
+  );
+  /*return (
+    <View style={{ flex: 1 }}>
+      <DrawerContentScrollView {...props}>
+        <View style={styles.drawerContent}>
           <View style={styles.userInfoSection}>
             <View style={{ flexDirection: "row", marginTop: 15 }}>
               <Avatar.Image
@@ -142,7 +202,7 @@ const DrawerContent = (props) => {
         />
       </Drawer.Section>
     </View>
-  );
+  );*/
 };
 
 const styles = StyleSheet.create({

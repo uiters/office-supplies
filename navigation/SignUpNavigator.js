@@ -6,34 +6,25 @@ import HomeHeader from "../components/homeheader/HomeHeader";
 import ProductDetailHeader from "../components/productdetailheadbar/ProductDetailHeader";
 import ProductByCategoryScreen from "../screens/ProductByCategoryScreen";
 import ProductByDetailsHeader from "../components/productbydetailscreen/ProductByDetailsHeader";
+import SignUpScreen from "../screens/SignUpScreen";
+import DrawerButton from "../components/homeheader/DrawerButton"
 
 const Stack = createStackNavigator();
 
-const stackNavigator = () => {
+const SignUpNavigator = () => {
   return (
-    <Stack.Navigator
-      initialRouteName="Home"
-    >
+    <Stack.Navigator>
       <Stack.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          header:({ navigation }) => <HomeHeader navigation={navigation}/>
-        }}
-      />
-      <Stack.Screen name="ProductDetailScreen" 
-      component={ProductDetailScreen}
-      options={{
-        header:({ navigation }) => <ProductDetailHeader navigation={navigation}/>
-      }} 
-      />
-       <Stack.Screen name="ProductByCategoryScreen" 
-      component={ProductByCategoryScreen}
-      options={({ route }) => ({ title: route.params.title })}
+        name="SignUp"
+        component={SignUpScreen}
+        options={({navigation, route}) => ({
+          headerLeft: props => <DrawerButton onOpenDrawer = {() => navigation.openDrawer()}/>,
+          title:"Sign Up"
+        })}
       />
     </Stack.Navigator>
   );
 };
 
-export default stackNavigator;
+export default SignUpNavigator;
 

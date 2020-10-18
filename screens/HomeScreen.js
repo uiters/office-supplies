@@ -91,7 +91,9 @@ const HomeScreen = ({ route, navigation }) => {
                 <HomeScreenCategoryItem
                   source={item.source}
                   title={item.title}
-                  onPress={() => navigation.navigate("NewArrivalDetailScreen")}
+                  onPress={() => navigation.navigate("ProductByCategoryScreen",{
+                  title:item.title                     
+                  })}
                 />
               )}
               keyExtractor={(item) => item.id}

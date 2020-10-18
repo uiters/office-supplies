@@ -12,7 +12,7 @@ const fetchFonts = () => {
   });
 };
 
-const ProductDetailHeader = ({ navigation }) => {
+const ProductDetailHeader = ({ navigation, route }) => {
   const [fontLoaded, setFontLoaded] = useState(false);
 
   if (!fontLoaded) {
@@ -34,8 +34,8 @@ const ProductDetailHeader = ({ navigation }) => {
     >
       <View style={styles.container}>
         <View style={styles.subcontainer}>
-          <BackButton onPress={()=>navigation.goBack()}/>
-          <Text style={styles.TextTitle}>DETAILS</Text>
+          <BackButton onPress={() => navigation.goBack()} />
+          <Text style={styles.TextTitle}>{route.params.title}</Text>
           <ShoppingCartButton />
         </View>
       </View>

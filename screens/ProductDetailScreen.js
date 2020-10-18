@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
     fontFamily: "ShadowsIntoLight-Regular",
   },
   Image: {
+    marginTop:20,
     height: 300,
     marginHorizontal: 120,
     marginBottom: 20,
