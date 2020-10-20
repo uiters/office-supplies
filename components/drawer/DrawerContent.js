@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useSelector } from "react-redux";
 import { View, StyleSheet, Image } from "react-native";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import {
@@ -15,194 +16,205 @@ import {
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const DrawerContent = (props) => {
-  const [isActive, setIsActive] = React.useState(false);
-  return (
-    <View style={{ flex: 1 }}>
-      <DrawerContentScrollView {...props}>
-        <View style={styles.drawerContent}>
-          <Drawer.Section style={styles.drawerSection}>
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Icon name="home-outline" color={color} size={size} />
-              )}
-              label="Home"
-              onPress={() => {
-                props.navigation.navigate("Home");
-              }}
-            />
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Icon name="account-outline" color={color} size={size} />
-              )}
-              label="Sign In"
-              onPress={() => {
-                props.navigation.navigate("SignIn");
-              }}
-            />
-            <View style={{ flexDirection: "row" }}>
+  //const availableUser = useSelector((state) => state.authentication.token);
+  //if (availableUser === undefined) {
+    return (
+      <View style={{ flex: 1 }}>
+        <DrawerContentScrollView {...props}>
+          <View style={styles.drawerContent}>
+            <Drawer.Section style={styles.drawerSection}>
               <DrawerItem
                 icon={({ color, size }) => (
-                  <Icon name="account" color={color} size={size} />
+                  <Icon name="home-outline" color={color} size={size} />
                 )}
-                label="Sign Up"
+                label="Home"
                 onPress={() => {
-                  props.navigation.navigate("SignUp");
+                  props.navigation.navigate("Home");
                 }}
-                style={{ width: "80%" }}
               />
-            </View>
-          </Drawer.Section>
-          <Drawer.Section>
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Image
-                  source={require("../../assets/menu.png")}
-                  style={{ width: size, height: size, tintColor: color }}
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <Icon name="account-outline" color={color} size={size} />
+                )}
+                label="Sign In"
+                onPress={() => {
+                  props.navigation.navigate("SignIn");
+                }}
+              />
+              <View style={{ flexDirection: "row" }}>
+                <DrawerItem
+                  icon={({ color, size }) => (
+                    <Icon name="account" color={color} size={size} />
+                  )}
+                  label="Sign Up"
+                  onPress={() => {
+                    props.navigation.navigate("SignUp");
+                  }}
+                  style={{ width: "80%" }}
                 />
-              )}
-              label="Categories"
-              onPress={() => {}}
-            />
-
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Icon name="settings-outline" color={color} size={size} />
-              )}
-              label="Settings"
-              onPress={() => {}}
-            />
-          </Drawer.Section>
-        </View>
-      </DrawerContentScrollView>
-    </View>
-  );
-  /*return (
-    <View style={{ flex: 1 }}>
-      <DrawerContentScrollView {...props}>
-        <View style={styles.drawerContent}>
-          <View style={styles.userInfoSection}>
-            <View style={{ flexDirection: "row", marginTop: 15 }}>
-              <Avatar.Image
-                source={{
-                  uri: "https://api.adorable.io/avatars/50/abott@adorable.png",
-                }}
-                size={50}
+              </View>
+            </Drawer.Section>
+            <Drawer.Section>
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <Image
+                    source={require("../../assets/menu.png")}
+                    style={{ width: size, height: size, tintColor: color }}
+                  />
+                )}
+                label="Categories"
+                onPress={() => {}}
               />
-              <View style={{ marginLeft: 15, flexDirection: "column" }}>
-                <Title style={styles.title}>Phat Ngo</Title>
-                <Caption style={styles.caption}>Hello Hello</Caption>
+
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <Icon name="settings-outline" color={color} size={size} />
+                )}
+                label="Settings"
+                onPress={() => {}}
+              />
+            </Drawer.Section>
+          </View>
+        </DrawerContentScrollView>
+      </View>
+    );
+  //} else {
+    /*return (
+      <View style={{ flex: 1 }}>
+        <DrawerContentScrollView {...props}>
+          <View style={styles.drawerContent}>
+            <View style={styles.userInfoSection}>
+              <View style={{ flexDirection: "row", marginTop: 15 }}>
+                <Avatar.Image
+                  source={{
+                    uri:
+                      "https://api.adorable.io/avatars/50/abott@adorable.png",
+                  }}
+                  size={50}
+                />
+                <View style={{ marginLeft: 15, flexDirection: "column" }}>
+                  <Title style={styles.title}>Phat Ngo</Title>
+                  <Caption style={styles.caption}>Hello Hello</Caption>
+                </View>
               </View>
             </View>
+
+            <Drawer.Section style={styles.drawerSection}>
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <Icon name="home-outline" color={color} size={size} />
+                )}
+                label="Home"
+                onPress={() => {
+                  props.navigation.navigate("Home");
+                }}
+              />
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <Icon name="account-outline" color={color} size={size} />
+                )}
+                label="Profile"
+                onPress={() => {}}
+              />
+              <View style={{ flexDirection: "row" }}>
+                <DrawerItem
+                  icon={({ color, size }) => (
+                    <Icon name="message-outline" color={color} size={size} />
+                  )}
+                  label="Messages"
+                  onPress={() => {}}
+                  style={{ width: "80%" }}
+                />
+                <View
+                  style={{
+                    width: "20%",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flex: 1,
+                  }}
+                >
+                  <Text style={{ fontWeight: "bold", color: "red" }}>0</Text>
+                </View>
+              </View>
+            </Drawer.Section>
+
+            <Drawer.Section title="My Information">
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <Icon name="cart-outline" color={color} size={size} />
+                )}
+                label="Shopping Cart"
+                onPress={() => {
+                  {
+                  }
+                }}
+              />
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <Icon
+                    name="bookmark-multiple-outline"
+                    color={color}
+                    size={size}
+                  />
+                )}
+                label="Bookmarks"
+                onPress={() => {}}
+              />
+
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <Icon name="bag-personal-outline" color={color} size={size} />
+                )}
+                label="Purchases"
+                onPress={() => {}}
+              />
+
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <Image
+                    source={require("../../assets/coupon.png")}
+                    style={{ width: size, height: size, tintColor: color }}
+                  />
+                )}
+                label="Sellings"
+                onPress={() => {}}
+              />
+            </Drawer.Section>
+
+            <Drawer.Section>
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <Image
+                    source={require("../../assets/menu.png")}
+                    style={{ width: size, height: size, tintColor: color }}
+                  />
+                )}
+                label="Categories"
+                onPress={() => {}}
+              />
+
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <Icon name="settings-outline" color={color} size={size} />
+                )}
+                label="Settings"
+                onPress={() => {}}
+              />
+            </Drawer.Section>
           </View>
-
-          <Drawer.Section style={styles.drawerSection}>
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Icon name="home-outline" color={color} size={size} />
-              )}
-              label="Home"
-              onPress={() => {
-                props.navigation.navigate("Home");
-              }}
-            />
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Icon name="account-outline" color={color} size={size} />
-              )}
-              label="Profile"
-              onPress={() => {}}
-            />
-            <View style={{flexDirection:"row"}}>
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Icon name="message-outline" color={color} size={size} />
-              )}
-              label="Messages"
-              onPress={() => {}}
-              style={{width:"80%"}}
-            />
-            <View style={{width:"20%", alignItems:"center", justifyContent:"center", flex:1}}>
-              <Text style={{fontWeight:"bold", color:"red"}}>0</Text>
-            </View>
-            </View>
-          </Drawer.Section>
-
-          <Drawer.Section title="My Information">
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Icon name="cart-outline" color={color} size={size} />
-              )}
-              label="Shopping Cart"
-              onPress={() => {
-                {
-                }
-              }}
-            />
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Icon
-                  name="bookmark-multiple-outline"
-                  color={color}
-                  size={size}
-                />
-              )}
-              label="Bookmarks"
-              onPress={() => {}}
-            />
-
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Icon name="bag-personal-outline" color={color} size={size} />
-              )}
-              label="Purchases"
-              onPress={() => {}}
-            />
-
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Image
-                  source={require("../../assets/coupon.png")}
-                  style={{ width: size, height: size, tintColor: color }}
-                />
-              )}
-              label="Sellings"
-              onPress={() => {}}
-            />
-          </Drawer.Section>
-
-          <Drawer.Section>
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Image
-                  source={require("../../assets/menu.png")}
-                  style={{ width: size, height: size, tintColor: color }}
-                />
-              )}
-              label="Categories"
-              onPress={() => {}}
-            />
-
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Icon name="settings-outline" color={color} size={size} />
-              )}
-              label="Settings"
-              onPress={() => {}}
-            />
-          </Drawer.Section>
-        </View>
-      </DrawerContentScrollView>
-      <Drawer.Section style={styles.bottomDrawerSection}>
-        <DrawerItem
-          icon={({ color, size }) => (
-            <Icon name="exit-to-app" color={color} size={size} />
-          )}
-          label="Sign Out"
-          onPress={() => {}}
-        />
-      </Drawer.Section>
-    </View>
-  );*/
+        </DrawerContentScrollView>
+        <Drawer.Section style={styles.bottomDrawerSection}>
+          <DrawerItem
+            icon={({ color, size }) => (
+              <Icon name="exit-to-app" color={color} size={size} />
+            )}
+            label="Sign Out"
+            onPress={() => {}}
+          />
+        </Drawer.Section>
+      </View>
+    );*/
+  //}
 };
 
 const styles = StyleSheet.create({

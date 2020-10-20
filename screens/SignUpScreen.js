@@ -8,6 +8,7 @@ import {
   TextInput,
   ScrollView,
   FlatList,
+  Alert,
 } from "react-native";
 import { AppLoading } from "expo";
 import data from "../fakedata/homebookflatitem";
@@ -16,6 +17,10 @@ import * as Font from "expo-font";
 import HomeScreenBookFlatListItem from "../components/homescreen/HomeScreenBookFlatListItem";
 import HomeScreenCategoryItem from "../components/homescreen/HomeScreenCategoryItem";
 import SignUpButton from "../components/sharedcomponents/SignUpButton";
+import { signup } from "../store/actions/auth";
+
+import { useDispatch } from "react-redux";
+import * as autActions from "../store/actions/auth";
 
 const SignUpScreen = ({ route, navigation }) => {
   const [email, setEmail] = useState("");
@@ -24,9 +29,30 @@ const SignUpScreen = ({ route, navigation }) => {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
-  const onSignUp = () =>{
-
-  }
+  let signupHandler = () => {
+    fetch("http://localhost:3000/api/user/register", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: {
+        email: email,
+        passWord: passWord,
+        profile:{
+          firstName: name,
+          phoneNumber:phoneNumber
+        }
+      },
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        Alert.alert(responseJson);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -72,7 +98,7 @@ const SignUpScreen = ({ route, navigation }) => {
               style={styles.textInput}
             />
           </View>
-          <SignUpButton onPress={onSignUp} />
+          <SignUpButton onPress={signupHandler} />
         </View>
       </ScrollView>
     </View>

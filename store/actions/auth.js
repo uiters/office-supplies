@@ -1,9 +1,10 @@
-export const SIGNUP = "SIGNUP";
 export const LOGIN = "LOGIN";
+export const SIGNUP = "SIGNUP";
 
-export const signup = (email, password, profile, isAdmin) => {
+export const signup = (email, password, name, phoneNumber) => {
+  let resData;
   return async (dispatch) => {
-    const response = await fetch('', {
+    const response = await fetch("http://localhost:3000/api/user/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -11,10 +12,20 @@ export const signup = (email, password, profile, isAdmin) => {
       body: JSON.stringify({
         email: email,
         password: password,
-        profile: profile,
-        isAdmin: isAdmin,
+        profile: { firstName: name, phoneNumber: phoneNumber },
       }),
+    }).then((resp) => {
+      let json = resp.json();
+     if (resp.status >= 200 && resp.status < 300) {
+       resData=json;
+       console.log(json);
+        return json;
+      } else {
+        return json.then(Promise.reject.bind(Promise));
+      }
     });
+
+    /*
     if (!response.ok) {
       const errorResData = await response.json();
       const errorId = errorResData.error.message;
@@ -23,28 +34,24 @@ export const signup = (email, password, profile, isAdmin) => {
         message = "This email exists already!";
       }
       throw new Error(message);
-    }
-    const resData = await response.json();
-    dispatch({ type: SIGNUP, token: resData.idToken, email: resData.email });
+    }*/
+    dispatch({ type: SIGNUP });
   };
 };
 
 export const login = (email, password) => {
   return async (dispatch) => {
-    const response = await fetch(
-      "",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-          returnSecureToken: true,
-        }),
-      }
-    );
+    const response = await fetch("", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+        returnSecureToken: true,
+      }),
+    });
 
     if (!response.ok) {
       const errorResData = await response.json();
@@ -60,6 +67,6 @@ export const login = (email, password) => {
 
     const resData = await response.json();
     console.log(resData);
-    dispatch({ type: LOGIN, token: resData.idToken, email: resData.email });
+    return { type: LOGIN, token: resData.idToken, email: resData.email };
   };
 };

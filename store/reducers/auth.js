@@ -1,8 +1,8 @@
 import { LOGIN, SIGNUP } from '../actions/auth';
 
 const initialState = {
-  token: null,
-  email: null
+  token: undefined,
+  email: undefined
 };
 
 export default (state = initialState, action) => {
@@ -14,7 +14,7 @@ export default (state = initialState, action) => {
       };
     case SIGNUP:
       return {
-        token: action.token,
+        status: action.token,
         email: action.email
       };
     default:
