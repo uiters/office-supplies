@@ -35,7 +35,9 @@ export const signup = (email, password, name, phoneNumber) => {
       }
       throw new Error(message);
     }*/
-    dispatch({ type: SIGNUP });
+    dispatch({ type: SIGNUP, payload: {
+      
+    } });
   };
 };
 
