@@ -30,28 +30,46 @@ const SignUpScreen = ({ route, navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
 
   let signupHandler = () => {
-    fetch("http://localhost:3000/api/user/register", {
+    console.log(email);
+    console.log(passWord);
+    fetch("http://192.168.1.10:3000/api/user/register", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: {
-        email: email,
-        passWord: passWord,
+      body: JSON.parse({
+        email: '17520877@gm.uit.edu.vn',
+        password: '123',
         profile:{
           firstName: name,
           phoneNumber:phoneNumber
         }
-      },
+      }),
     })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      //Alert.alert("my json" + responseJson.movies);
+      Alert.alert(
+        "Get response",
+        "Movies query-> " + JSON.stringify(responseJson.movies)
+      );
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+    /*fetch("https://facebook.github.io/react-native/movies.json")
       .then((response) => response.json())
       .then((responseJson) => {
-        Alert.alert(responseJson);
+        //Alert.alert("my json" + responseJson.movies);
+        Alert.alert(
+          "Get response",
+          "Movies query-> " + JSON.stringify(responseJson.movies)
+        );
       })
       .catch((error) => {
         console.error(error);
-      });
+      });*/
   };
   return (
     <View style={styles.container}>
