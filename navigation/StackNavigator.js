@@ -6,6 +6,7 @@ import HomeHeader from "../components/homeheader/HomeHeader";
 import ProductDetailHeader from "../components/productdetailheadbar/ProductDetailHeader";
 import ProductByCategoryScreen from "../screens/ProductByCategoryScreen";
 import ProductByDetailsHeader from "../components/productbydetailscreen/ProductByDetailsHeader";
+import ShoppingCartNavigator from "./ShoppingCartNavigator";
 
 const Stack = createStackNavigator();
 
@@ -31,6 +32,7 @@ const stackNavigator = () => {
       component={ProductByCategoryScreen}
       options={({ route }) => ({ title: route.params.title })}
       />
+      
     </Stack.Navigator>
   );
 };

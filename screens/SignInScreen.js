@@ -34,19 +34,19 @@ const SignInScreen = ({ route, navigation }) => {
         <View style={styles.subContainer}>
           <Text style={styles.signUpTitle}>SIGN IN</Text>
           <View style={styles.infoContainer}>
-            <Text style={styles.title}>EMAIL:</Text>
             <TextInput
               value={email}
               onChangeText={(text) => setEmail(text)}
               style={styles.textInput}
+              placeholder="Email*"
             />
           </View>
           <View style={styles.infoContainer}>
-            <Text style={styles.title}>PASSWORD:</Text>
             <TextInput
               value={passWord}
               onChangeText={(text) => setPassword(text)}
               style={styles.textInput}
+              placeholder="Password*"
             />
           </View>
           <SignInButton onPress={onSignIn} />
