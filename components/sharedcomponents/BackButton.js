@@ -8,7 +8,7 @@ const BackButton = props => {
       style={{ marginLeft: 10 }}
       onPress={props.onPress}
     >
-      <Ionicons name="ios-arrow-back" size={40} color="white" />
+      <Ionicons name="ios-arrow-back" size={40} color="black" />
     </TouchableOpacity>
   );
 };

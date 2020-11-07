@@ -18,7 +18,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 const DrawerContent = (props) => {
   //const availableUser = useSelector((state) => state.authentication.token);
   //if (availableUser === undefined) {
-  /*return (
+  return (
       <View style={{ flex: 1 }}>
         <DrawerContentScrollView {...props}>
           <View style={styles.drawerContent}>
@@ -54,31 +54,12 @@ const DrawerContent = (props) => {
                 />
               </View>
             </Drawer.Section>
-            <Drawer.Section>
-              <DrawerItem
-                icon={({ color, size }) => (
-                  <Image
-                    source={require("../../assets/menu.png")}
-                    style={{ width: size, height: size, tintColor: color }}
-                  />
-                )}
-                label="Categories"
-                onPress={() => {}}
-              />
-
-              <DrawerItem
-                icon={({ color, size }) => (
-                  <Icon name="settings-outline" color={color} size={size} />
-                )}
-                label="Settings"
-                onPress={() => {}}
-              />
-            </Drawer.Section>
           </View>
         </DrawerContentScrollView>
       </View>
-    );*/
-  //} else {
+    );
+  //} else{
+    /*
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
@@ -113,7 +94,9 @@ const DrawerContent = (props) => {
                 <Icon name="account-outline" color={color} size={size} />
               )}
               label="Profile"
-              onPress={() => {}}
+              onPress={() => {
+                props.navigation.navigate("Profile");
+              }}
             />
             <View style={{ flexDirection: "row" }}>
               <DrawerItem
@@ -197,7 +180,7 @@ const DrawerContent = (props) => {
       </Drawer.Section>
     </View>
   );
-  //}
+  }*/
 };
 
 const styles = StyleSheet.create({

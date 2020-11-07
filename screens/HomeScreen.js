@@ -85,7 +85,7 @@ const HomeScreen = ({ route, navigation }) => {
           <View style={styles.homeCategory}>
             <Text style={styles.categoryTitle}>Categories:</Text>
             <FlatList
-            numColumns={2}
+            horizontal={true}
               data={fakecategories}
               renderItem={({ item }) => (
                 <HomeScreenCategoryItem

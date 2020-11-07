@@ -37,7 +37,7 @@ const SignUpScreen = ({ route, navigation }) => {
         },
       })
     );
-    fetch("http://10.45.113.163:3000/api/user/register", {
+    fetch("http://192.168.1.7:3000/api/user/register", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     backgroundColor: "white",
     borderRadius: 10,
-    width: "55%",
+    width: "90%",
     height: 40,
     borderWidth: 1,
     paddingLeft: 5,

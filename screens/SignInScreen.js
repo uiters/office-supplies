@@ -17,17 +17,20 @@ import HomeScreenBookFlatListItem from "../components/homescreen/HomeScreenBookF
 import HomeScreenCategoryItem from "../components/homescreen/HomeScreenCategoryItem";
 import SignInButton from "../components/sharedcomponents/SignInButton";
 import ForgotPassword from "../components/sharedcomponents/ForgotPassWordButton";
+import { connect, useDispatch } from "react-redux";
+import { signInRequest } from "../redux/actions/index";
+import { compose } from "redux";
 
-const SignInScreen = ({ route, navigation }) => {
+
+const SignInScreen = ({ route, navigation},props) => {
   const [email, setEmail] = useState("");
   const [passWord, setPassword] = useState("");
 
-  const onSignIn = () =>{
-      
-  }
-  const onForgotPassword = () =>{
-      
-  }
+  const dispatch = useDispatch();
+  const onSignIn = () => {
+    dispatch(signInRequest({email, password:passWord}));
+  };
+  const onForgotPassword = () => {};
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -50,7 +53,7 @@ const SignInScreen = ({ route, navigation }) => {
             />
           </View>
           <SignInButton onPress={onSignIn} />
-          <ForgotPassword onPress={onForgotPassword}/>
+          <ForgotPassword onPress={onForgotPassword} />
         </View>
       </ScrollView>
     </View>
@@ -89,10 +92,20 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     backgroundColor: "white",
     borderRadius: 10,
-    width: "55%",
+    width: "90%",
     height: 40,
     borderWidth: 1,
     paddingLeft: 5,
   },
 });
-export default SignInScreen;
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signIn: (user) => {
+      console.log("hello");
+      dispatch(signInRequest(user));
+    },
+  };
+};
+
+export default connect(null,mapDispatchToProps)(SignInScreen);

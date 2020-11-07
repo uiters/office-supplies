@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { StyleSheet, Text, View } from "react-native";
 import DrawerNavigator from "./navigation/DrawerNavigator";
-
-
+import  store  from "./redux/store/index";
+import { Provider } from "react-redux";
 
 function App() {
   return (
-    <NavigationContainer>
-      <DrawerNavigator />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <DrawerNavigator />
+      </NavigationContainer>
+    </Provider>
   );
 }
 
