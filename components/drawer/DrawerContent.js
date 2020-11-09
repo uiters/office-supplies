@@ -16,8 +16,9 @@ import {
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const DrawerContent = (props) => {
-  //const availableUser = useSelector((state) => state.authentication.token);
-  //if (availableUser === undefined) {
+  const availableUser = useSelector(state => state.auth.isAuthenticate);
+  {console.log(availableUser)}
+  if (availableUser === false) {
   return (
       <View style={{ flex: 1 }}>
         <DrawerContentScrollView {...props}>
@@ -58,8 +59,7 @@ const DrawerContent = (props) => {
         </DrawerContentScrollView>
       </View>
     );
-  //} else{
-    /*
+  } else{
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
@@ -180,7 +180,7 @@ const DrawerContent = (props) => {
       </Drawer.Section>
     </View>
   );
-  }*/
+  }
 };
 
 const styles = StyleSheet.create({

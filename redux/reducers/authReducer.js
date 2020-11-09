@@ -8,7 +8,7 @@ const initialState = {
 export default function authReducer(state = initialState, action) {
   switch (action.type) {
     case SIGNIN:
-    return {...state,isAuthenticate:true, token:action.payload.token};
+    return {...state,isAuthenticate:true, token:action.token};
 
     case SIGNOUT:
       return {...state,isAuthenticate:false};
