@@ -13,12 +13,30 @@ import {
 import ProductWithQuantityItem from "../components/sharedcomponents/ProductWithQuantityItem";
 import data from "../fakedata/homebookflatitem";
 
+
+
 const SellingScreen = ({ route, navigation }) => {
+
+  /*
+  let DATA;
+  useEffect(() => {
+    fetch("https://api.example.com/items")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          DATA=result;
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+  }, [])*/
   return (
     <View>
       <FlatList
         numColumns={2}
         data={data}
+        //data={DATA}
         renderItem={({ item }) => (
           <ProductWithQuantityItem
             source={item.image}

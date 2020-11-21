@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,8 +7,11 @@ import {
   ImageBackground,
   Image,
   ScrollView,
+  TextInput
 } from "react-native";
 import * as Font from "expo-font";
+import { useDispatch, useSelector } from "react-redux";
+import {addToShoppingCart} from "../redux/actions/index";
 import { AppLoading } from "expo";
 import BookmarkButton from "../components/sharedcomponents/BookmarkButton";
 import AddToCartButton from "../components/sharedcomponents/AddToCartButton";
@@ -22,8 +25,19 @@ const fetchFonts = () => {
   });
 };
 
+
+
 const ProductDetailScreen = ({ route, navigation }) => {
-  const { source, title, summary, price } = route.params;
+  const { source, title, summary, price, id } = route.params;
+
+  const [quantity, setQuantity] = useState("");
+
+  const dispatch=useDispatch();
+  
+  const onAddToShoppingCart = () => {
+    dispatch(addToShoppingCart({ id, source, title, price, quantity }));
+    navigation.navigate('ShoppingCartScreen');
+  }
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -49,7 +63,19 @@ const ProductDetailScreen = ({ route, navigation }) => {
             </View>
             <Text style={styles.TextDescriptionTitle}>Description:</Text>
             <Text style={styles.TextDescription}>{summary}</Text>
-            <AddToCartButton />
+            <Text style={styles.TextDescriptionTitle}>Additional Information:</Text>
+            <Text style={styles.TextDescription}>abc</Text>
+            <Text style={styles.TextDescriptionTitle}>Category:</Text>
+            <Text style={styles.TextPrice}>abc</Text>
+            <View style = {styles.QuantityView}>
+            <Text style={styles.TextDescriptionTitle}>Quantity:</Text>
+            <TextInput onChangeText={(text) => {
+              setQuantity(text)
+            }}
+            value={quantity}
+            style={styles.quantityInput}/>
+            </View>
+            <AddToCartButton onPress={onAddToShoppingCart}/>
           </ScrollView>
         </View>
       </ImageBackground>
@@ -58,6 +84,11 @@ const ProductDetailScreen = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  QuantityView:{
+    flexDirection:"row",
+    width:"100%",
+    height:70
+  },
   ImageBackground: {
     width: "100%",
     height: "100%",
@@ -117,6 +148,16 @@ const styles = StyleSheet.create({
   },
   ScrollView:{
     height: "100%",
-  }
+  },
+  quantityInput: {
+    marginTop:20,
+    marginLeft: 10,
+    paddingLeft: 5,
+    width: 40,
+    borderColor: "black",
+    borderWidth: 2,
+    height: "50%",
+    backgroundColor: "white",
+  },
 });
 export default ProductDetailScreen;

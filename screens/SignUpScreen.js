@@ -78,6 +78,7 @@ const SignUpScreen = ({ route, navigation }) => {
               value={passWord}
               onChangeText={(text) => setPassword(text)}
               style={styles.textInput}
+              secureTextEntry={true}
               placeholder="Password*"
             />
           </View>
@@ -86,6 +87,7 @@ const SignUpScreen = ({ route, navigation }) => {
               value={retypedPassWord}
               onChangeText={(text) => setRetypedPassword(text)}
               style={styles.textInput}
+              secureTextEntry={true}
               placeholder="Retype your password*"
             />
           </View>

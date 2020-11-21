@@ -13,25 +13,26 @@ import {
 } from "react-native";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
+import { useDispatch } from "react-redux";
+import {removeFromShoppingCart} from "../../redux/actions/index";
+import DeleteShoppingCartItemButton from "./DeleteShoppingCartItemButton";
+
+
 
 const ShoppingCartItem = (props) => {
-  const [quantity, setQuantity] = useState("1");
+  const dispatch = useDispatch();
+  const onDeleteItem = (id) =>{
+    dispatch(removeFromShoppingCart(id))
+  }
   return (
+    <View style={styles.bigContainer}>
     <View style={styles.container}>
-      {props.onQuantityChange(props.title,quantity)}
       <Image source={{ uri: props.source }} style={styles.image} />
       <View style={styles.information}>
         <Text style={styles.itemTitle}>{props.title}</Text>
         <View style={styles.quantityContainer}>
           <Text style={styles.quantityTitle}>Quantity:</Text>
-          <TextInput
-            onChangeText={(text) => {
-              setQuantity(text)
-              props.onQuantityChange(props.title,quantity)
-            }}
-            value={quantity}
-            style={styles.quantityInput}
-          />
+        <Text style={styles.quantityInput}>{props.quantity}</Text>
         </View>
         <View style={styles.quantityContainer}>
           <Text style={styles.price}>Price:</Text>
@@ -39,15 +40,21 @@ const ShoppingCartItem = (props) => {
         </View>
       </View>
     </View>
+    <DeleteShoppingCartItemButton onPress={() => onDeleteItem(props.id)}/>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    height: 100,
-    flexDirection: "row",
+  bigContainer:{
+    height:100,
+    flexDirection:"row",
     marginBottom: 10,
+  },
+  container: {
+    width: "70%",
+    height: "100%",
+    flexDirection: "row",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -89,8 +96,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     paddingLeft: 5,
     width: 40,
-    borderColor: "black",
-    borderWidth: 2,
     height: "100%",
     backgroundColor: "white",
   },

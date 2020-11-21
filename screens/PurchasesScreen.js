@@ -14,6 +14,20 @@ import ProductWithQuantityItem from "../components/sharedcomponents/ProductWithQ
 import data from "../fakedata/homebookflatitem";
 
 const PurchasesScreen = ({ route, navigation }) => {
+  /*
+  let DATA;
+  useEffect(() => {
+    fetch("https://api.example.com/items")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          DATA=result;
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+  }, [])*/
   return (
     <View>
       <FlatList

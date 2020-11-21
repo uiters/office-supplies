@@ -10,42 +10,30 @@ import {
   FlatList,
   Alert,
 } from "react-native";
-import ProductWithQuantityItem from "../components/sharedcomponents/ProductWithQuantityItem";
-import data from "../fakedata/homebookflatitem";
 import ShoppingCartItem from "../components/sharedcomponents/ShoppingCartItem";
+import { useSelector, useDispatch } from "react-redux";
 
 const ShoppingCartScreen = ({ route, navigation }) => {
-  const [priceAndQuantity, setPriceAndQuantity] = useState(
-    data.map((item) => {
-      return { ...item, quantity: 1 };
-    })
-  );
-  let fakeData = priceAndQuantity;
-  const onHandleQuantityChange = (title,quantity) => {
-  setQuantity(fakeData.map(item=>{
-      if(item.title===title){
-        return {
-          ...item,
-          quantity:quantity
-        }
-      }else{
-        return {
-          ...item
-        }
-      }
-    }));
-  };
+  let DATA = useSelector(state => state.cart.shoppingCart);
+
+  if(DATA===[]){
+    return(
+    <View style={style.container}>
+      <Text>Shopping Cart Has Nothing To Show</Text>
+    </View>
+    );
+  }else{
   return (
     <View style={style.container}>
-      {console.log(priceAndQuantity)}
       <FlatList
-        data={data}
+        data={DATA}
         renderItem={({ item }) => (
           <ShoppingCartItem
-            source={item.image}
+            id={item.id}
+            source={item.source}
             title={item.title}
             price={item.price}
-            onQuantityChange={onHandleQuantityChange}
+            quantity={item.quantity}
           />
         )}
         keyExtractor={(item) => item.id}
@@ -53,9 +41,11 @@ const ShoppingCartScreen = ({ route, navigation }) => {
       <View style={style.paymenInformation}></View>
     </View>
   );
-};
+};}
 
 const style = StyleSheet.create({
-  container: {},
+  container: {
+    marginTop:10
+  },
 });
 export default ShoppingCartScreen;

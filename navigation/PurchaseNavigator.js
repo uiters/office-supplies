@@ -7,6 +7,7 @@ import ProductDetailScreenWithoutCart from "../screens/ProductDetailScreenWithou
 import ProductDetailHeaderWithoutCart from "../components/sharedcomponents/ProductDetailHeaderWithoutCart";
 import PurchasesScreen from "../screens/PurchasesScreen";
 import BookmarkButton from "../components/sharedcomponents/BookmarkButton";
+import ShoppingCartScreen from "../screens/ShoppingCartScreen";
 
 
 
@@ -29,6 +30,8 @@ const PurchasesNavigator = () => {
         header:({ navigation }) => <ProductDetailHeader navigation={navigation}/>
       }} 
       />
+       <Stack.Screen name="ShoppingCartScreen" component={ShoppingCartScreen} 
+      options={({ route }) => ({ title: "Shopping Cart" })}/>
     </Stack.Navigator>
   );
 };

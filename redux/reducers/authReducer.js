@@ -11,7 +11,7 @@ export default function authReducer(state = initialState, action) {
     return {...state,isAuthenticate:true, token:action.token};
 
     case SIGNOUT:
-      return {...state,isAuthenticate:false};
+      return {...state,isAuthenticate:false, token:""};
 
     default:
       return state;

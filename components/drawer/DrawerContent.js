@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { View, StyleSheet, Image } from "react-native";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import {
@@ -14,12 +14,14 @@ import {
   Switch,
 } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import {signOutRequest} from "../../redux/actions/index";
 
 const DrawerContent = (props) => {
-  const availableUser = useSelector(state => state.auth.isAuthenticate);
-  {console.log(availableUser)}
-  if (availableUser === false) {
-  return (
+  //const availableUser = useSelector(state => state.auth.isAuthenticate);
+  //const dispatch = useDispatch();
+  //{console.log(availableUser)}
+  //if (availableUser === false) {
+  /*return (
       <View style={{ flex: 1 }}>
         <DrawerContentScrollView {...props}>
           <View style={styles.drawerContent}>
@@ -58,8 +60,8 @@ const DrawerContent = (props) => {
           </View>
         </DrawerContentScrollView>
       </View>
-    );
-  } else{
+    );*/
+  //} else{
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
@@ -98,26 +100,6 @@ const DrawerContent = (props) => {
                 props.navigation.navigate("Profile");
               }}
             />
-            <View style={{ flexDirection: "row" }}>
-              <DrawerItem
-                icon={({ color, size }) => (
-                  <Icon name="message-outline" color={color} size={size} />
-                )}
-                label="Messages"
-                onPress={() => {}}
-                style={{ width: "80%" }}
-              />
-              <View
-                style={{
-                  width: "20%",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flex: 1,
-                }}
-              >
-                <Text style={{ fontWeight: "bold", color: "red" }}>0</Text>
-              </View>
-            </View>
           </Drawer.Section>
 
           <Drawer.Section title="My Information">
@@ -175,13 +157,16 @@ const DrawerContent = (props) => {
             <Icon name="exit-to-app" color={color} size={size} />
           )}
           label="Sign Out"
-          onPress={() => {}}
+          onPress={() => {
+            dispatch(signOutRequest());
+            props.navigation.navigate("Home");
+          }}
         />
       </Drawer.Section>
     </View>
   );
   }
-};
+//};
 
 const styles = StyleSheet.create({
   drawerContent: {

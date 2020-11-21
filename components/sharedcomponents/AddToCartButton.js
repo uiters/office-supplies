@@ -2,9 +2,9 @@ import React from "react";
 import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
 import { FontAwesome } from '@expo/vector-icons';
 
-const AddToCartButton = () =>{
+const AddToCartButton = props =>{
     return(
-        <TouchableOpacity>
+        <TouchableOpacity onPress={props.onPress}>
             <View style={styles.container}>
             <FontAwesome name="cart-plus" size={30} color="white" />
             <Text style={styles.text}>ADD TO CART</Text>

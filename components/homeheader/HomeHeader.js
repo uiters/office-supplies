@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { ImageBackground, Text, View, StyleSheet } from "react-native";
+import { ImageBackground, Text, View, StyleSheet, Alert } from "react-native";
 import DrawerButton from "./DrawerButton";
 import ShoppingCartButton from "./ShoppingCartButton";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
+import {useSelector} from "react-redux"
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -14,7 +15,14 @@ const fetchFonts = () => {
 
 const HomeHeader = ({ navigation }) => {
   const [fontLoaded, setFontLoaded] = useState(false);
-
+  const availableUser = useSelector(state => state.auth.isAuthenticate);
+const onPress = () =>{
+  if(availableUser===false){
+    navigation.navigate("SignInScreen")
+  }else{
+    navigation.navigate("ShoppingCartScreen")
+  }
+}
   if (!fontLoaded) {
     return (
       <AppLoading
@@ -36,7 +44,7 @@ const HomeHeader = ({ navigation }) => {
         <View style={styles.subcontainer}>
           <DrawerButton onOpenDrawer={() => navigation.openDrawer()} />
           <Text style={styles.TextTitle}>Home</Text>
-          <ShoppingCartButton />
+          <ShoppingCartButton onPress={onPress}/>
         </View>
       </View>
     </ImageBackground>
