@@ -39,17 +39,11 @@ export const addToShoppingCart = (item) => {
   return (dispatch) => dispatch({ type: ADDTOSHOPPINGCART, item:item });
 };
 
-export const getShoppingCart = () => {
-  return (dispatch) => dispatch({ type: GETSHOPPINGCART });
-};
 
 export const removeFromShoppingCart = (id) => {
   return (dispatch) => dispatch({ type: REMOVEFROMSHOPPINGCART, id:id });
 }
 
-export const updateShoppingCart = (index, quantity) => {
-  return (dispatch) => dispatch({ type: UPDATESHOPPINGCART, quantity:quantity, index:index });
-};
 
 // bookmarks
 export const addToBookMark = (item) => {

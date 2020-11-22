@@ -75,6 +75,7 @@ const HomeScreen = ({ route, navigation }) => {
                       title:item.title,
                       summary:item.summary,
                       price:item.price,
+                      id: item.id
                     })}
                   />
                 )}

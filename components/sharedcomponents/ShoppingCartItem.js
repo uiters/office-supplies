@@ -13,13 +13,14 @@ import {
 } from "react-native";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import {removeFromShoppingCart} from "../../redux/actions/index";
 import DeleteShoppingCartItemButton from "./DeleteShoppingCartItemButton";
 
 
 
 const ShoppingCartItem = (props) => {
+  let DATA = useSelector(state => state.cart.shoppingCart);
   const dispatch = useDispatch();
   const onDeleteItem = (id) =>{
     dispatch(removeFromShoppingCart(id))
