@@ -17,11 +17,10 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {signOutRequest} from "../../redux/actions/index";
 
 const DrawerContent = (props) => {
-  //const availableUser = useSelector(state => state.auth.isAuthenticate);
-  //const dispatch = useDispatch();
-  //{console.log(availableUser)}
-  //if (availableUser === false) {
-  /*return (
+  const availableUser = useSelector(state => state.auth.isAuthenticate);
+  const dispatch = useDispatch();
+  if (availableUser === false) {
+  return (
       <View style={{ flex: 1 }}>
         <DrawerContentScrollView {...props}>
           <View style={styles.drawerContent}>
@@ -60,8 +59,8 @@ const DrawerContent = (props) => {
           </View>
         </DrawerContentScrollView>
       </View>
-    );*/
-  //} else{
+    );
+  } else{
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
@@ -166,7 +165,7 @@ const DrawerContent = (props) => {
     </View>
   );
   }
-//};
+};
 
 const styles = StyleSheet.create({
   drawerContent: {

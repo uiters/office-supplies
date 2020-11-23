@@ -8,6 +8,7 @@ import {
   TextInput,
   ScrollView,
   FlatList,
+  Alert,
 } from "react-native";
 import { AppLoading } from "expo";
 import data from "../fakedata/homebookflatitem";
@@ -30,7 +31,6 @@ const SignInScreen = ({ route, navigation},props) => {
   const onSignIn = () => {
     dispatch(signInRequest({email, password:passWord}));
     setPassword("");
-    
   };
   const onForgotPassword = () => {};
   return (
