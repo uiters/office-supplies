@@ -12,22 +12,25 @@ import { ADDTOBOOKMARK, GETBOOKMARK, REMOVEFROMBOOKMARKS } from "./Types";
 //auth
 export const signInRequest = (candidateUser) => {
   return async (dispatch) => {
-    await fetch("http://192.168.1.9:3000/api/auth/login", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: candidateUser.email,
-        password: candidateUser.password,
-      }),
-    })
-      .then((response) => response.json())
-      .then((json) => {
-          dispatch({ type: SIGNIN, token: json.token });
-      })
-      .catch(console.log("Error edi!"));
+    try {
+      const response = await fetch("http://192.168.1.76:3000/api/auth/login", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: candidateUser.email,
+          password: candidateUser.password,
+        }),
+      });
+      const token = await response.json();
+      if (token) {
+        console.log(token);
+      }
+    } catch (error) {
+      console.log("Wrong pass");
+    }
   };
 };
 

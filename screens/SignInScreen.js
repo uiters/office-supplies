@@ -29,7 +29,7 @@ const SignInScreen = ({ route, navigation},props) => {
 
   const dispatch = useDispatch();
   const onSignIn = () => {
-    dispatch(signInRequest({email, password:passWord}));
+    await dispatch(signInRequest({email, password:passWord}));
     setPassword("");
   };
   const onForgotPassword = () => {};
