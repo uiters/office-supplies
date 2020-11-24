@@ -2,11 +2,11 @@ import React from "react";
 import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
-const ForgotPasswordButton = props => {
+const ConfirmForgotPasswordButton = props => {
   return (
     <TouchableOpacity onPress={props.onPress}>
       <View style={styles.container}>
-        <Text style={styles.text}>Forgot password</Text>
+        <Text style={styles.text}>Confirm</Text>
       </View>
     </TouchableOpacity>
   );
@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     width:300,
     marginHorizontal:30,
     marginTop: 20,
+    paddingLeft:70,
     flexDirection: "row",
     alignItems:"center",
     justifyContent:"center",
@@ -34,4 +35,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ForgotPasswordButton;
+export default ConfirmForgotPasswordButton;

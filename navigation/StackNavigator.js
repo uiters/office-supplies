@@ -7,6 +7,7 @@ import ProductDetailHeader from "../components/productdetailheadbar/ProductDetai
 import ProductByCategoryScreen from "../screens/ProductByCategoryScreen";
 import SignInScreen from "../screens/SignInScreen";
 import ShoppingCartScreen from "../screens/ShoppingCartScreen";
+import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 
 const Stack = createStackNavigator();
 
@@ -35,11 +36,12 @@ const stackNavigator = () => {
         options={({ route }) => ({ title: route.params.title })}
       />
 
-      <Stack.Screen name="SignInScreen" component={SignInScreen} 
-      options={({ route }) => ({ title: "Sign In" })}/>
+      <Stack.Screen
+        name="ShoppingCartScreen"
+        component={ShoppingCartScreen}
+        options={({ route }) => ({ title: "Shopping Cart" })}
+      />
 
-      <Stack.Screen name="ShoppingCartScreen" component={ShoppingCartScreen} 
-      options={({ route }) => ({ title: "Shopping Cart" })}/>
     </Stack.Navigator>
   );
 };

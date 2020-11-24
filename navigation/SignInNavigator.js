@@ -8,6 +8,7 @@ import ProductByCategoryScreen from "../screens/ProductByCategoryScreen";
 import ProductByDetailsHeader from "../components/productbydetailscreen/ProductByDetailsHeader";
 import SignInScreen from "../screens/SignInScreen";
 import DrawerButton from "../components/homeheader/DrawerButton"
+import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,11 @@ const SignInNavigator = () => {
           headerLeft: props => <DrawerButton onOpenDrawer = {() => navigation.openDrawer()}/>,
           title:"Sign In"
         })}
+      />
+      <Stack.Screen
+        name="ForgotPasswordScreen"
+        component={ForgotPasswordScreen}
+        options={({ route }) => ({ title: "Forget Password" })}
       />
     </Stack.Navigator>
   );

@@ -18,6 +18,8 @@ import HomeScreenBookFlatListItem from "../components/homescreen/HomeScreenBookF
 import HomeScreenCategoryItem from "../components/homescreen/HomeScreenCategoryItem";
 import SignUpButton from "../components/sharedcomponents/SignUpButton";
 
+import { useDispatch } from "react-redux";
+
 const SignUpScreen = ({ route, navigation }) => {
   const [email, setEmail] = useState("");
   const [passWord, setPassword] = useState("");
@@ -25,40 +27,40 @@ const SignUpScreen = ({ route, navigation }) => {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
-  let signupHandler = (email, password) => {
-    console.log(email, password);
-    console.log(
-      JSON.stringify({
-        email: email,
-        password: passWord,
-        profile: {
-          firstName: name,
-          phoneNumber: phoneNumber,
+  let signupHandler = () => {
+    if (retypedPassWord !== passWord) {
+      Alert.alert(
+        "Retyped password and password do not match! Please type again!"
+      );
+    } else {
+      fetch("http://192.168.1.76:3000/api/user", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          email: email,
+          password: passWord,
+          profile: {
+            fullName: name,
+            phoneNumber: phoneNumber,
+          },
+        }),
       })
-    );
-    fetch("http://192.168.1.7:3000/api/user/register", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: passWord,
-        profile: {
-          firstName: name,
-          phoneNumber: phoneNumber,
-        },
-      }),
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        Alert.alert(json.email);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+        .then((response) => response.json())
+        .then((json) => {
+            if(json.hasOwnProperty("errors")){
+                let error="";
+                json.errors.forEach(element => {
+                    error+=element.param+" : "+element.msg+"\n";
+                });
+                return Alert.alert("Error: "+"\n" + error);
+            }
+          return Alert.alert(json + " pass");
+        })
+        .catch((err) => Alert.alert("Error: " + err));
+    }
   };
   return (
     <View style={styles.container}>
@@ -66,6 +68,7 @@ const SignUpScreen = ({ route, navigation }) => {
         <View style={styles.subContainer}>
           <Text style={styles.signUpTitle}>SIGN UP</Text>
           <View style={styles.infoContainer}>
+            
             <TextInput
               value={email}
               onChangeText={(text) => setEmail(text)}
@@ -74,6 +77,7 @@ const SignUpScreen = ({ route, navigation }) => {
             />
           </View>
           <View style={styles.infoContainer}>
+            
             <TextInput
               value={passWord}
               onChangeText={(text) => setPassword(text)}
@@ -83,20 +87,22 @@ const SignUpScreen = ({ route, navigation }) => {
             />
           </View>
           <View style={styles.infoContainer}>
+            
             <TextInput
               value={retypedPassWord}
               onChangeText={(text) => setRetypedPassword(text)}
               style={styles.textInput}
               secureTextEntry={true}
-              placeholder="Retype your password*"
+              placeholder="Retype Password*"
             />
           </View>
           <View style={styles.infoContainer}>
+            
             <TextInput
               value={name}
               onChangeText={(text) => setName(text)}
               style={styles.textInput}
-              placeholder="Name*"
+              placeholder="Full Name*"
             />
           </View>
           <View style={styles.infoContainer}>
@@ -104,10 +110,10 @@ const SignUpScreen = ({ route, navigation }) => {
               value={phoneNumber}
               onChangeText={(text) => setPhoneNumber(text)}
               style={styles.textInput}
-              placeholder="Phone*"
+              placeholder="Phone number*"
             />
           </View>
-          <SignUpButton onPress={() => signupHandler(email, passWord)} />
+          <SignUpButton onPress={signupHandler} />
         </View>
       </ScrollView>
     </View>

@@ -1,31 +1,38 @@
-import { FontAwesome5 } from "@expo/vector-icons";
 import React from "react";
-import { TouchableOpacity,StyleSheet,Text } from "react-native";
+import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 
-const SignUpButton = (props) => {
+const SignInButton = props => {
   return (
-    <TouchableOpacity style={styles.container} onPress={props.onPress}>
-      <Text style={styles.Text}>Sign In</Text>
+    <TouchableOpacity onPress={props.onPress}>
+      <View style={styles.container}>
+        <Text style={styles.text}>Sign in</Text>
+      </View>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-    container:{
-        height:60,
-        width:200,
-        backgroundColor:"#00FFFF",
-        alignItems:"center",
-        justifyContent:"center",
-        borderWidth:1,
-        borderRadius:20,
-        marginLeft:80,
-        marginTop:20
-    },
-    Text:{
-        fontSize:20,
-        fontWeight:"bold"
-    }
+  container: {
+    width:300,
+    marginHorizontal:30,
+    marginTop: 20,
+    paddingLeft:70,
+    flexDirection: "row",
+    alignItems:"center",
+    justifyContent:"center",
+    backgroundColor: "#90EE90",
+    height: 50,
+    borderWidth: 0,
+    borderRadius: 30,
+    marginBottom: 20,
+  },
+  text: {
+    width: 150,
+    fontSize: 18,
+    marginLeft: 10,
+    color: "white",
+  },
 });
 
-export default SignUpButton;
+export default SignInButton;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   StyleSheet,
@@ -18,21 +18,33 @@ import HomeScreenBookFlatListItem from "../components/homescreen/HomeScreenBookF
 import HomeScreenCategoryItem from "../components/homescreen/HomeScreenCategoryItem";
 import SignInButton from "../components/sharedcomponents/SignInButton";
 import ForgotPassword from "../components/sharedcomponents/ForgotPassWordButton";
-import { connect, useDispatch } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { signInRequest } from "../redux/actions/index";
 import { compose } from "redux";
 
-
-const SignInScreen = ({ route, navigation},props) => {
+const SignInScreen = ({ route, navigation }, props) => {
   const [email, setEmail] = useState("");
   const [passWord, setPassword] = useState("");
-
+  let isAuthenticate = useSelector((state) => state.auth.isAuthenticate);
   const dispatch = useDispatch();
+
   const onSignIn = () => {
-    await dispatch(signInRequest({email, password:passWord}));
-    setPassword("");
+    if (email === "" || passWord === "") {
+      Alert.alert("Information has not fully been input!");
+    } else {
+      dispatch(signInRequest({ email, password: passWord }));
+      if (isAuthenticate) {
+        Alert.alert("Signed In Sucessfully");
+        navigation.navigate("Home");
+        navigation.closeDrawer();
+      } else {
+        Alert.alert("Wrong password or account");
+      }
+    }
   };
-  const onForgotPassword = () => {};
+  const onForgotPassword = () => {
+    navigation.navigate("ForgotPasswordScreen");
+  };
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -111,4 +123,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null,mapDispatchToProps)(SignInScreen);
+export default connect(null, mapDispatchToProps)(SignInScreen);
