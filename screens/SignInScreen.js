@@ -21,6 +21,7 @@ import ForgotPassword from "../components/sharedcomponents/ForgotPassWordButton"
 import { connect, useDispatch, useSelector } from "react-redux";
 import { signInRequest } from "../redux/actions/index";
 import { compose } from "redux";
+import DialogProgress from "react-native-dialog-progress";
 
 const SignInScreen = ({ route, navigation }, props) => {
   const [email, setEmail] = useState("");
@@ -28,17 +29,20 @@ const SignInScreen = ({ route, navigation }, props) => {
   let isAuthenticate = useSelector((state) => state.auth.isAuthenticate);
   const dispatch = useDispatch();
 
-  const onSignIn = () => {
+
+  const onSignIn = async () => {
     if (email === "" || passWord === "") {
       Alert.alert("Information has not fully been input!");
     } else {
-      dispatch(signInRequest({ email, password: passWord }));
-      if (isAuthenticate) {
-        Alert.alert("Signed In Sucessfully");
+      const res = await dispatch(signInRequest({ email, password: passWord }));
+      if (res === "token") {
+        Alert.alert("Signed In Sucessfully!");
         navigation.navigate("Home");
-        navigation.closeDrawer();
+        setPassword("");
+      } else if (res === 401) {
+        Alert.alert("Wrong pass or account!");
       } else {
-        Alert.alert("Wrong password or account");
+        Alert.alert(res + "");
       }
     }
   };

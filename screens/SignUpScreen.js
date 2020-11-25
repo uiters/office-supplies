@@ -17,6 +17,7 @@ import * as Font from "expo-font";
 import HomeScreenBookFlatListItem from "../components/homescreen/HomeScreenBookFlatListItem";
 import HomeScreenCategoryItem from "../components/homescreen/HomeScreenCategoryItem";
 import SignUpButton from "../components/sharedcomponents/SignUpButton";
+import baseURL from "../api/BaseURL";
 
 import { useDispatch } from "react-redux";
 
@@ -28,12 +29,17 @@ const SignUpScreen = ({ route, navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
 
   let signupHandler = () => {
+    if(email===""||passWord===""||retypedPassWord===""||name===""||phoneNumber===""){
+      Alert.alert(
+        "Information has not been fully input!"
+      );
+    }
     if (retypedPassWord !== passWord) {
       Alert.alert(
         "Retyped password and password do not match! Please type again!"
       );
     } else {
-      fetch("http://192.168.1.76:3000/api/user", {
+      fetch(baseURL+"/user", {
         method: "POST",
         headers: {
           Accept: "application/json",

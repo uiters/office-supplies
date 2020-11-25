@@ -7,6 +7,7 @@ import {
   ImageBackground,
   Image,
   ScrollView,
+  Alert
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import ConfirmForgotPassword from "../components/sharedcomponents/ConfirmForgotPasswordButton";
@@ -19,7 +20,7 @@ const ForgotPasswordScreen = ({ route, navigation }) => {
         "Please type in your email!"
       );
     } else {
-      fetch("http://192.168.1.76:3000/api/user/forgot-password", {
+      fetch("http://192.168.1.8:3000/api/user/forgot-password", {
         method: "POST",
         headers: {
           Accept: "application/json",

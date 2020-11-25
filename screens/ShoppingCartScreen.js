@@ -17,10 +17,10 @@ import ConfirmBuyItemButton from "../components/sharedcomponents/ConfirmBuyItemB
 const ShoppingCartScreen = ({ route, navigation }) => {
   let DATA = useSelector(state => state.cart.shoppingCart);
   let totalPrice = useSelector(state => state.cart.total).toFixed(2);
-  if(DATA===[]){
+  if(DATA.length === 0){
     return(
-    <View style={style.container}>
-      <Text>Shopping Cart Has Nothing To Show</Text>
+    <View style={style.emptyContainer}>
+      <Text style={style.emptyText}>Your shopping cart is empty. Buy something lah!</Text>
     </View>
     );
   }else{
@@ -50,6 +50,11 @@ const ShoppingCartScreen = ({ route, navigation }) => {
 };}
 
 const style = StyleSheet.create({
+  emptyContainer:{
+    flex:1,
+    alignItems:"center",
+    justifyContent:"center"
+  },
   container: {
     marginTop:10
   },

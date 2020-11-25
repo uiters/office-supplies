@@ -7,11 +7,11 @@ import {
   ImageBackground,
   Image,
   ScrollView,
-  TextInput
+  TextInput,
 } from "react-native";
 import * as Font from "expo-font";
 import { useDispatch, useSelector } from "react-redux";
-import {addToShoppingCart} from "../redux/actions/index";
+import { addToShoppingCart } from "../redux/actions/index";
 import { AppLoading } from "expo";
 import BookmarkButton from "../components/sharedcomponents/BookmarkButton";
 import AddToCartButton from "../components/sharedcomponents/AddToCartButton";
@@ -25,18 +25,27 @@ const fetchFonts = () => {
   });
 };
 
-
-
 const ProductDetailScreen = ({ route, navigation }) => {
+  const availableUser = useSelector((state) => state.auth.isAuthenticate);
   const { source, title, summary, price, id } = route.params;
 
   const [quantity, setQuantity] = useState("");
 
-  const dispatch=useDispatch();
-  
+  const dispatch = useDispatch();
+
   const onAddToShoppingCart = () => {
-    dispatch(addToShoppingCart({ id, source, title, price, quantity }));
-    navigation.navigate('ShoppingCartScreen');
+    if (availableUser === false) {
+      navigation.navigate("SignInScreen");
+    } else {
+      dispatch(addToShoppingCart({ id, source, title, price, quantity }));
+      navigation.navigate("ShoppingCartScreen");
+    }
+  };
+
+  const onAddToBookMark = () =>{
+    if (availableUser === false) {
+      navigation.navigate("SignInScreen");
+    }
   }
   return (
     <View style={styles.container}>
@@ -59,23 +68,27 @@ const ProductDetailScreen = ({ route, navigation }) => {
             <Text style={styles.TextTitle}>{title}</Text>
             <View style={styles.bookmarkPriceContainer}>
               <Text style={styles.TextPrice}>{price}</Text>
-              <BookmarkButton />
+              <BookmarkButton onPress={onAddToBookMark}/>
             </View>
             <Text style={styles.TextDescriptionTitle}>Description:</Text>
             <Text style={styles.TextDescription}>{summary}</Text>
-            <Text style={styles.TextDescriptionTitle}>Additional Information:</Text>
+            <Text style={styles.TextDescriptionTitle}>
+              Additional Information:
+            </Text>
             <Text style={styles.TextDescription}>abc</Text>
             <Text style={styles.TextDescriptionTitle}>Category:</Text>
             <Text style={styles.TextPrice}>abc</Text>
-            <View style = {styles.QuantityView}>
-            <Text style={styles.TextDescriptionTitle}>Quantity:</Text>
-            <TextInput onChangeText={(text) => {
-              setQuantity(text)
-            }}
-            value={quantity}
-            style={styles.quantityInput}/>
+            <View style={styles.QuantityView}>
+              <Text style={styles.TextDescriptionTitle}>Quantity:</Text>
+              <TextInput
+                onChangeText={(text) => {
+                  setQuantity(text);
+                }}
+                value={quantity}
+                style={styles.quantityInput}
+              />
             </View>
-            <AddToCartButton onPress={onAddToShoppingCart}/>
+            <AddToCartButton onPress={onAddToShoppingCart} />
           </ScrollView>
         </View>
       </ImageBackground>
@@ -84,10 +97,10 @@ const ProductDetailScreen = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  QuantityView:{
-    flexDirection:"row",
-    width:"100%",
-    height:70
+  QuantityView: {
+    flexDirection: "row",
+    width: "100%",
+    height: 70,
   },
   ImageBackground: {
     width: "100%",
@@ -130,7 +143,7 @@ const styles = StyleSheet.create({
     fontFamily: "ShadowsIntoLight-Regular",
   },
   Image: {
-    marginTop:20,
+    marginTop: 20,
     height: 300,
     marginHorizontal: 120,
     marginBottom: 20,
@@ -146,11 +159,11 @@ const styles = StyleSheet.create({
   TextDescription: {
     marginHorizontal: 15,
   },
-  ScrollView:{
+  ScrollView: {
     height: "100%",
   },
   quantityInput: {
-    marginTop:20,
+    marginTop: 20,
     marginLeft: 10,
     paddingLeft: 5,
     width: 40,

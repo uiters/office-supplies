@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ImageBackground, Text, View, StyleSheet } from "react-native";
 import ShoppingCartButton from "../homeheader/ShoppingCartButton";
 import * as Font from "expo-font";
+import { useDispatch, useSelector } from "react-redux";
 import { AppLoading } from "expo";
 import BackButton from "../sharedcomponents/BackButton";
 
@@ -14,6 +15,12 @@ const fetchFonts = () => {
 
 const ProductDetailHeader = ({ navigation }) => {
   const [fontLoaded, setFontLoaded] = useState(false);
+  const availableUser = useSelector((state) => state.auth.isAuthenticate);
+  const onGoToShoppingCart = () => {
+    if(availableUser === false){
+      navigation.navigate("SignInScreen");
+    }
+  }
 
   if (!fontLoaded) {
     return (
@@ -36,7 +43,7 @@ const ProductDetailHeader = ({ navigation }) => {
         <View style={styles.subcontainer}>
           <BackButton onPress={()=>navigation.goBack()}/>
           <Text style={styles.TextTitle}>DETAILS</Text>
-          <ShoppingCartButton />
+          <ShoppingCartButton onPress={onGoToShoppingCart}/>
         </View>
       </View>
     </ImageBackground>

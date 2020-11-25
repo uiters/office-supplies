@@ -1,12 +1,11 @@
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+
 
 const SaveButton = props => {
   return (
     <TouchableOpacity onPress={props.onPress}>
       <View style={styles.container}>
-        <AntDesign name="save" size={30} color="black" />
         <Text style={styles.text}>Save</Text>
       </View>
     </TouchableOpacity>
@@ -15,13 +14,13 @@ const SaveButton = props => {
 
 const styles = StyleSheet.create({
   container: {
-    width:200,
-    marginHorizontal:100,
+    width:300,
+    marginHorizontal:30,
     marginTop: 20,
-    paddingLeft:60,
+    paddingLeft:80,
     flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    alignItems:"center",
+    justifyContent:"center",
     backgroundColor: "#90EE90",
     height: 50,
     borderWidth: 0,
@@ -30,7 +29,7 @@ const styles = StyleSheet.create({
   },
   text: {
     width: 150,
-    fontSize: 20,
+    fontSize: 18,
     marginLeft: 10,
     color: "white",
   },

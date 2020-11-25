@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { View, StyleSheet, Image } from "react-native";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
@@ -14,13 +15,48 @@ import {
   Switch,
 } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import {signOutRequest} from "../../redux/actions/index";
+import { signOutRequest } from "../../redux/actions/index";
+import baseURL from "../../api/BaseURL"
 
 const DrawerContent = (props) => {
-  const availableUser = useSelector(state => state.auth.isAuthenticate);
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const availableUser = useSelector((state) => state.auth.isAuthenticate);
   const dispatch = useDispatch();
+
+  const token = useSelector((state) => state.auth.token);
+
+  useEffect(() => {
+    console.log(token);
+    onGetUserInformation(token);
+  },[availableUser]);
+
+  const onGetUserInformation = async (token) => {
+    try {
+      await console.log(token);
+      const response = await fetch(baseURL+"/user/me", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Authorization": token,
+        },
+      });
+      if (response.ok) {
+        const user = await response.json();
+        console.log(user);
+        setFullName(user.profile.fullName);
+        setEmail(user.email);
+      } else {
+        return response.status;
+      }
+    } catch (error) {
+      console.log(error.status);
+      //return error.status;
+    }
+  };
   if (availableUser === false) {
-  return (
+    return (
       <View style={{ flex: 1 }}>
         <DrawerContentScrollView {...props}>
           <View style={styles.drawerContent}>
@@ -60,110 +96,104 @@ const DrawerContent = (props) => {
         </DrawerContentScrollView>
       </View>
     );
-  } else{
-  return (
-    <View style={{ flex: 1 }}>
-      <DrawerContentScrollView {...props}>
-        <View style={styles.drawerContent}>
-          <View style={styles.userInfoSection}>
-            <View style={{ flexDirection: "row", marginTop: 15 }}>
-              <Avatar.Image
-                source={{
-                  uri: "https://api.adorable.io/avatars/50/abott@adorable.png",
-                }}
-                size={50}
-              />
-              <View style={{ marginLeft: 15, flexDirection: "column" }}>
-                <Title style={styles.title}>Phat Ngo</Title>
-                <Caption style={styles.caption}>Hello Hello</Caption>
+  } else {
+    return (
+      <View style={{ flex: 1 }}>
+        <DrawerContentScrollView {...props}>
+          <View style={styles.drawerContent}>
+            <View style={styles.userInfoSection}>
+              <View style={{ flexDirection: "row", marginTop: 15 }}>
+                <View style={{ marginLeft: 15, flexDirection: "column" }}>
+                  <Title style={styles.title}>{fullName}</Title>
+                  <Caption style={styles.caption}>{email}</Caption>
+                </View>
               </View>
             </View>
+
+            <Drawer.Section style={styles.drawerSection}>
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <Icon name="home-outline" color={color} size={size} />
+                )}
+                label="Home"
+                onPress={() => {
+                  props.navigation.navigate("Home");
+                }}
+              />
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <Icon name="account-outline" color={color} size={size} />
+                )}
+                label="Profile"
+                onPress={() => {
+                  props.navigation.navigate("Profile");
+                }}
+              />
+            </Drawer.Section>
+
+            <Drawer.Section title="My Information">
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <Icon name="cart-outline" color={color} size={size} />
+                )}
+                label="Shopping Cart"
+                onPress={() => {
+                  props.navigation.navigate("ShoppingCart");
+                }}
+              />
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <Icon
+                    name="bookmark-multiple-outline"
+                    color={color}
+                    size={size}
+                  />
+                )}
+                label="Bookmarks"
+                onPress={() => {
+                  props.navigation.navigate("Bookmark");
+                }}
+              />
+
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <Icon name="bag-personal-outline" color={color} size={size} />
+                )}
+                label="Purchases"
+                onPress={() => {
+                  props.navigation.navigate("Purchases");
+                }}
+              />
+
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <Image
+                    source={require("../../assets/coupon.png")}
+                    style={{ width: size, height: size, tintColor: color }}
+                  />
+                )}
+                label="Sellings"
+                onPress={() => {
+                  props.navigation.navigate("Selling");
+                }}
+              />
+            </Drawer.Section>
           </View>
-
-          <Drawer.Section style={styles.drawerSection}>
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Icon name="home-outline" color={color} size={size} />
-              )}
-              label="Home"
-              onPress={() => {
-                props.navigation.navigate("Home");
-              }}
-            />
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Icon name="account-outline" color={color} size={size} />
-              )}
-              label="Profile"
-              onPress={() => {
-                props.navigation.navigate("Profile");
-              }}
-            />
-          </Drawer.Section>
-
-          <Drawer.Section title="My Information">
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Icon name="cart-outline" color={color} size={size} />
-              )}
-              label="Shopping Cart"
-              onPress={() => {
-                props.navigation.navigate("ShoppingCart");
-              }}
-            />
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Icon
-                  name="bookmark-multiple-outline"
-                  color={color}
-                  size={size}
-                />
-              )}
-              label="Bookmarks"
-              onPress={() => {
-                props.navigation.navigate("Bookmark");
-              }}
-            />
-
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Icon name="bag-personal-outline" color={color} size={size} />
-              )}
-              label="Purchases"
-              onPress={() => {
-                props.navigation.navigate("Purchases");
-              }}
-            />
-
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Image
-                  source={require("../../assets/coupon.png")}
-                  style={{ width: size, height: size, tintColor: color }}
-                />
-              )}
-              label="Sellings"
-              onPress={() => {
-                props.navigation.navigate("Selling");
-              }}
-            />
-          </Drawer.Section>
-        </View>
-      </DrawerContentScrollView>
-      <Drawer.Section style={styles.bottomDrawerSection}>
-        <DrawerItem
-          icon={({ color, size }) => (
-            <Icon name="exit-to-app" color={color} size={size} />
-          )}
-          label="Sign Out"
-          onPress={() => {
-            dispatch(signOutRequest());
-            props.navigation.navigate("Home");
-          }}
-        />
-      </Drawer.Section>
-    </View>
-  );
+        </DrawerContentScrollView>
+        <Drawer.Section style={styles.bottomDrawerSection}>
+          <DrawerItem
+            icon={({ color, size }) => (
+              <Icon name="exit-to-app" color={color} size={size} />
+            )}
+            label="Sign Out"
+            onPress={() => {
+              dispatch(signOutRequest());
+              props.navigation.navigate("Home");
+            }}
+          />
+        </Drawer.Section>
+      </View>
+    );
   }
 };
 

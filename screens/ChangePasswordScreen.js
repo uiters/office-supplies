@@ -35,13 +35,8 @@ const styles = StyleSheet.create({
     flexDirection:"column",
     width:"100%",
     height:"100%",
-    marginTop:15
-  },
-  subContainer:{
-    marginTop:20,
-    flexDirection:"row",
-    height:150,
-    width:"100%"
+    marginTop:15,
+    alignItems:"center"
   },
   Text:{
     fontFamily:"sans-serif",
@@ -52,6 +47,7 @@ const styles = StyleSheet.create({
   TextInput:{
     width:"80%",
     height:50,
+    marginBottom:20
   }
 });
 export default ChangePasswordScreen;

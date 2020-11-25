@@ -15,6 +15,7 @@ const fetchFonts = () => {
 
 const HomeHeader = ({ navigation }) => {
   const [fontLoaded, setFontLoaded] = useState(false);
+  
   const availableUser = useSelector(state => state.auth.isAuthenticate);
 const onPress = () =>{
   if(availableUser===false){
