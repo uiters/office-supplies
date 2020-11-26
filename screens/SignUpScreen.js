@@ -117,6 +117,7 @@ const SignUpScreen = ({ route, navigation }) => {
               onChangeText={(text) => setPhoneNumber(text)}
               style={styles.textInput}
               placeholder="Phone number*"
+              keyboardType="numeric"
             />
           </View>
           <SignUpButton onPress={signupHandler} />

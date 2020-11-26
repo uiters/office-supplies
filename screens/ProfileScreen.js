@@ -100,7 +100,8 @@ const ProfileScreen = ({ route, navigation }) => {
         <TextInput 
         style={styles.TextInput}
         value={phoneNumber}
-        onChangeText = {(text) => setPhoneNumber(text)}/>
+        onChangeText = {(text) => setPhoneNumber(text)}
+        keyboardType="numeric"/>
         <SaveButton onPress={onChangeProfile}/>
         <NavigateToChangePasswordScreenButton onPress={()=>navigation.navigate("ChangePassword")}/>        
     </View>

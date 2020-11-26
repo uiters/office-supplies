@@ -86,6 +86,7 @@ const ProductDetailScreen = ({ route, navigation }) => {
                 }}
                 value={quantity}
                 style={styles.quantityInput}
+                keyboardType="numeric"
               />
             </View>
             <AddToCartButton onPress={onAddToShoppingCart} />
