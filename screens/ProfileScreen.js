@@ -7,6 +7,7 @@ import {
   ImageBackground,
   Image,
   ScrollView,
+  Alert,
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import SaveButton from "../components/sharedcomponents/SaveButton"
@@ -30,7 +31,6 @@ const ProfileScreen = ({ route, navigation }) => {
 
   const onGetUserInformation = async (token) => {
     try {
-      await console.log(token);
       const response = await fetch(baseURL+"/user/me", {
         method: "GET",
         headers: {
@@ -54,9 +54,35 @@ const ProfileScreen = ({ route, navigation }) => {
     }
   };
 
-  const onSaveProfile = () => {
-
-  }
+  const onChangeProfile = async () => {
+    try {
+      console.log(userID,fullName,phoneNumber);
+      const response = await fetch(baseURL+"/user", {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Authorization": token,
+        },
+        body:JSON.stringify({
+          id:userID,
+          profile:{
+            fullName:fullName,
+            phoneNumber:phoneNumber
+          }
+        })
+      });
+      if (response.ok) {
+        Alert.alert("Profile Information Updated Sucessfully");
+      } else {
+        console.log(response.json);
+        Alert.alert(response.status+", "+response.json());
+      }
+    } catch (error) {
+      console.log(error.status);
+    }
+  };
+  
 
   return (
     <View style={styles.container}>
@@ -75,7 +101,7 @@ const ProfileScreen = ({ route, navigation }) => {
         style={styles.TextInput}
         value={phoneNumber}
         onChangeText = {(text) => setPhoneNumber(text)}/>
-        <SaveButton onPress={onSaveProfile}/>
+        <SaveButton onPress={onChangeProfile}/>
         <NavigateToChangePasswordScreenButton onPress={()=>navigation.navigate("ChangePassword")}/>        
     </View>
   );

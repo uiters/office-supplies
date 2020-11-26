@@ -21,20 +21,25 @@ import ForgotPassword from "../components/sharedcomponents/ForgotPassWordButton"
 import { connect, useDispatch, useSelector } from "react-redux";
 import { signInRequest } from "../redux/actions/index";
 import { compose } from "redux";
-import DialogProgress from "react-native-dialog-progress";
+
+
 
 const SignInScreen = ({ route, navigation }, props) => {
   const [email, setEmail] = useState("");
   const [passWord, setPassword] = useState("");
+  const [dialogVisibility, setDialogVisibility] = useState(false);
   let isAuthenticate = useSelector((state) => state.auth.isAuthenticate);
   const dispatch = useDispatch();
 
 
   const onSignIn = async () => {
+    setDialogVisibility(true);
     if (email === "" || passWord === "") {
+      setDialogVisibility(false);
       Alert.alert("Information has not fully been input!");
     } else {
       const res = await dispatch(signInRequest({ email, password: passWord }));
+      setDialogVisibility(false);
       if (res === "token") {
         Alert.alert("Signed In Sucessfully!");
         navigation.navigate("Home");
@@ -51,6 +56,7 @@ const SignInScreen = ({ route, navigation }, props) => {
   };
   return (
     <View style={styles.container}>
+      
       <ScrollView>
         <View style={styles.subContainer}>
           <Text style={styles.signUpTitle}>SIGN IN</Text>

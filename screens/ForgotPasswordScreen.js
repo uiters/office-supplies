@@ -7,32 +7,37 @@ import {
   ImageBackground,
   Image,
   ScrollView,
-  Alert
+  Alert,
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import ConfirmForgotPassword from "../components/sharedcomponents/ConfirmForgotPasswordButton";
+import baseURL from "../api/BaseURL";
 
 const ForgotPasswordScreen = ({ route, navigation }) => {
   const [email, setEmail] = useState("");
-  const onConfirmForgotPassword = () => {
+  const onConfirmForgotPassword = async () => {
     if (email === "") {
-      Alert.alert(
-        "Please type in your email!"
-      );
+      Alert.alert("Please type in your email!");
     } else {
-      fetch("http://192.168.1.8:3000/api/user/forgot-password", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-        }),
-      })
-        .then((response) => response.json())
-        .then((json) => {console.log(json+"")})
-        .catch((err) => Alert.alert("Error: " + err));
+      try {
+        const response = await fetch(baseURL + "/user/forgot-password", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+          }),
+        });
+        if(response.ok){
+          const json = await response.json()
+          Alert.alert(JSON.stringify(json));
+          navigation.goBack();
+        }
+      } catch (err) {
+        Alert.alert(error.status);
+      }
     }
   };
 
