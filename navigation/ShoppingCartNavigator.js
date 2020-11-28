@@ -10,6 +10,7 @@ import ShoppingCartScreen from "../screens/ShoppingCartScreen";
 import DrawerButton from "../components/homeheader/DrawerButton"
 import ProductDetailScreenWithoutCart from "../screens/ProductDetailScreenWithoutCart";
 import ProductDetailHeaderWithoutCart from "../components/sharedcomponents/ProductDetailHeaderWithoutCart";
+import ConfirmBuyingScreen from "../screens/ConfirmBuyingScreen";
 
 const Stack = createStackNavigator();
 
@@ -28,6 +29,12 @@ const ShoppingCartNavigator = () => {
       component={ProductDetailScreenWithoutCart}
       options={{
         header:({ navigation }) => <ProductDetailHeaderWithoutCart navigation={navigation}/>
+      }} 
+      />
+      <Stack.Screen name="ConfirmBuyingScreen" 
+      component={ConfirmBuyingScreen}
+      options={{
+        title:"Confirmation"
       }} 
       />
     </Stack.Navigator>

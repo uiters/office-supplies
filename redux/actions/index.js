@@ -33,7 +33,7 @@ export const signInRequest = (candidateUser) => {
         return response.status;
       }
     } catch (error) {
-      console.log(error.status);
+      console.log(error);
       //return error.status;
     }
   };

@@ -19,6 +19,8 @@ const ProductDetailHeader = ({ navigation }) => {
   const onGoToShoppingCart = () => {
     if(availableUser === false){
       navigation.navigate("SignInScreen");
+    }else{
+      navigation.navigate("ShoppingCartScreen");
     }
   }
 

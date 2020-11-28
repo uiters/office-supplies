@@ -15,12 +15,12 @@ const ConfirmBuyItemButton = props =>{
 
 const styles=StyleSheet.create({
     container:{
-        marginTop:50,
+        marginTop:15,
         flexDirection:"row",
         justifyContent:"center",
         alignItems:"center",
         backgroundColor:"#90EE90",
-        marginHorizontal:60,
+        marginHorizontal:50,
         height:50,
         marginBottom:20
     },

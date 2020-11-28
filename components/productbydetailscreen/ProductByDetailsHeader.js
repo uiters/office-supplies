@@ -36,7 +36,7 @@ const ProductDetailHeader = ({ navigation, route }) => {
         <View style={styles.subcontainer}>
           <BackButton onPress={() => navigation.goBack()} />
           <Text style={styles.TextTitle}>{route.params.title}</Text>
-          <ShoppingCartButton />
+          <ShoppingCartButton onPress={() => navigation.navigate('ShoppingCartScreen')}/>
         </View>
       </View>
     </ImageBackground>

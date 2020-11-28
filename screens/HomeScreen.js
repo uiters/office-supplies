@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   StyleSheet,
@@ -8,6 +8,7 @@ import {
   TextInput,
   ScrollView,
   FlatList,
+  Alert,
 } from "react-native";
 import { AppLoading } from "expo";
 import data from "../fakedata/homebookflatitem";
@@ -15,6 +16,8 @@ import fakecategories from "../fakedata/fakecategories";
 import * as Font from "expo-font";
 import HomeScreenBookFlatListItem from "../components/homescreen/HomeScreenBookFlatListItem";
 import HomeScreenCategoryItem from "../components/homescreen/HomeScreenCategoryItem";
+import baseURL from "../api/BaseURL";
+import { isEnabled } from "react-native/Libraries/Performance/Systrace";
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -24,10 +27,33 @@ const fetchFonts = () => {
   });
 };
 
+
 const HomeScreen = ({ route, navigation }) => {
   const [text, setText] = useState("");
   const [fontLoaded, setFontLoaded] = useState(false);
+  const [productTypeData, setProductTypeData] = useState([]);
 
+  const onLoadProductType = async () =>{
+    try{
+      const response = await fetch(baseURL+"/product-type",{
+        method:"GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        }
+      });
+      if(response.ok){
+        const json = await response.json();
+        setProductTypeData(json.productType);
+      }
+    }catch(err){
+      Alert.alert(err.status);
+    }
+  };
+
+  useEffect(() => {
+    onLoadProductType();
+  })
   if (!fontLoaded) {
     return (
       <AppLoading
@@ -87,14 +113,15 @@ const HomeScreen = ({ route, navigation }) => {
             <Text style={styles.categoryTitle}>Categories:</Text>
             <FlatList
             horizontal={true}
-              data={fakecategories}
+              data={productTypeData}
               renderItem={({ item }) => (
                 <HomeScreenCategoryItem
                   source={item.source}
-                  title={item.title}
+                  title={item.typeName}
                   id={item.id}
-                  onPress={() => navigation.navigate("ProductByCategoryScreen",{
-                  title:item.title                     
+                  onPress={() => navigation.navigate("ProductByCategoryScreen",{     
+                    categories:item.categories, 
+                    title:item.typeName                
                   })}
                 />
               )}

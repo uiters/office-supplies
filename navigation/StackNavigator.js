@@ -6,7 +6,7 @@ import HomeHeader from "../components/homeheader/HomeHeader";
 import ProductDetailHeader from "../components/productdetailheadbar/ProductDetailHeader";
 import ProductByCategoryScreen from "../screens/ProductByCategoryScreen";
 import SignInNavigator from "../navigation/SignInNavigator";
-import ShoppingCartScreen from "../screens/ShoppingCartScreen";
+import ShoppingCartNavigator from "../navigation/ShoppingCartNavigator";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 
 const Stack = createStackNavigator();
@@ -38,7 +38,7 @@ const stackNavigator = () => {
 
       <Stack.Screen
         name="ShoppingCartScreen"
-        component={ShoppingCartScreen}
+        component={ShoppingCartNavigator}
         options={({ route }) => ({ title: "Shopping Cart" })}
       />
 

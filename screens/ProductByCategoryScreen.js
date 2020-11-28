@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,15 +12,31 @@ import {
 } from "react-native";
 import SearchButton from "../components/sharedcomponents/SearchButton";
 import DropDownPicker from "react-native-dropdown-picker";
-import Icon from 'react-native-vector-icons/Feather';
 import { FlatList } from "react-native-gesture-handler";
 
 const ProductByCategoryScreen = ({ route, navigation }) => {
-  const [selectedValue, setSelectedValue] = useState("USA");
+  const { categories } = route.params;
+  const [selectedValue, setSelectedValue] = useState("");
   const [text, setText] = useState("");
+  const [filters, setFilters] = useState([]);
   const onSubmitEditing = () => {
     console.log(text);
   };
+  const addFilters = () => {
+    let arr = [];
+    for (let category of categories) {
+      let item = {
+        label: category.categoryName,
+        value: category._id,
+      };
+      arr.push(item);
+    }
+    setFilters(arr);
+  };
+  useEffect(() => {
+    addFilters();
+  }, [categories]);
+
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
@@ -31,25 +47,20 @@ const ProductByCategoryScreen = ({ route, navigation }) => {
           placeholder="What are you looking for?"
           onSubmitEditing={onSubmitEditing}
         />
-        
       </View>
       <View style={styles.filterContainer}>
         <Text style={styles.filterTitle}>Filter: </Text>
         <DropDownPicker
-          items={[
-            {label: 'USA', value: 'usa', hidden: true},
-            {label: 'UK', value: 'uk'},
-            {label: 'France', value: 'france'},
-        ]}
-        style={{height:80, width:250}}
-        itemStyle={{
-          justifyContent: 'flex-start',
-          
-      }}
+          items={filters}
+          style={{ height: 80, width: 250 }}
+          itemStyle={{
+            justifyContent: "flex-start",
+          }}
+          onChangeItem={(item) => setSelectedValue(item.value)}
         />
         <SearchButton />
       </View>
-      <FlatList style={styles.flatList}/>
+      <FlatList style={styles.flatList} />
     </View>
   );
 };
@@ -86,10 +97,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  flatList:{
-    marginTop:30,
-    
-  }
+  flatList: {
+    marginTop: 30,
+  },
 });
 
 export default ProductByCategoryScreen;
