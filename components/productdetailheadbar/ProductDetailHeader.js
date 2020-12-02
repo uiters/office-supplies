@@ -13,7 +13,7 @@ const fetchFonts = () => {
   });
 };
 
-const ProductDetailHeader = ({ navigation }) => {
+const ProductDetailHeader = ({ navigation, route }) => {
   const [fontLoaded, setFontLoaded] = useState(false);
   const availableUser = useSelector((state) => state.auth.isAuthenticate);
   const onGoToShoppingCart = () => {
@@ -41,6 +41,7 @@ const ProductDetailHeader = ({ navigation }) => {
       }}
       style={styles.ImageBackground}
     >
+      {console.log(route)}
       <View style={styles.container}>
         <View style={styles.subcontainer}>
           <BackButton onPress={()=>navigation.goBack()}/>

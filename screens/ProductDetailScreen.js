@@ -8,6 +8,7 @@ import {
   Image,
   ScrollView,
   TextInput,
+  Alert,
 } from "react-native";
 import * as Font from "expo-font";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,9 +28,18 @@ const fetchFonts = () => {
 
 const ProductDetailScreen = ({ route, navigation }) => {
   const availableUser = useSelector((state) => state.auth.isAuthenticate);
-  const { source, title, summary, price, id } = route.params;
-
-  const [quantity, setQuantity] = useState("");
+  const shoppingCart = useSelector(state => state.cart.shoppingCart);
+  const {
+    source,
+    title,
+    description,
+    price,
+    id,
+    remainingQuantity,
+    userId,
+    typeId,
+    categoriesId,
+  } = route.params;
 
   const dispatch = useDispatch();
 
@@ -37,16 +47,23 @@ const ProductDetailScreen = ({ route, navigation }) => {
     if (availableUser === false) {
       navigation.navigate("SignInScreen");
     } else {
-      dispatch(addToShoppingCart({ id, source, title, price, quantity }));
-      navigation.navigate("ShoppingCartScreen");
+      const foundItem = shoppingCart.find(
+        (item) => item.id === id
+      );
+      if(!foundItem||foundItem.quantity+1<=remainingQuantity){
+        dispatch(addToShoppingCart({ id, source, title, price, quantity:1, remainingQuantity }));
+        navigation.navigate("ShoppingCartScreen");
+      }else{
+        Alert.alert("Remaining quantity exceeded!");
+      }
     }
   };
 
-  const onAddToBookMark = () =>{
+  const onAddToBookMark = () => {
     if (availableUser === false) {
       navigation.navigate("SignInScreen");
     }
-  }
+  };
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -65,29 +82,43 @@ const ProductDetailScreen = ({ route, navigation }) => {
 
         <View style={styles.subcontainer}>
           <ScrollView style={styles.ScrollView}>
-            <Text style={styles.TextTitle}>{title}</Text>
-            <View style={styles.bookmarkPriceContainer}>
-              <Text style={styles.TextPrice}>{price}</Text>
-              <BookmarkButton onPress={onAddToBookMark}/>
+            <View style={styles.subContainerInfo}>
+              <Text style={styles.subContainerInfoTitle}>Product Name:</Text>
+              <Text style={styles.subContainerInfoProp}>{title}</Text>
             </View>
-            <Text style={styles.TextDescriptionTitle}>Description:</Text>
-            <Text style={styles.TextDescription}>{summary}</Text>
-            <Text style={styles.TextDescriptionTitle}>
-              Additional Information:
-            </Text>
-            <Text style={styles.TextDescription}>abc</Text>
-            <Text style={styles.TextDescriptionTitle}>Category:</Text>
-            <Text style={styles.TextPrice}>abc</Text>
-            <View style={styles.QuantityView}>
-              <Text style={styles.TextDescriptionTitle}>Quantity:</Text>
-              <TextInput
-                onChangeText={(text) => {
-                  setQuantity(text);
-                }}
-                value={quantity}
-                style={styles.quantityInput}
-                keyboardType="numeric"
-              />
+            <View style={styles.subContainerInfo}>
+              <Text style={styles.subContainerInfoTitle}>Product Type(s):</Text>
+              <Text style={styles.subContainerInfoProp}>{typeId.typeName}</Text>
+            </View>
+            <View style={styles.subContainerInfo}>
+              <Text style={styles.subContainerInfoTitle}>Categorie(s):</Text>
+              <Text style={styles.subContainerInfoProp}>{categoriesId}</Text>
+            </View>
+            <View style={styles.subContainerInfo}>
+              <Text style={styles.subContainerInfoTitle}>Description:</Text>
+              <Text style={styles.subContainerInfoProp}>{description}</Text>
+            </View>
+            <View style={styles.subContainerInfo}>
+              <Text style={styles.subContainerInfoTitle}>Price:</Text>
+              <Text style={styles.subContainerInfoProp}>{price}</Text>
+              <Text style={styles.subContainerInfoProp}>VND</Text>
+            </View>
+            <View style={styles.subContainerInfo}>
+              <Text style={styles.subContainerInfoTitle}>
+                Remaining Quantit(ies):
+              </Text>
+              <Text style={styles.subContainerInfoProp}>
+                {remainingQuantity}
+              </Text>
+            </View>
+            <View style={styles.subContainerInfoVertical}>
+              <Text style={styles.subContainerInfoTitle}>
+                Product Details:
+              </Text>
+            </View>
+            <View style={styles.subContainerInfo}>
+              <Text style={styles.subContainerInfoTitle}>Sold By:</Text>
+              <Text style={styles.subContainerInfoProp}>{userId.email}</Text>
             </View>
             <AddToCartButton onPress={onAddToShoppingCart} />
           </ScrollView>
@@ -98,11 +129,6 @@ const ProductDetailScreen = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  QuantityView: {
-    flexDirection: "row",
-    width: "100%",
-    height: 70,
-  },
   ImageBackground: {
     width: "100%",
     height: "100%",
@@ -119,30 +145,6 @@ const styles = StyleSheet.create({
     width: "100%",
     flex: 1,
   },
-  TextTitle: {
-    marginTop: 50,
-    marginLeft: 25,
-    color: "black",
-    fontSize: 30,
-    fontFamily: "ArchitectsDaughter-Regular",
-  },
-  TextPrice: {
-    color: "black",
-    marginLeft: 25,
-    fontSize: 20,
-    fontFamily: "sans-serif",
-  },
-  bookmarkPriceContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  TextDescriptionTitle: {
-    marginTop: 10,
-    marginLeft: 25,
-    color: "black",
-    fontSize: 30,
-    fontFamily: "ShadowsIntoLight-Regular",
-  },
   Image: {
     marginTop: 20,
     height: 300,
@@ -157,21 +159,25 @@ const styles = StyleSheet.create({
     shadowRadius: 9.51,
     backgroundColor: "#E8E8E8",
   },
-  TextDescription: {
-    marginHorizontal: 15,
-  },
-  ScrollView: {
-    height: "100%",
-  },
-  quantityInput: {
+  subContainerInfo: {
+    flexDirection: "row",
     marginTop: 20,
-    marginLeft: 10,
-    paddingLeft: 5,
-    width: 40,
-    borderColor: "black",
-    borderWidth: 2,
-    height: "50%",
-    backgroundColor: "white",
+    marginLeft: 30,
   },
+  subContainerInfoTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    fontStyle: "italic",
+    marginRight: 10,
+  },
+  subContainerInfoProp: {
+    fontSize: 18,
+    marginRight: 5,
+  },
+  subContainerInfoVertical:{
+    marginTop: 20,
+    marginLeft: 30,
+    flexDirection:"column"
+  }
 });
 export default ProductDetailScreen;

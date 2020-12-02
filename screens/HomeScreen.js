@@ -28,11 +28,29 @@ const fetchFonts = () => {
 };
 
 
+
+
 const HomeScreen = ({ route, navigation }) => {
   const [text, setText] = useState("");
   const [fontLoaded, setFontLoaded] = useState(false);
   const [productTypeData, setProductTypeData] = useState([]);
-
+  const [sampleProduct, setSampleProduct] = useState([]);
+  const onGetSampleProduct = async () =>{
+    try{
+      const response = await fetch(baseURL+"/product/?page=1", {
+        headers:{
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        }
+      });
+      if(response.ok){
+        const json = await response.json();
+        setSampleProduct(json.result);
+      }
+    }catch(err){
+      Alert.alert(err.status);
+    }
+  }
   const onLoadProductType = async () =>{
     try{
       const response = await fetch(baseURL+"/product-type",{
@@ -53,7 +71,9 @@ const HomeScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     onLoadProductType();
-  })
+    onGetSampleProduct();
+  }, [])
+
   if (!fontLoaded) {
     return (
       <AppLoading
@@ -90,18 +110,23 @@ const HomeScreen = ({ route, navigation }) => {
               <Text style={styles.newarrivaltitle}>New Arrival:</Text>
               <FlatList
                 horizontal={true}
-                data={data}
+                data={sampleProduct}
                 renderItem={({ item }) => (
                   <HomeScreenBookFlatListItem
-                    source={item.image}
-                    title={item.title}
+                    source={item.productImage[0]}
+                    title={item.productName}
                     price={item.price}
                     onPress={() => navigation.navigate("ProductDetailScreen",{
-                      source:item.image,
-                      title:item.title,
-                      summary:item.summary,
+                      source:item.productImage[0],
+                      title:item.productName,
+                      description:item.description,
                       price:item.price,
-                      id: item.id
+                      id: item.id,
+                      remainingQuantity:item.quantity,
+                      productDetails: item.productDetails,
+                      userId: item.userId,
+                      typeId: item.typeId,
+                      categoriesId: item.categoriesId.map(item => item.categoryName)
                     })}
                   />
                 )}

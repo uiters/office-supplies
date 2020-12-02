@@ -52,6 +52,31 @@ export const removeFromShoppingCart = (id) => {
   return (dispatch) => dispatch({ type: REMOVEFROMSHOPPINGCART, id: id });
 };
 
+export const updateShoppingCart = (id, quantity, token) => {
+  return async (dispatch) => {
+    try{
+      const response = await fetch(baseURL+"/product/product-id/"+id, {
+        method:"GET",
+        headers:{
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Authorization":token
+        }
+      });
+      if(response.ok){
+        const json = await response.json();
+        if(json.quantity>=parseInt(quantity)){
+          return dispatch({ type: UPDATESHOPPINGCART, id: id, quantity: quantity })
+        }else{
+          return 0;
+        }
+      }
+    }catch(err){
+      console.log(err.status);
+    }
+  }
+};
+
 // bookmarks
 export const addToBookMark = (item) => {
   return (dispatch) => dispatch({ type: ADDTOBOOKMARK, item: item });

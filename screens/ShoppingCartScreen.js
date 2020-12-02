@@ -118,7 +118,7 @@ const ShoppingCartScreen = ({ route, navigation }) => {
   }
 
 
-  let totalPrice = useSelector((state) => state.cart.total).toFixed(2);
+  let totalPrice = useSelector((state) => state.cart.total);
   if (DATA.length === 0) {
     return (
       <View style={style.emptyContainer}>
@@ -147,7 +147,7 @@ const ShoppingCartScreen = ({ route, navigation }) => {
         />
         <View style={style.paymenInformation}>
           <Text style={style.titlePrice}>Price:</Text>
-          <Text style={style.price}>{totalPrice} $</Text>
+          <Text style={style.price}>{totalPrice} VND</Text>
         </View>
         
         <Text style={style.deliveryText}> Delivery Information: </Text>

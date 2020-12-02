@@ -25,8 +25,8 @@ const stackNavigator = () => {
         name="ProductDetailScreen"
         component={ProductDetailScreen}
         options={{
-          header: ({ navigation }) => (
-            <ProductDetailHeader navigation={navigation} />
+          header: ({ navigation, route }) => (
+            <ProductDetailHeader navigation={navigation} route={route} />
           ),
         }}
       />

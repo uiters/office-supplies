@@ -10,21 +10,41 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  Alert,
 } from "react-native";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
 import { useDispatch,useSelector } from "react-redux";
-import {removeFromShoppingCart} from "../../redux/actions/index";
+import {removeFromShoppingCart,updateShoppingCart} from "../../redux/actions/index";
 import DeleteShoppingCartItemButton from "./DeleteShoppingCartItemButton";
+import { set } from "react-native-reanimated";
+
 
 
 
 const ShoppingCartItem = (props) => {
-  let DATA = useSelector(state => state.cart.shoppingCart);
+  const [quantity, setQuantity] = useState(props.quantity+"");
+  let token = useSelector(state => state.auth.token);
+  let oldQuantity;
   const dispatch = useDispatch();
   const onDeleteItem = (id) =>{
     dispatch(removeFromShoppingCart(id))
   }
+  const onHandleTextChange = async () => {
+    if(quantity.length>0){
+      const res = await dispatch(updateShoppingCart(props.id, quantity, token));
+      if(res===0){
+        Alert.alert("Remaining quantity exceeded!");
+        setQuantity(oldQuantity+"");
+      }
+    }else{
+      Alert.alert("Quantity can not be blank");
+      setQuantity("1");
+      await dispatch(updateShoppingCart(props.id,"1", token));
+    }
+  }
+
+  let DATA = useSelector(state => state.cart.shoppingCart);
   return (
     <View style={styles.bigContainer}>
     <View style={styles.container}>
@@ -33,11 +53,19 @@ const ShoppingCartItem = (props) => {
         <Text style={styles.itemTitle}>{props.title}</Text>
         <View style={styles.quantityContainer}>
           <Text style={styles.quantityTitle}>Quantity:</Text>
-        <Text style={styles.quantityInput}>{props.quantity}</Text>
-        </View>
+          
+           <TextInput
+           style={styles.quantityInput}
+           value={quantity}
+           onChangeText = {text => setQuantity(text)}
+           keyboardType="numeric" 
+           onSubmitEditing={onHandleTextChange}
+           />
+          
+          </View>
         <View style={styles.quantityContainer}>
           <Text style={styles.price}>Price:</Text>
-          <Text style={{...styles.price,marginLeft:20}}>{props.price}</Text>
+          <Text style={{...styles.price,marginLeft:20}}>{props.price} VND</Text>
         </View>
       </View>
     </View>
@@ -94,11 +122,10 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   quantityInput: {
-    marginLeft: 10,
-    paddingLeft: 5,
     width: 40,
     height: "100%",
     backgroundColor: "white",
+    marginLeft:10,
   },
   price: {
     fontFamily: "sans-serif",

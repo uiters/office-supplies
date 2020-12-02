@@ -14,6 +14,7 @@ const fetchFonts = () => {
 
 const ProductDetailHeader = ({ navigation, route }) => {
   const [fontLoaded, setFontLoaded] = useState(false);
+  const {id, productName} = route.params;
 
   if (!fontLoaded) {
     return (
@@ -33,6 +34,9 @@ const ProductDetailHeader = ({ navigation, route }) => {
       style={styles.ImageBackground}
     >
       <View style={styles.container}>
+        {
+          console.log(id,productName)
+        }
         <View style={styles.subcontainer}>
           <BackButton onPress={() => navigation.goBack()} />
           <Text style={styles.TextTitle}>{route.params.title}</Text>
