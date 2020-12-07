@@ -46,9 +46,10 @@ const ProductDetailScreen = ({ navigation, route }) => {
 
   const arr = () => {
     let arrr = [];
+    let s = 1;
     for (const key in productDetails) {
-      arrr.push({ key, value: productDetails[key] });
-      console.log(arrr);
+      arrr.push({ id: s, key, value: productDetails[key] });
+      s++;
     }
     setArray(arrr);
   };
@@ -135,7 +136,11 @@ const ProductDetailScreen = ({ navigation, route }) => {
               <View>
                 {array &&
                   array.map((item) => (
-                    <ProductDetailsRow keyy={item.key} value={item.value} />
+                    <ProductDetailsRow
+                      key={item.id}
+                      keyy={item.key}
+                      value={item.value}
+                    />
                   ))}
               </View>
             </View>

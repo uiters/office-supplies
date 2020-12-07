@@ -7,6 +7,7 @@ import ProductDetailHeader from "../components/productdetailheadbar/ProductDetai
 import ProductByCategoryScreen from "../screens/ProductByCategoryScreen";
 import SignInNavigator from "../navigation/SignInNavigator";
 import ShoppingCartNavigator from "../navigation/ShoppingCartNavigator";
+import SearchScreen from "../screens/SearchScreen";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 
 const Stack = createStackNavigator();
@@ -24,7 +25,7 @@ const stackNavigator = () => {
       <Stack.Screen
         name="ProductDetailScreen"
         component={ProductDetailScreen}
-        options={({route}) => ({
+        options={({ route }) => ({
           header: ({ navigation }) => (
             <ProductDetailHeader navigation={navigation} route={route} />
           ),
@@ -48,6 +49,11 @@ const stackNavigator = () => {
         options={({ route }) => ({ title: "Sign In" })}
       />
 
+      <Stack.Screen
+        name="SearchScreen"
+        component={SearchScreen}
+        options={({ route }) => ({ title: "Search Results" })}
+      />
     </Stack.Navigator>
   );
 };

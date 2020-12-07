@@ -5,8 +5,6 @@ import DrawerButton from "../components/homeheader/DrawerButton";
 import ProductDetailScreenWithoutCart from "../screens/ProductDetailScreenWithoutCart";
 import ProductDetailHeaderWithoutCart from "../components/sharedcomponents/ProductDetailHeaderWithoutCart";
 import ThankYouScreen from "../screens/ThankYouScreen";
-import BackButton from "../components/sharedcomponents/BackButton";
-import StackNavigator from "../navigation/StackNavigator";
 
 const Stack = createStackNavigator();
 

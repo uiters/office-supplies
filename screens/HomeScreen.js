@@ -83,8 +83,25 @@ const HomeScreen = ({ route, navigation }) => {
       />
     );
   } else {
-    const onSubmitEditing = () => {
-      console.log(text);
+    const onSubmitEditing = async () => {
+      try{
+        const response = await fetch(baseURL+"/product/?page=1&keyword="+text,{
+          method:"GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          }
+        });
+        if(response.ok){
+          const json = await response.json();
+          navigation.navigate("SearchScreen", {
+            products:json.result
+          });
+          setText("");
+        }
+      }catch(err){
+        Alert.alert(err.status+"");
+      }
     };
 
     return (
