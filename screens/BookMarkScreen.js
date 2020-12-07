@@ -16,27 +16,33 @@ import HomeScreenCategoryItem from "../components/homescreen/HomeScreenBookFlatL
 import HomeScreenBookFlatListItem from "../components/homescreen/HomeScreenBookFlatListItem";
 
 const BookMarkScreen = ({ route, navigation }) => {
+  const [sampleProduct, setSampleProduct] = useState([]);
   return (
     <View>
       <FlatList
-        numColumns={2}
-        data={data}
-        renderItem={({ item }) => (
-          <HomeScreenBookFlatListItem
-            source={item.image}
-            title={item.title}
-            price={item.price}
-            onPress={() =>
-              navigation.navigate('ProductDetailScreen',{
-                source: item.image,
-                title: item.title,
-                summary: item.summary,
-                price: item.price})
-            }
-          />
-        )}
-        keyExtractor={(item) => item.id}
-      />
+                horizontal={true}
+                data={sampleProduct}
+                renderItem={({ item }) => (
+                  <HomeScreenBookFlatListItem
+                    source={item.productImage[0]}
+                    title={item.productName}
+                    price={item.price}
+                    onPress={() => navigation.navigate("ProductDetailScreen",{
+                      source:item.productImage[0],
+                      title:item.productName,
+                      description:item.description,
+                      price:item.price,
+                      id: item.id,
+                      remainingQuantity:item.quantity,
+                      productDetails: item.productDetails,
+                      userId: item.userId,
+                      typeId: item.typeId,
+                      categoriesId: item.categoriesId.map(item => item.categoryName)
+                    })}
+                  />
+                )}
+                keyExtractor={(item) => item.id}
+              />
     </View>
   );
 };

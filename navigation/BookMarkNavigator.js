@@ -3,10 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import ProductDetailScreen from "../screens/ProductDetailScreen";
 import ProductDetailHeader from "../components/productdetailheadbar/ProductDetailHeader";
 import DrawerButton from "../components/homeheader/DrawerButton";
-import ProductDetailScreenWithoutCart from "../screens/ProductDetailScreenWithoutCart";
-import ProductDetailHeaderWithoutCart from "../components/sharedcomponents/ProductDetailHeaderWithoutCart";
 import BookMarkScreen from "../screens/BookMarkScreen";
-import BookmarkButton from "../components/sharedcomponents/BookmarkButton";
 import ShoppingCartScreen from "../screens/ShoppingCartScreen";
 
 
@@ -25,14 +22,14 @@ const BookMarkNavigator = () => {
           title: "Bookmarks",
         })}
       />
-      <Stack.Screen
+       <Stack.Screen
         name="ProductDetailScreen"
         component={ProductDetailScreen}
-        options={{
+        options={({route}) => ({
           header: ({ navigation }) => (
-            <ProductDetailHeader navigation={navigation} />
+            <ProductDetailHeader navigation={navigation} route={route} />
           ),
-        }}
+        })}
       />
       <Stack.Screen
         name="ShoppingCartScreen"

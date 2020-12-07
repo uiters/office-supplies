@@ -1,16 +1,12 @@
 import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import HomeScreen from "../screens/HomeScreen";
-import ProductDetailScreen from "../screens/ProductDetailScreen";
-import HomeHeader from "../components/homeheader/HomeHeader";
-import ProductDetailHeader from "../components/productdetailheadbar/ProductDetailHeader";
-import ProductByCategoryScreen from "../screens/ProductByCategoryScreen";
-import ProductByDetailsHeader from "../components/productbydetailscreen/ProductByDetailsHeader";
 import ShoppingCartScreen from "../screens/ShoppingCartScreen";
-import DrawerButton from "../components/homeheader/DrawerButton"
+import DrawerButton from "../components/homeheader/DrawerButton";
 import ProductDetailScreenWithoutCart from "../screens/ProductDetailScreenWithoutCart";
 import ProductDetailHeaderWithoutCart from "../components/sharedcomponents/ProductDetailHeaderWithoutCart";
-import ConfirmBuyingScreen from "../screens/ConfirmBuyingScreen";
+import ThankYouScreen from "../screens/ThankYouScreen";
+import BackButton from "../components/sharedcomponents/BackButton";
+import StackNavigator from "../navigation/StackNavigator";
 
 const Stack = createStackNavigator();
 
@@ -20,26 +16,28 @@ const ShoppingCartNavigator = () => {
       <Stack.Screen
         name="ShoppingCartScreen"
         component={ShoppingCartScreen}
-        options={({navigation, route}) => ({
-          headerLeft: props => <DrawerButton onOpenDrawer = {() => navigation.openDrawer()}/>,
-          title:"Shopping Cart"
+        options={({ navigation, route }) => ({
+          headerLeft: (props) => (
+            <DrawerButton onOpenDrawer={() => navigation.openDrawer()} />
+          ),
+          title: "Shopping Cart",
         })}
       />
-      <Stack.Screen name="ProductDetailScreen" 
-      component={ProductDetailScreenWithoutCart}
-      options={{
-        header:({ navigation }) => <ProductDetailHeaderWithoutCart navigation={navigation}/>
-      }} 
+      <Stack.Screen
+        name="ProductDetailScreen"
+        component={ProductDetailScreenWithoutCart}
+        options={{
+          header: ({ navigation }) => (
+            <ProductDetailHeaderWithoutCart navigation={navigation} />
+          ),
+        }}
       />
-      <Stack.Screen name="ConfirmBuyingScreen" 
-      component={ConfirmBuyingScreen}
-      options={{
-        title:"Confirmation"
-      }} 
+      <Stack.Screen
+        name="ThankYouScreen"
+        component={ThankYouScreen}
       />
     </Stack.Navigator>
   );
 };
 
 export default ShoppingCartNavigator;
-

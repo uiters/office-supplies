@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 15,
     fontStyle: "italic",
+    textTransform: 'capitalize'
   },
   quantityContainer: {
     marginTop: 10,

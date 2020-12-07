@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { SIGNOUT, SIGNIN } from "./Types";
 import {
   ADDTOSHOPPINGCART,
-  GETSHOPPINGCART,
+  REMOVEEVERYTHING,
   REMOVEFROMSHOPPINGCART,
   UPDATESHOPPINGCART,
 } from "./Types";
@@ -27,7 +27,7 @@ export const signInRequest = (candidateUser) => {
       });
       if(response.ok){
         const token = await response.json();
-        dispatch({ type: SIGNIN, token: token });
+        dispatch({ type: SIGNIN, token: token, email:candidateUser.email});
         return "token";
       }else {
         return response.status;
@@ -77,16 +77,20 @@ export const updateShoppingCart = (id, quantity, token) => {
   }
 };
 
+export const removeEverything = () => {
+  return (dispatch) => dispatch({ type: REMOVEEVERYTHING});
+}
+
 // bookmarks
-export const addToBookMark = (item) => {
-  return (dispatch) => dispatch({ type: ADDTOBOOKMARK, item: item });
+export const addToBookMark = (token,item) => {
+  return (dispatch) => dispatch({ type: ADDTOBOOKMARK, token:token, item: item });
 };
 
 export const getBookMark = () => {
   return (dispatch) => dispatch({ type: GETBOOKMARK });
 };
 
-export const removeFromgetBookMark = (index) => {
-  return (dispatch) => dispatch({ type: REMOVEFROMBOOKMARKS, index: index });
+export const removeFromBookMark = (token,item) => {
+  return (dispatch) => dispatch({ type: REMOVEFROMBOOKMARKS, token:token, item: item });
 };
 

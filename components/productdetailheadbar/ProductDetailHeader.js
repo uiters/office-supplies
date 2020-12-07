@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { ImageBackground, Text, View, StyleSheet } from "react-native";
-import ShoppingCartButton from "../homeheader/ShoppingCartButton";
 import * as Font from "expo-font";
 import { useDispatch, useSelector } from "react-redux";
 import { AppLoading } from "expo";
 import BackButton from "../sharedcomponents/BackButton";
+import BookMarkedButton from "../sharedcomponents/BookmarkedButton";
+import UnBookMarkedButton from "../sharedcomponents/UnBookMarkedButton";
+import { addToBookMark, removeFromBookMark } from "../../redux/actions/index";
+import { useEffect } from "react";
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -14,16 +17,84 @@ const fetchFonts = () => {
 };
 
 const ProductDetailHeader = ({ navigation, route }) => {
-  const [fontLoaded, setFontLoaded] = useState(false);
-  const availableUser = useSelector((state) => state.auth.isAuthenticate);
-  const onGoToShoppingCart = () => {
-    if(availableUser === false){
-      navigation.navigate("SignInScreen");
-    }else{
-      navigation.navigate("ShoppingCartScreen");
-    }
-  }
+  const {
+    source,
+    title,
+    description,
+    price,
+    id,
+    remainingQuantity,
+    userId,
+    typeId,
+    categoriesId,
+    productDetails,
+  } = route.params;
 
+  const bookmarks = useSelector((state) => state.bookmark.bookmarks);
+  const token = useSelector((state) => state.auth.token);
+
+  const res = () => {
+    const user = bookmarks.find((item) => item.token === token)
+    console.log(user);
+    if(!user){
+      setIsBookMarked(false);
+    }else{
+      const item = user.bookMarkedItems.find((item) => item.id === id);
+    if (!item) {
+      setIsBookMarked(false);
+    } else {
+      setIsBookMarked(true);
+    }
+    }
+  };
+  const [isBookMarked, setIsBookMarked] = useState(false);
+  const availableUser = useSelector((state) => state.auth.isAuthenticate);
+  const [fontLoaded, setFontLoaded] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    res();
+  }, [])
+
+  const onBookMark = async () => {
+    if (availableUser === false) {
+      navigation.navigate("SignInScreen");
+    } else {
+      if (isBookMarked === false) {
+        await dispatch(
+          addToBookMark(token, {
+            source,
+            title,
+            description,
+            price,
+            id,
+            remainingQuantity,
+            userId,
+            typeId,
+            categoriesId,
+            productDetails,
+          })
+        );
+        setIsBookMarked(true);
+      } else {
+        await dispatch(
+          removeFromBookMark(token, {
+            source,
+            title,
+            description,
+            price,
+            id,
+            remainingQuantity,
+            userId,
+            typeId,
+            categoriesId,
+            productDetails,
+          })
+        );
+        setIsBookMarked(false);
+      }
+    }
+  };
   if (!fontLoaded) {
     return (
       <AppLoading
@@ -32,25 +103,47 @@ const ProductDetailHeader = ({ navigation, route }) => {
         onError={(error) => console.log(error)}
       />
     );
+  } else {
+    if (isBookMarked === false) {
+      return (
+        <ImageBackground
+          source={{
+            uri:
+              "https://nongsansay.vn/wp-content/uploads/2020/04/5120x2880-light-green-solid-color-background-scaled.jpg",
+          }}
+          style={styles.ImageBackground}
+        >
+          {console.log(bookmarks)}
+          <View style={styles.container}>
+            <View style={styles.subcontainer}>
+              <BackButton onPress={() => navigation.goBack()} />
+              <Text style={styles.TextTitle}>DETAILS</Text>
+              <UnBookMarkedButton onPress={onBookMark} />
+            </View>
+          </View>
+        </ImageBackground>
+      );
+    } else {
+      return (
+        <ImageBackground
+          source={{
+            uri:
+              "https://nongsansay.vn/wp-content/uploads/2020/04/5120x2880-light-green-solid-color-background-scaled.jpg",
+          }}
+          style={styles.ImageBackground}
+        >
+          {console.log(route.params)}
+          <View style={styles.container}>
+            <View style={styles.subcontainer}>
+              <BackButton onPress={() => navigation.goBack()} />
+              <Text style={styles.TextTitle}>DETAILS</Text>
+              <BookMarkedButton onPress={onBookMark} />
+            </View>
+          </View>
+        </ImageBackground>
+      );
+    }
   }
-  return (
-    <ImageBackground
-      source={{
-        uri:
-          "https://nongsansay.vn/wp-content/uploads/2020/04/5120x2880-light-green-solid-color-background-scaled.jpg",
-      }}
-      style={styles.ImageBackground}
-    >
-      {console.log(route)}
-      <View style={styles.container}>
-        <View style={styles.subcontainer}>
-          <BackButton onPress={()=>navigation.goBack()}/>
-          <Text style={styles.TextTitle}>DETAILS</Text>
-          <ShoppingCartButton onPress={onGoToShoppingCart}/>
-        </View>
-      </View>
-    </ImageBackground>
-  );
 };
 
 const styles = StyleSheet.create({

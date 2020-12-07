@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -13,9 +13,8 @@ import {
 import * as Font from "expo-font";
 import { useDispatch, useSelector } from "react-redux";
 import { addToShoppingCart } from "../redux/actions/index";
-import { AppLoading } from "expo";
-import BookmarkButton from "../components/sharedcomponents/BookmarkButton";
 import AddToCartButton from "../components/sharedcomponents/AddToCartButton";
+import ProductDetailsRow from "../components/sharedcomponents/ProductDetailsRow";
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -26,9 +25,10 @@ const fetchFonts = () => {
   });
 };
 
-const ProductDetailScreen = ({ route, navigation }) => {
+const ProductDetailScreen = ({ navigation, route }) => {
   const availableUser = useSelector((state) => state.auth.isAuthenticate);
-  const shoppingCart = useSelector(state => state.cart.shoppingCart);
+  const shoppingCart = useSelector((state) => state.cart.shoppingCart);
+  const [array, setArray] = useState([]);
   const {
     source,
     title,
@@ -39,31 +39,51 @@ const ProductDetailScreen = ({ route, navigation }) => {
     userId,
     typeId,
     categoriesId,
+    productDetails,
   } = route.params;
 
   const dispatch = useDispatch();
+
+  const arr = () => {
+    let arrr = [];
+    for (const key in productDetails) {
+      arrr.push({ key, value: productDetails[key] });
+      console.log(arrr);
+    }
+    setArray(arrr);
+  };
+
+  useEffect(() => {
+    arr();
+  }, []);
 
   const onAddToShoppingCart = () => {
     if (availableUser === false) {
       navigation.navigate("SignInScreen");
     } else {
-      const foundItem = shoppingCart.find(
-        (item) => item.id === id
-      );
-      if(!foundItem||foundItem.quantity+1<=remainingQuantity){
-        dispatch(addToShoppingCart({ id, source, title, price, quantity:1, remainingQuantity }));
-        navigation.navigate("ShoppingCartScreen");
-      }else{
-        Alert.alert("Remaining quantity exceeded!");
+      if (remainingQuantity <= 0) {
+        Alert.alert("Item sold out already!");
+      } else {
+        const foundItem = shoppingCart.find((item) => item.id === id);
+        if (!foundItem || foundItem.quantity + 1 <= remainingQuantity) {
+          dispatch(
+            addToShoppingCart({
+              id,
+              source,
+              title,
+              price,
+              quantity: 1,
+              remainingQuantity,
+            })
+          );
+          navigation.navigate("ShoppingCartScreen");
+        } else {
+          Alert.alert("Remaining quantity exceeded!");
+        }
       }
     }
   };
 
-  const onAddToBookMark = () => {
-    if (availableUser === false) {
-      navigation.navigate("SignInScreen");
-    }
-  };
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -79,7 +99,6 @@ const ProductDetailScreen = ({ route, navigation }) => {
           }}
           style={styles.Image}
         />
-
         <View style={styles.subcontainer}>
           <ScrollView style={styles.ScrollView}>
             <View style={styles.subContainerInfo}>
@@ -108,17 +127,21 @@ const ProductDetailScreen = ({ route, navigation }) => {
                 Remaining Quantit(ies):
               </Text>
               <Text style={styles.subContainerInfoProp}>
-                {remainingQuantity}
+                {remainingQuantity > 0 ? remainingQuantity : "Sold Out"}
               </Text>
             </View>
             <View style={styles.subContainerInfoVertical}>
-              <Text style={styles.subContainerInfoTitle}>
-                Product Details:
-              </Text>
+              <Text style={styles.subContainerInfoTitle}>Product Details:</Text>
+              <View>
+                {array &&
+                  array.map((item) => (
+                    <ProductDetailsRow keyy={item.key} value={item.value} />
+                  ))}
+              </View>
             </View>
             <View style={styles.subContainerInfo}>
               <Text style={styles.subContainerInfoTitle}>Sold By:</Text>
-              <Text style={styles.subContainerInfoProp}>{userId.email}</Text>
+              <Text style={styles.subContainerInfoEmail}>{userId.email}</Text>
             </View>
             <AddToCartButton onPress={onAddToShoppingCart} />
           </ScrollView>
@@ -127,7 +150,6 @@ const ProductDetailScreen = ({ route, navigation }) => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   ImageBackground: {
     width: "100%",
@@ -173,11 +195,16 @@ const styles = StyleSheet.create({
   subContainerInfoProp: {
     fontSize: 18,
     marginRight: 5,
+    textTransform: "capitalize",
   },
-  subContainerInfoVertical:{
+  subContainerInfoEmail: {
+    fontSize: 18,
+    marginRight: 5,
+  },
+  subContainerInfoVertical: {
     marginTop: 20,
     marginLeft: 30,
-    flexDirection:"column"
-  }
+    flexDirection: "column",
+  },
 });
 export default ProductDetailScreen;

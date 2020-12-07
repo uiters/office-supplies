@@ -1,5 +1,5 @@
 import { FontDisplay } from "expo-font";
-import { ADDTOSHOPPINGCART, REMOVEFROMSHOPPINGCART, UPDATESHOPPINGCART } from "../actions/Types";
+import { ADDTOSHOPPINGCART, REMOVEFROMSHOPPINGCART, UPDATESHOPPINGCART, REMOVEEVERYTHING } from "../actions/Types";
 
 const initialState = {
   shoppingCart: [],
@@ -66,7 +66,13 @@ export default function shoppingCartReducer(state = initialState, action) {
           shoppingCart: [
             ...state.shoppingCart
           ],
-        };     
+        };
+    case REMOVEEVERYTHING:
+      return{
+        ...state,
+        shoppingCart: [],
+        total: 0,
+      }        
     default:
       return state;
   }

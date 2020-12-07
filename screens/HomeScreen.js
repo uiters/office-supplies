@@ -18,6 +18,8 @@ import HomeScreenBookFlatListItem from "../components/homescreen/HomeScreenBookF
 import HomeScreenCategoryItem from "../components/homescreen/HomeScreenCategoryItem";
 import baseURL from "../api/BaseURL";
 import { isEnabled } from "react-native/Libraries/Performance/Systrace";
+import { useSelector } from "react-redux";
+import ShoppingCartItem from "../components/sharedcomponents/ShoppingCartItem";
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -27,14 +29,12 @@ const fetchFonts = () => {
   });
 };
 
-
-
-
 const HomeScreen = ({ route, navigation }) => {
   const [text, setText] = useState("");
   const [fontLoaded, setFontLoaded] = useState(false);
   const [productTypeData, setProductTypeData] = useState([]);
   const [sampleProduct, setSampleProduct] = useState([]);
+  let shoppingCart = useSelector(state => state.cart.shoppingCart);
   const onGetSampleProduct = async () =>{
     try{
       const response = await fetch(baseURL+"/product/?page=1", {
@@ -72,7 +72,7 @@ const HomeScreen = ({ route, navigation }) => {
   useEffect(() => {
     onLoadProductType();
     onGetSampleProduct();
-  }, [])
+  }, [shoppingCart]);
 
   if (!fontLoaded) {
     return (

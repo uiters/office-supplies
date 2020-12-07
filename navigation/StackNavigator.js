@@ -24,11 +24,11 @@ const stackNavigator = () => {
       <Stack.Screen
         name="ProductDetailScreen"
         component={ProductDetailScreen}
-        options={{
-          header: ({ navigation, route }) => (
+        options={({route}) => ({
+          header: ({ navigation }) => (
             <ProductDetailHeader navigation={navigation} route={route} />
           ),
-        }}
+        })}
       />
       <Stack.Screen
         name="ProductByCategoryScreen"

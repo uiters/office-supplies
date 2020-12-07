@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,23 +7,44 @@ import {
   ImageBackground,
   Image,
   ScrollView,
+  TextInput,
+  Alert,
 } from "react-native";
-import * as Font from "expo-font";
-import { AppLoading } from "expo";
-import BookmarkButton from "../components/sharedcomponents/BookmarkButton";
-import AddToCartButton from "../components/sharedcomponents/AddToCartButton";
+import { useDispatch, useSelector } from "react-redux";
+import ProductDetailsRow from "../components/sharedcomponents/ProductDetailsRow"
 
-const fetchFonts = () => {
-  return Font.loadAsync({
-    "ShadowsIntoLight-Regular": require("../assets/fonts/ShadowsIntoLight-Regular.ttf"),
-    "IndieFlower-Regular": require("../assets/fonts/IndieFlower-Regular.ttf"),
-    "DancingScript-VariableFont_wght": require("../assets/fonts/DancingScript-VariableFont_wght.ttf"),
-    "ArchitectsDaughter-Regular": require("../assets/fonts/ArchitectsDaughter-Regular.ttf"),
-  });
-};
 
-const ProductDetailScreen = ({ route, navigation }) => {
-  const { source, title, summary, price } = route.params;
+const ProductDetailScreenWithoutCart = ({ navigation, route }) => {
+  const availableUser = useSelector((state) => state.auth.isAuthenticate);
+  const [array,setArray] = useState([]);
+  const {
+    source,
+    title,
+    description,
+    price,
+    id,
+    remainingQuantity,
+    userId,
+    typeId,
+    categoriesId,
+    productDetails
+  } = route.params;
+
+  const dispatch = useDispatch();
+
+  const arr = () => {
+    let arrr=[];
+    for(const key in productDetails){
+      arrr.push({key, value:productDetails[key]});
+      console.log(arrr);
+    }
+    setArray(arrr);
+  } 
+
+  useEffect(() => {
+    arr()
+  }, [])
+  
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -33,29 +54,62 @@ const ProductDetailScreen = ({ route, navigation }) => {
         }}
         style={styles.ImageBackground}
       >
+        
         <Image
           source={{
             uri: source,
           }}
           style={styles.Image}
         />
-
         <View style={styles.subcontainer}>
           <ScrollView style={styles.ScrollView}>
-            <Text style={styles.TextTitle}>{title}</Text>
-            <View style={styles.bookmarkPriceContainer}>
-              <Text style={styles.TextPrice}>{price}</Text>
-              <BookmarkButton />
+            <View style={styles.subContainerInfo}>
+              <Text style={styles.subContainerInfoTitle}>Product Name:</Text>
+              <Text style={styles.subContainerInfoProp}>{title}</Text>
             </View>
-            <Text style={styles.TextDescriptionTitle}>Description:</Text>
-            <Text style={styles.TextDescription}>{summary}</Text>
+            <View style={styles.subContainerInfo}>
+              <Text style={styles.subContainerInfoTitle}>Product Type(s):</Text>
+              <Text style={styles.subContainerInfoProp}>{typeId.typeName}</Text>
+            </View>
+            <View style={styles.subContainerInfo}>
+              <Text style={styles.subContainerInfoTitle}>Categorie(s):</Text>
+              <Text style={styles.subContainerInfoProp}>{categoriesId}</Text>
+            </View>
+            <View style={styles.subContainerInfo}>
+              <Text style={styles.subContainerInfoTitle}>Description:</Text>
+              <Text style={styles.subContainerInfoProp}>{description}</Text>
+            </View>
+            <View style={styles.subContainerInfo}>
+              <Text style={styles.subContainerInfoTitle}>Price:</Text>
+              <Text style={styles.subContainerInfoProp}>{price}</Text>
+              <Text style={styles.subContainerInfoProp}>VND</Text>
+            </View>
+            <View style={styles.subContainerInfo}>
+              <Text style={styles.subContainerInfoTitle}>
+                Remaining Quantit(ies):
+              </Text>
+              <Text style={styles.subContainerInfoProp}>
+                {remainingQuantity}
+              </Text>
+            </View>
+            <View style={styles.subContainerInfoVertical}>
+              <Text style={styles.subContainerInfoTitle}>
+                Product Details:
+              </Text>
+              <View>
+              {array && array.map(item => <ProductDetailsRow keyy={item.key} value={item.value}/>)}
+              </View>
+            </View>
+            <View style={styles.subContainerInfo}>
+              <Text style={styles.subContainerInfoTitle}>Sold By:</Text>
+              <Text style={styles.subContainerInfoEmail}>{userId.email}</Text>
+            </View>
           </ScrollView>
         </View>
       </ImageBackground>
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   ImageBackground: {
     width: "100%",
@@ -73,32 +127,8 @@ const styles = StyleSheet.create({
     width: "100%",
     flex: 1,
   },
-  TextTitle: {
-    marginTop: 50,
-    marginLeft: 25,
-    color: "black",
-    fontSize: 30,
-    fontFamily: "ArchitectsDaughter-Regular",
-  },
-  TextPrice: {
-    color: "black",
-    marginLeft: 25,
-    fontSize: 20,
-    fontFamily: "sans-serif",
-  },
-  bookmarkPriceContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  TextDescriptionTitle: {
-    marginTop: 10,
-    marginLeft: 25,
-    color: "black",
-    fontSize: 30,
-    fontFamily: "ShadowsIntoLight-Regular",
-  },
   Image: {
-    marginTop:20,
+    marginTop: 20,
     height: 300,
     marginHorizontal: 120,
     marginBottom: 20,
@@ -111,11 +141,30 @@ const styles = StyleSheet.create({
     shadowRadius: 9.51,
     backgroundColor: "#E8E8E8",
   },
-  TextDescription: {
-    marginHorizontal: 15,
+  subContainerInfo: {
+    flexDirection: "row",
+    marginTop: 20,
+    marginLeft: 30,
   },
-  ScrollView:{
-    height: "100%",
+  subContainerInfoTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    fontStyle: "italic",
+    marginRight: 10,
+  },
+  subContainerInfoProp: {
+    fontSize: 18,
+    marginRight: 5,
+    textTransform: 'capitalize'
+  },
+  subContainerInfoEmail: {
+    fontSize: 18,
+    marginRight: 5,
+  },
+  subContainerInfoVertical:{
+    marginTop: 20,
+    marginLeft: 30,
+    flexDirection:"column"
   }
 });
-export default ProductDetailScreen;
+export default ProductDetailScreenWithoutCart;

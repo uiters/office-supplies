@@ -56,7 +56,7 @@ const ProfileScreen = ({ route, navigation }) => {
 
   const onChangeProfile = async () => {
     try {
-      console.log(userID,fullName,phoneNumber);
+      
       const response = await fetch(baseURL+"/user", {
         method: "PUT",
         headers: {

@@ -1,14 +1,9 @@
 import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import ProductDetailScreen from "../screens/ProductDetailScreen";
-import ProductDetailHeader from "../components/productdetailheadbar/ProductDetailHeader";
 import DrawerButton from "../components/homeheader/DrawerButton"
-import ProductDetailScreenWithoutCart from "../screens/ProductDetailScreenWithoutCart";
-import ProductDetailHeaderWithoutCart from "../components/sharedcomponents/ProductDetailHeaderWithoutCart";
-import PurchasesScreen from "../screens/PurchasesScreen";
-import BookmarkButton from "../components/sharedcomponents/BookmarkButton";
 import SellingScreen from "../screens/SellingScreen";
-
+import ProductDetailScreen from "../screens/ProductDetailScreenWithoutCart";
+import ProductDetailHeader from "../components/productdetailheadbar/ProductDetailHeader";
 
 
 const Stack = createStackNavigator();
@@ -24,11 +19,14 @@ const SellingNavigator = () => {
           title:"Selling"
         })}
       />
-      <Stack.Screen name="ProductDetailScreen" 
-      component={ProductDetailScreenWithoutCart}
-      options={{
-        header:({ navigation }) => <ProductDetailHeaderWithoutCart navigation={navigation}/>
-      }} 
+      <Stack.Screen
+        name="ProductDetailScreen"
+        component={ProductDetailScreen}
+        options={({route}) => ({
+          header: ({ navigation }) => (
+            <ProductDetailHeader navigation={navigation} route={route} />
+          ),
+        })}
       />
     </Stack.Navigator>
   );

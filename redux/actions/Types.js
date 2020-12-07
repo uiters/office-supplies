@@ -4,7 +4,7 @@ export const SIGNOUT = 'signout';
 
 //shoppingcart
 export const ADDTOSHOPPINGCART = 'addtoshoppingcart';
-export const GETSHOPPINGCART = 'getshoppingcart';
+export const REMOVEEVERYTHING = 'removeeverything';
 export const REMOVEFROMSHOPPINGCART = 'removefromshoppingcart';
 export const UPDATESHOPPINGCART = 'updateshoppingcart';
 
