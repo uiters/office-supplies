@@ -161,7 +161,8 @@ const HomeScreen = ({ route, navigation }) => {
                   source={item.source}
                   title={item.typeName}
                   id={item.id}
-                  onPress={() => navigation.navigate("ProductByCategoryScreen",{     
+                  onPress={() => navigation.navigate("ProductByCategoryScreen",{
+                    id:item.id,     
                     categories:item.categories, 
                     title:item.typeName                
                   })}
