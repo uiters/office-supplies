@@ -2,6 +2,7 @@ import {
   ADDTOBOOKMARK,
   GETBOOKMARK,
   REMOVEFROMBOOKMARKS,
+  REMOVEEVERYBOOKMARKS,
 } from "../actions/Types";
 
 const initialState = {
@@ -12,35 +13,45 @@ export default function bookmarkReducer(state = initialState, action) {
   switch (action.type) {
     case ADDTOBOOKMARK:
       const foundItem = state.bookmarks.find(
-        (item) => item.token === action.token
+        (item) => item.email === action.email
       );
+      state.bookmarks.push({ email: action.email, bookMarkedItems: [action.item] });
       if (!foundItem) {
         return {
           ...state,
           bookmarks: [
             ...state.bookmarks,
-            { token: action.token, bookMarkedItems: [action.item] },
           ],
         };
       } else {
         const index = state.bookmarks.indexOf(foundItem);
-        const arr = [...state.bookmarks.bookMarkedItems, action.items];
-        state.bookmarks.bookMarkedItems[index] = arr;
+        state.bookmarks[index].bookMarkedItems.push(action.item);
         return {
           ...state,
-          bookmarks: [...state.bookmarks],
+          bookmarks: [
+            ...state.bookmarks,    
+          ],
         };
       }
     case GETBOOKMARK:
       return state;
     case REMOVEFROMBOOKMARKS:
+      const foundedItem = state.bookmarks.find(
+        (item) => item.email === action.email
+      );
+      const index = state.bookmarks.indexOf(foundedItem);
+      const arr = state.bookmarks[index].bookMarkedItems.filter(item => item.id !== action.id)
+      state.bookmarks[index].bookMarkedItems=arr;
+        return {
+          ...state,
+          bookmarks: [
+            ...state.bookmarks,    
+          ],
+        };
+    case REMOVEEVERYBOOKMARKS:
       return {
         ...state,
-        shoppingCart: [
-          ...state.bookmarks
-            .find((item) => item.token === action.token)
-            .bookMarkedItems.filter((item) => item.id !== action.item.id),
-        ],
+        bookmarks: [],
       };
     default:
       return state;

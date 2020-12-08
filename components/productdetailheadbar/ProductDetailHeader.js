@@ -6,8 +6,9 @@ import { AppLoading } from "expo";
 import BackButton from "../sharedcomponents/BackButton";
 import BookMarkedButton from "../sharedcomponents/BookmarkedButton";
 import UnBookMarkedButton from "../sharedcomponents/UnBookMarkedButton";
-import { addToBookMark, removeFromBookMark } from "../../redux/actions/index";
+import { addToBookMark, removeFromBookMark, removeEveryBookMarks } from "../../redux/actions/index";
 import { useEffect } from "react";
+
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -31,10 +32,10 @@ const ProductDetailHeader = ({ navigation, route }) => {
   } = route.params;
 
   const bookmarks = useSelector((state) => state.bookmark.bookmarks);
-  const token = useSelector((state) => state.auth.token);
+  const email = useSelector((state) => state.auth.email);
 
   const res = () => {
-    const user = bookmarks.find((item) => item.token === token)
+    const user = bookmarks.find((item) => item.email === email)
     console.log(user);
     if(!user){
       setIsBookMarked(false);
@@ -57,12 +58,14 @@ const ProductDetailHeader = ({ navigation, route }) => {
   }, [])
 
   const onBookMark = async () => {
+    //dispatch(removeEveryBookMarks());
     if (availableUser === false) {
       navigation.navigate("SignInScreen");
     } else {
       if (isBookMarked === false) {
+        await setIsBookMarked(true);
         await dispatch(
-          addToBookMark(token, {
+          addToBookMark(email, {
             source,
             title,
             description,
@@ -75,23 +78,14 @@ const ProductDetailHeader = ({ navigation, route }) => {
             productDetails,
           })
         );
-        setIsBookMarked(true);
+        await console.log(bookmarks);
+        
       } else {
+        await setIsBookMarked(false);
         await dispatch(
-          removeFromBookMark(token, {
-            source,
-            title,
-            description,
-            price,
-            id,
-            remainingQuantity,
-            userId,
-            typeId,
-            categoriesId,
-            productDetails,
-          })
+          removeFromBookMark(email, id)
         );
-        setIsBookMarked(false);
+        await console.log(bookmarks);
       }
     }
   };
@@ -113,7 +107,6 @@ const ProductDetailHeader = ({ navigation, route }) => {
           }}
           style={styles.ImageBackground}
         >
-          {console.log(bookmarks)}
           <View style={styles.container}>
             <View style={styles.subcontainer}>
               <BackButton onPress={() => navigation.goBack()} />
@@ -132,7 +125,6 @@ const ProductDetailHeader = ({ navigation, route }) => {
           }}
           style={styles.ImageBackground}
         >
-          {console.log(route.params)}
           <View style={styles.container}>
             <View style={styles.subcontainer}>
               <BackButton onPress={() => navigation.goBack()} />

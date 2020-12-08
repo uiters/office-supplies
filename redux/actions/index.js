@@ -7,7 +7,7 @@ import {
   REMOVEFROMSHOPPINGCART,
   UPDATESHOPPINGCART,
 } from "./Types";
-import { ADDTOBOOKMARK, GETBOOKMARK, REMOVEFROMBOOKMARKS } from "./Types";
+import { ADDTOBOOKMARK, GETBOOKMARK, REMOVEFROMBOOKMARKS, REMOVEEVERYBOOKMARKS } from "./Types";
 import baseURL from "../../api/BaseURL";
 
 //auth
@@ -82,15 +82,18 @@ export const removeEverything = () => {
 }
 
 // bookmarks
-export const addToBookMark = (token,item) => {
-  return (dispatch) => dispatch({ type: ADDTOBOOKMARK, token:token, item: item });
+export const addToBookMark = (email,item) => {
+  return (dispatch) => dispatch({ type: ADDTOBOOKMARK, email:email, item: item });
 };
 
 export const getBookMark = () => {
   return (dispatch) => dispatch({ type: GETBOOKMARK });
 };
 
-export const removeFromBookMark = (token,item) => {
-  return (dispatch) => dispatch({ type: REMOVEFROMBOOKMARKS, token:token, item: item });
+export const removeFromBookMark = (email,id) => {
+  return (dispatch) => dispatch({ type: REMOVEFROMBOOKMARKS, email:email, id:id });
 };
 
+export const removeEveryBookMarks = () => {
+  return (dispatch) => dispatch({ type: REMOVEEVERYBOOKMARKS});
+};

@@ -11,12 +11,10 @@ import {
   TextInput,
   Alert,
 } from "react-native";
-import SearchButton from "../components/sharedcomponents/SearchButton";
 import DropDownPicker from "react-native-dropdown-picker";
 import { FlatList } from "react-native-gesture-handler";
 import baseURL from "../api/BaseURL";
 import HomeScreenBookFlatListItem from "../components/homescreen/HomeScreenBookFlatListItem";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const ProductByCategoryScreen = ({ route, navigation }) => {
   const [fullProducts, setFullProducts] = useState([]);

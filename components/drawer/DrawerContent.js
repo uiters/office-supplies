@@ -15,7 +15,7 @@ import {
   Switch,
 } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { signOutRequest } from "../../redux/actions/index";
+import { signOutRequest, removeEverything } from "../../redux/actions/index";
 import baseURL from "../../api/BaseURL"
 
 const DrawerContent = (props) => {
@@ -187,6 +187,7 @@ const DrawerContent = (props) => {
             )}
             label="Sign Out"
             onPress={() => {
+              dispatch(removeEverything())
               dispatch(signOutRequest());
               props.navigation.navigate("Home");
             }}

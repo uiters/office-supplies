@@ -12,3 +12,4 @@ export const UPDATESHOPPINGCART = 'updateshoppingcart';
 export const ADDTOBOOKMARK = 'addtobookmarks';
 export const GETBOOKMARK = 'getbookmarks';
 export const REMOVEFROMBOOKMARKS = 'removefrombookmarks';
+export const REMOVEEVERYBOOKMARKS ='removeeverybookmarks';
