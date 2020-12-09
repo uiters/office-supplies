@@ -149,6 +149,8 @@ const ShoppingCartScreen = ({ route, navigation }) => {
           },
           cart: DATA.map((item) => {
             return {
+              /*productName:item.title,
+              email:item.email,*/
               productId: item.id,
               quantity: item.quantity,
               total: item.quantity * item.price,

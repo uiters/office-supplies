@@ -75,6 +75,7 @@ const ProductDetailScreen = ({ navigation, route }) => {
               price,
               quantity: 1,
               remainingQuantity,
+              //email:userId.email,
             })
           );
           navigation.navigate("ShoppingCartScreen");

@@ -52,6 +52,12 @@ const OrderScreen = ({ route, navigation }) => {
             status={item.status}
             createdAt={item.createdAt}
             total={item.total}
+            onPress={() =>
+              navigation.navigate('InvoiceDetailScreen',{
+                invoiceDetails:item.getInvoiceDetails,
+                id:item._id
+              })
+            }
           />
         )}
         keyExtractor={(item) => item._id}
