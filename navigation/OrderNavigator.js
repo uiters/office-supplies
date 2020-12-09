@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import DrawerButton from "../components/homeheader/DrawerButton"
-import PurchasesScreen from "../screens/PurchasesScreen";
+import OrderScreen from "../screens/OrderScreen";
 import ShoppingCartScreen from "../screens/ShoppingCartScreen";
 import ProductDetailScreen from "../screens/ProductDetailScreen";
 import ProductDetailHeader from "../components/productdetailheadbar/ProductDetailHeader";
@@ -10,15 +10,15 @@ import ProductDetailHeader from "../components/productdetailheadbar/ProductDetai
 
 const Stack = createStackNavigator();
 
-const PurchasesNavigator = () => {
+const OrderNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="PurchasesScreen"
-        component={PurchasesScreen}
+        name="OrderScreen"
+        component={OrderScreen}
         options={({navigation, route}) => ({
           headerLeft: props => <DrawerButton onOpenDrawer = {() => navigation.openDrawer()}/>,
-          title:"Purchases"
+          title:"Orders"
         })}
       />
       <Stack.Screen
@@ -36,5 +36,5 @@ const PurchasesNavigator = () => {
   );
 };
 
-export default PurchasesNavigator;
+export default OrderNavigator;
 

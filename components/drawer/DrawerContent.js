@@ -159,12 +159,11 @@ const DrawerContent = (props) => {
                 icon={({ color, size }) => (
                   <Icon name="bag-personal-outline" color={color} size={size} />
                 )}
-                label="Purchases"
+                label="Orders"
                 onPress={() => {
-                  props.navigation.navigate("Purchases");
+                  props.navigation.navigate("Orders");
                 }}
               />
-
               <DrawerItem
                 icon={({ color, size }) => (
                   <Image

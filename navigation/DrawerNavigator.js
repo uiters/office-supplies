@@ -9,7 +9,7 @@ import ProductDetailScreen from "../screens/ProductDetailScreen";
 import ProductDetailHeader from "../components/productdetailheadbar/ProductDetailHeader";
 import ProductDetailNavigator from "../navigation/ProductDetailNavigator"
 import BookMarkNavigator from "./BookMarkNavigator";
-import PurchasesNavigator from "./PurchaseNavigator";
+import OrderNavigator from "./OrderNavigator";
 import SellingNavigator from "./SellingNavigator";
 import ProfileNavigator from "./ProfileNavigator";
 const Drawer = createDrawerNavigator();
@@ -25,7 +25,7 @@ const DrawerNavigator = () => {
       <Drawer.Screen name="SignIn" component={SignInNavigator} />
       <Drawer.Screen name="ShoppingCart" component={ShoppingCartNavigator} />
       <Drawer.Screen name="Bookmark" component={BookMarkNavigator} />
-      <Drawer.Screen name="Purchases" component={PurchasesNavigator} />
+      <Drawer.Screen name="Orders" component={OrderNavigator} />
       <Drawer.Screen name="Selling" component={SellingNavigator} />
       <Drawer.Screen name="Profile" component={ProfileNavigator}/>
     </Drawer.Navigator>
