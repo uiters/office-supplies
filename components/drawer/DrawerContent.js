@@ -187,7 +187,7 @@ const DrawerContent = (props) => {
             )}
             label="Sign Out"
             onPress={() => {
-              dispatch(removeEverything())
+              //dispatch(removeEverything())
               dispatch(signOutRequest());
               props.navigation.navigate("Home");
             }}

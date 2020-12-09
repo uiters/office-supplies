@@ -171,7 +171,7 @@ const ShoppingCartScreen = ({ route, navigation }) => {
   if (DATA.length === 0) {
     return (
       <View style={style.emptyContainer}>
-        <Text style={style.emptyText}>
+        <Text>
           Your shopping cart is empty. Buy something lah!
         </Text>
       </View>

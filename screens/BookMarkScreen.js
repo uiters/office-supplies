@@ -17,15 +17,24 @@ import HomeScreenCategoryItem from "../components/homescreen/HomeScreenBookFlatL
 import HomeScreenBookFlatListItem from "../components/homescreen/HomeScreenBookFlatListItem";
 
 const BookMarkScreen = ({ route, navigation }) => {
+  const token = useSelector((state) => state.auth.token);
   const email = useSelector((state) => state.auth.email);
-  const bookmarks = useSelector((state) => state.bookmark.bookmarks).find(item => item.email===email).bookMarkedItems;
+  const bookmarks = useSelector((state) => state.bookmark.bookmarks);
+  const items = bookmarks.find(item => item.email === email)
   const [data, setData] = useState(bookmarks);
+  if(items===undefined){
+    return(
+      <View>
+        <Text>You have not bookmarked anything!</Text>
+      </View>
+    )
+  }else{
   return (
     <View>
       <FlatList
         horizontal={false}
         numColumns={2}
-        data={bookmarks}
+        data={items.bookMarkedItems}
         renderItem={({ item }) => (
           <HomeScreenBookFlatListItem
             source={item.source}
@@ -53,6 +62,15 @@ const BookMarkScreen = ({ route, navigation }) => {
       />
     </View>
   );
+}
 };
+
+const styles = StyleSheet.create({
+  emptyContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
 
 export default BookMarkScreen;

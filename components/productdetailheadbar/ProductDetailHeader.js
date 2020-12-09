@@ -33,10 +33,13 @@ const ProductDetailHeader = ({ navigation, route }) => {
 
   const bookmarks = useSelector((state) => state.bookmark.bookmarks);
   const email = useSelector((state) => state.auth.email);
+  const token = useSelector((state) => state.auth.token);
 
   const res = () => {
+    if(token===""){
+      setIsBookMarked(false);
+    }else{
     const user = bookmarks.find((item) => item.email === email)
-    console.log(user);
     if(!user){
       setIsBookMarked(false);
     }else{
@@ -46,7 +49,7 @@ const ProductDetailHeader = ({ navigation, route }) => {
     } else {
       setIsBookMarked(true);
     }
-    }
+    }}
   };
   const [isBookMarked, setIsBookMarked] = useState(false);
   const availableUser = useSelector((state) => state.auth.isAuthenticate);
@@ -78,14 +81,14 @@ const ProductDetailHeader = ({ navigation, route }) => {
             productDetails,
           })
         );
-        await console.log(bookmarks);
+        
         
       } else {
         await setIsBookMarked(false);
         await dispatch(
           removeFromBookMark(email, id)
         );
-        await console.log(bookmarks);
+        
       }
     }
   };
