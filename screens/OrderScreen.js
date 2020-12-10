@@ -50,11 +50,10 @@ const OrderScreen = ({ route, navigation }) => {
             invoiceId={item._id}
             address={item.address}
             status={item.status}
-            createdAt={item.createdAt}
-            total={item.total}
             onPress={() =>
               navigation.navigate('InvoiceDetailScreen',{
                 invoiceDetails:item.getInvoiceDetails,
+                total:item.total,
                 id:item._id
               })
             }

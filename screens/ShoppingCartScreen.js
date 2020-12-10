@@ -149,11 +149,10 @@ const ShoppingCartScreen = ({ route, navigation }) => {
           },
           cart: DATA.map((item) => {
             return {
-              /*productName:item.title,
-              email:item.email,*/
               productId: item.id,
               quantity: item.quantity,
               total: item.quantity * item.price,
+              sellerId: item.sellerId
             };
           }),
         }),
@@ -195,6 +194,7 @@ const ShoppingCartScreen = ({ route, navigation }) => {
           )}
           keyExtractor={(item) => item.id}
         />
+        <View style={{marginHorizontal:20,height:5,backgroundColor:"black"}}/>
         <View style={style.paymenInformation}>
           <Text style={style.titlePrice}>Price:</Text>
           <Text style={style.price}>{totalPrice} VND</Text>
@@ -275,6 +275,7 @@ const style = StyleSheet.create({
     height: "40%",
   },
   paymenInformation: {
+    marginTop:20,
     flexDirection: "row",
     justifyContent: "space-around",
     fontFamily: ":arial",

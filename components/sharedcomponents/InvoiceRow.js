@@ -27,7 +27,6 @@ const InvoiceRow = (props) => {
   let oldQuantity;
   const dispatch = useDispatch();
   const address = props.address.street+", "+props.address.ward+", "+props.address.district+", "+props.address.city;
-  const date = props.createdAt.substring(0,10);
   return (
     <TouchableOpacity style = {styles.bigContainer} onPress={props.onPress}>
       <View style={styles.bigContainer}>
@@ -51,7 +50,7 @@ const InvoiceRow = (props) => {
             <View style={styles.quantityContainer}>
               <Text style={styles.quantityTitle}>Status:</Text>
               <Text style={{...styles.itemTitle, color:"red"}}>
-                {props.status===1?"Processing":"Delivered"}
+                {props.status===0?"Not Fully Delivered":"Fully Delivered"}
               </Text>
             </View>
           </View>
