@@ -29,7 +29,6 @@ const InvoiceRow = (props) => {
   const address = props.address.street+", "+props.address.ward+", "+props.address.district+", "+props.address.city;
   return (
     <TouchableOpacity style = {styles.bigContainer} onPress={props.onPress}>
-      <View style={styles.bigContainer}>
         <View style={styles.leftContainer}>
           <Image
             source={{
@@ -55,7 +54,6 @@ const InvoiceRow = (props) => {
             </View>
           </View>
         </View>
-      </View>
     </TouchableOpacity>
   );
 };

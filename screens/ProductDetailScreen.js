@@ -113,7 +113,11 @@ const ProductDetailScreen = ({ navigation, route }) => {
             </View>
             <View style={styles.subContainerInfo}>
               <Text style={styles.subContainerInfoTitle}>Categorie(s):</Text>
-              <Text style={styles.subContainerInfoProp}>{categoriesId}</Text>
+              <View style={{flexDirection:"column"}}>
+              {
+                categoriesId&&categoriesId.map(cate => <Text id={cate} style={{...styles.subContainerInfoProp, width:"100%"}}>{cate}</Text>)
+              }
+              </View>
             </View>
             <View style={styles.subContainerInfo}>
               <Text style={styles.subContainerInfoTitle}>Description:</Text>
@@ -122,7 +126,6 @@ const ProductDetailScreen = ({ navigation, route }) => {
             <View style={styles.subContainerInfo}>
               <Text style={styles.subContainerInfoTitle}>Price:</Text>
               <Text style={styles.subContainerInfoProp}>{price}</Text>
-              <Text style={styles.subContainerInfoProp}>VND</Text>
             </View>
             <View style={styles.subContainerInfo}>
               <Text style={styles.subContainerInfoTitle}>
@@ -163,6 +166,7 @@ const styles = StyleSheet.create({
   },
   container: {
     height: "100%",
+    
   },
   subcontainer: {
     backgroundColor: "white",
@@ -176,7 +180,7 @@ const styles = StyleSheet.create({
   Image: {
     marginTop: 20,
     height: 300,
-    marginHorizontal: 120,
+    marginHorizontal: 100 ,
     marginBottom: 20,
     shadowColor: "#000",
     shadowOffset: {
@@ -191,6 +195,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 20,
     marginLeft: 30,
+    marginRight:20
   },
   subContainerInfoTitle: {
     fontSize: 18,
@@ -199,8 +204,8 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   subContainerInfoProp: {
-    fontSize: 18,
-    marginRight: 5,
+    width:"70%",
+    fontSize: 16,
     textTransform: "capitalize",
   },
   subContainerInfoEmail: {
@@ -212,5 +217,9 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     flexDirection: "column",
   },
+  subContainerInfoCurrency:{
+    fontSize: 16,
+    textTransform: "capitalize",
+  }
 });
 export default ProductDetailScreen;

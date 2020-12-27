@@ -14,70 +14,73 @@ import {
 } from "react-native";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
-import { useDispatch,useSelector } from "react-redux";
-import {removeFromShoppingCart,updateShoppingCart} from "../../redux/actions/index";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  removeFromShoppingCart,
+  updateShoppingCart,
+} from "../../redux/actions/index";
 import DeleteShoppingCartItemButton from "./DeleteShoppingCartItemButton";
 import { set } from "react-native-reanimated";
 
-
-
-
 const ShoppingCartItem = (props) => {
-  const [quantity, setQuantity] = useState(props.quantity+"");
-  let token = useSelector(state => state.auth.token);
+  const [quantity, setQuantity] = useState(props.quantity + "");
+  let token = useSelector((state) => state.auth.token);
   let oldQuantity;
   const dispatch = useDispatch();
-  const onDeleteItem = (id) =>{
-    dispatch(removeFromShoppingCart(id))
-  }
+  const onDeleteItem = (id) => {
+    dispatch(removeFromShoppingCart(id));
+  };
   const onHandleTextChange = async () => {
-    if(quantity.length>0){
+    if (quantity.length > 0) {
       const res = await dispatch(updateShoppingCart(props.id, quantity, token));
-      if(res===0){
+      if (res === 0) {
         Alert.alert("Remaining quantity exceeded!");
-        setQuantity(oldQuantity+"");
+        setQuantity("1");
+        await dispatch(updateShoppingCart(props.id, "1", token));
       }
-    }else{
-      Alert.alert("Quantity can not be blank");
+    } else {
+      Alert.alert("Quantity must be greater than or equal to 1");
       setQuantity("1");
-      await dispatch(updateShoppingCart(props.id,"1", token));
+      await dispatch(updateShoppingCart(props.id, "1", token));
     }
-  }
+  };
 
-  let DATA = useSelector(state => state.cart.shoppingCart);
+  let DATA = useSelector((state) => state.cart.shoppingCart);
   return (
     <View style={styles.bigContainer}>
-    <View style={styles.container}>
-      <Image source={{ uri: props.source }} style={styles.image} />
-      <View style={styles.information}>
-        <Text style={styles.itemTitle}>{props.title}</Text>
-        <View style={styles.quantityContainer}>
-          <Text style={styles.quantityTitle}>Quantity:</Text>
-          
-           <TextInput
-           style={styles.quantityInput}
-           value={quantity}
-           onChangeText = {text => setQuantity(text)}
-           keyboardType="numeric" 
-           onSubmitEditing={onHandleTextChange}
-           />
-          
+      <View style={styles.container}>
+        <Image source={{ uri: props.source }} style={styles.image} />
+        <View style={styles.information}>
+          <Text style={styles.itemTitle}>{props.title}</Text>
+          <View style={styles.quantityContainer}>
+            <Text style={styles.quantityTitle}>Quantity:</Text>
+            <TextInput
+              style={styles.quantityInput}
+              value={quantity}
+              onChangeText={(text) => {
+                setQuantity(text);
+              }}
+              keyboardType="numeric"
+              onSubmitEditing={onHandleTextChange}
+            />
           </View>
-        <View style={styles.quantityContainer}>
-          <Text style={styles.price}>Price:</Text>
-          <Text style={{...styles.price,marginLeft:20}}>{props.price} VND</Text>
+          <View style={styles.quantityContainer}>
+            <Text style={styles.price}>Price:</Text>
+            <Text style={{ ...styles.price, marginLeft: 20 }}>
+              {props.price} VND
+            </Text>
+          </View>
         </View>
       </View>
-    </View>
-    <DeleteShoppingCartItemButton onPress={() => onDeleteItem(props.id)}/>
+      <DeleteShoppingCartItemButton onPress={() => onDeleteItem(props.id)} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  bigContainer:{
-    height:100,
-    flexDirection:"row",
+  bigContainer: {
+    height: 120,
+    flexDirection: "row",
     marginBottom: 10,
   },
   container: {
@@ -110,7 +113,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 15,
     fontStyle: "italic",
-    textTransform: 'capitalize'
+    textTransform: "capitalize",
   },
   quantityContainer: {
     marginTop: 10,
@@ -119,14 +122,14 @@ const styles = StyleSheet.create({
   quantityTitle: {
     fontFamily: "sans-serif",
     fontSize: 15,
-    fontWeight:"bold",
+    fontWeight: "bold",
     height: "100%",
   },
   quantityInput: {
     width: 40,
     height: "100%",
     backgroundColor: "white",
-    marginLeft:10,
+    marginLeft: 10,
   },
   price: {
     fontFamily: "sans-serif",

@@ -20,6 +20,7 @@ import baseURL from "../api/BaseURL";
 import { isEnabled } from "react-native/Libraries/Performance/Systrace";
 import { useSelector } from "react-redux";
 import ShoppingCartItem from "../components/sharedcomponents/ShoppingCartItem";
+import productTypeImages from "../constants/ProductTypeImages";
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -34,37 +35,37 @@ const HomeScreen = ({ route, navigation }) => {
   const [fontLoaded, setFontLoaded] = useState(false);
   const [productTypeData, setProductTypeData] = useState([]);
   const [sampleProduct, setSampleProduct] = useState([]);
-  let shoppingCart = useSelector(state => state.cart.shoppingCart);
-  const onGetSampleProduct = async () =>{
-    try{
-      const response = await fetch(baseURL+"/product/?page=1", {
-        headers:{
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        }
-      });
-      if(response.ok){
-        const json = await response.json();
-        setSampleProduct(json.result);
-      }
-    }catch(err){
-      Alert.alert(err.status);
-    }
-  }
-  const onLoadProductType = async () =>{
-    try{
-      const response = await fetch(baseURL+"/product-type",{
-        method:"GET",
+  let shoppingCart = useSelector((state) => state.cart.shoppingCart);
+  const onGetSampleProduct = async () => {
+    try {
+      const response = await fetch(baseURL + "/product/?page=1", {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-        }
+        },
       });
-      if(response.ok){
+      if (response.ok) {
+        const json = await response.json();
+        setSampleProduct(json.result);
+      }
+    } catch (err) {
+      Alert.alert(err.status);
+    }
+  };
+  const onLoadProductType = async () => {
+    try {
+      const response = await fetch(baseURL + "/product-type", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
         const json = await response.json();
         setProductTypeData(json.productType);
       }
-    }catch(err){
+    } catch (err) {
       Alert.alert(err.status);
     }
   };
@@ -84,23 +85,26 @@ const HomeScreen = ({ route, navigation }) => {
     );
   } else {
     const onSubmitEditing = async () => {
-      try{
-        const response = await fetch(baseURL+"/product/?page=1&keyword="+text,{
-          method:"GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
+      try {
+        const response = await fetch(
+          baseURL + "/product/?page=1&keyword=" + text,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
           }
-        });
-        if(response.ok){
+        );
+        if (response.ok) {
           const json = await response.json();
           navigation.navigate("SearchScreen", {
-            products:json.result
+            products: json.result,
           });
           setText("");
         }
-      }catch(err){
-        Alert.alert(err.status+"");
+      } catch (err) {
+        Alert.alert(err.status + "");
       }
     };
 
@@ -133,18 +137,22 @@ const HomeScreen = ({ route, navigation }) => {
                     source={item.productImage[0]}
                     title={item.productName}
                     price={item.price}
-                    onPress={() => navigation.navigate("ProductDetailScreen",{
-                      source:item.productImage[0],
-                      title:item.productName,
-                      description:item.description,
-                      price:item.price,
-                      id: item.id,
-                      remainingQuantity:item.quantity,
-                      productDetails: item.productDetails,
-                      userId: item.userId,
-                      typeId: item.typeId,
-                      categoriesId: item.categoriesId.map(item => item.categoryName)
-                    })}
+                    onPress={() =>
+                      navigation.navigate("ProductDetailScreen", {
+                        source: item.productImage[0],
+                        title: item.productName,
+                        description: item.description,
+                        price: item.price,
+                        id: item.id,
+                        remainingQuantity: item.quantity,
+                        productDetails: item.productDetails,
+                        userId: item.userId,
+                        typeId: item.typeId,
+                        categoriesId: item.categoriesId.map(
+                          (item) => item.categoryName
+                        ),
+                      })
+                    }
                   />
                 )}
                 keyExtractor={(item) => item.id}
@@ -154,18 +162,20 @@ const HomeScreen = ({ route, navigation }) => {
           <View style={styles.homeCategory}>
             <Text style={styles.categoryTitle}>Categories:</Text>
             <FlatList
-            horizontal={true}
+              horizontal={true}
               data={productTypeData}
               renderItem={({ item }) => (
                 <HomeScreenCategoryItem
-                  source={item.source}
+                  source={productTypeImages.find((p) => p.id === item.id).img}
                   title={item.typeName}
                   id={item.id}
-                  onPress={() => navigation.navigate("ProductByCategoryScreen",{
-                    id:item.id,     
-                    categories:item.categories, 
-                    title:item.typeName                
-                  })}
+                  onPress={() =>
+                    navigation.navigate("ProductByCategoryScreen", {
+                      id: item.id,
+                      categories: item.categories,
+                      title: item.typeName,
+                    })
+                  }
                 />
               )}
               keyExtractor={(item) => item.id}
@@ -191,7 +201,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     width: "85%",
     borderColor: "gray",
-    marginTop:15,
+    marginTop: 15,
     borderWidth: 0.2,
     backgroundColor: "white",
     color: "black",
@@ -224,10 +234,10 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontFamily: "SansitaSwashed-ExtraBoldItalic",
   },
-  categoryImageBackGround:{
-    width:"100%",
-    height:"100%"
-  }
+  categoryImageBackGround: {
+    width: "100%",
+    height: "100%",
+  },
 });
 
 export default HomeScreen;

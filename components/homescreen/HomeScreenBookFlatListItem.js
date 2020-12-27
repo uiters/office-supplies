@@ -52,8 +52,8 @@ const HomeScreenBookFlatListItem = (props) => {
 
 const styles = StyleSheet.create({
   TouchableOpacity: {
-    width: 170,
-    height: 300,
+    width: 180,
+    height: 320,
     marginLeft: 20,
     marginRight: 20,
     marginBottom: 20,
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   itemTitle: {
     marginHorizontal:25,
     marginTop: 10,
-    fontSize: 17,
+    fontSize: 13,
     fontFamily: "ArchitectsDaughter-Regular",
   },
   itemPrice: {

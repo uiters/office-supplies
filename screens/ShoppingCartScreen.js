@@ -9,6 +9,7 @@ import {
   ScrollView,
   FlatList,
   Alert,
+  SafeAreaView
 } from "react-native";
 import ShoppingCartItem from "../components/sharedcomponents/ShoppingCartItem";
 import { useSelector, useDispatch } from "react-redux";
@@ -127,6 +128,11 @@ const ShoppingCartScreen = ({ route, navigation }) => {
   const dispatch = useDispatch();
 
   const onBuyingItem = async () => {
+    const invalidItem = DATA.find(item => item.quantity===""||item.quantity==="0");
+    if(invalidItem){
+      Alert.alert("All quantities must be greater than or equal to 1");
+      return;
+    }
     if(selectedCityProvince===""||selectedDistrict===""||selectedWard===""||addressNumberStreet===""){
       Alert.alert("Delivery information has not been fully input!");
       return;
@@ -180,6 +186,7 @@ const ShoppingCartScreen = ({ route, navigation }) => {
   } else {
     return (
       <View style={style.container}>
+        <SafeAreaView style={{height: "40%"}}>
         <FlatList
           style={style.flatlist}
           data={DATA}
@@ -194,6 +201,7 @@ const ShoppingCartScreen = ({ route, navigation }) => {
           )}
           keyExtractor={(item) => item.id}
         />
+        </SafeAreaView>
         <View style={{marginHorizontal:20,height:5,backgroundColor:"black"}}/>
         <View style={style.paymenInformation}>
           <Text style={style.titlePrice}>Price:</Text>
@@ -270,9 +278,7 @@ const style = StyleSheet.create({
   },
   container: {
     marginTop: 10,
-  },
-  flatlist: {
-    height: "40%",
+    flex:1
   },
   paymenInformation: {
     marginTop:20,
