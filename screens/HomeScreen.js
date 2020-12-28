@@ -12,16 +12,15 @@ import {
   ActivityIndicator
 } from "react-native";
 import { AppLoading } from "expo";
-import data from "../fakedata/homebookflatitem";
-import fakecategories from "../fakedata/fakecategories";
 import * as Font from "expo-font";
 import HomeScreenBookFlatListItem from "../components/homescreen/HomeScreenBookFlatListItem";
 import HomeScreenCategoryItem from "../components/homescreen/HomeScreenCategoryItem";
 import baseURL from "../api/BaseURL";
 import { isEnabled } from "react-native/Libraries/Performance/Systrace";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import ShoppingCartItem from "../components/sharedcomponents/ShoppingCartItem";
 import productTypeImages from "../constants/ProductTypeImages";
+import {addUserId} from "../redux/actions/index";
 
 
 const fetchFonts = () => {
@@ -38,6 +37,8 @@ const HomeScreen = ({ route, navigation }) => {
   const [productTypeData, setProductTypeData] = useState([]);
   const [sampleProduct, setSampleProduct] = useState([]);
   const [loading, setLoading] = useState(false);
+  const token = useSelector(state => state.auth.token);
+  const dispatch = useDispatch();
   let shoppingCart = useSelector((state) => state.cart.shoppingCart);
   const onGetSampleProduct = async () => {
     try {
@@ -77,6 +78,30 @@ const HomeScreen = ({ route, navigation }) => {
     onLoadProductType();
     onGetSampleProduct();
   }, [shoppingCart]);
+
+  const onGetUserInformation = async () => {
+    try {
+      const response = await fetch(baseURL+"/user/me", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Authorization": token,
+        },
+      });
+      if (response.ok) {
+        const user = await response.json();
+        await dispatch(addUserId(user.id));
+      } else {
+        return response.status;
+      }
+    } catch (error) {
+      console.log(error.status);
+    }
+  };
+  useEffect(() => {
+    onGetUserInformation();
+  }, [])
 
   if (!fontLoaded) {
     return (

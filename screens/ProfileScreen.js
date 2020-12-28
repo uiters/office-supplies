@@ -45,7 +45,6 @@ const ProfileScreen = ({ route, navigation }) => {
       });
       if (response.ok) {
         const user = await response.json();
-        console.log(user);
         setPhoneNumber(user.profile.phoneNumber)
         setFullName(user.profile.fullName);
         setEmail(user.email);

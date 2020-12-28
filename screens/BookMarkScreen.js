@@ -11,9 +11,6 @@ import {
   Alert,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import ProductWithQuantityItem from "../components/sharedcomponents/ProductWithQuantityItem";
-import data from "../fakedata/homebookflatitem";
-import HomeScreenCategoryItem from "../components/homescreen/HomeScreenBookFlatListItem";
 import HomeScreenBookFlatListItem from "../components/homescreen/HomeScreenBookFlatListItem";
 
 const BookMarkScreen = ({ route, navigation }) => {

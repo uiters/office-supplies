@@ -52,7 +52,7 @@ const HomeScreenBookFlatListItem = (props) => {
 
 const styles = StyleSheet.create({
   TouchableOpacity: {
-    width: 180,
+    width: 170,
     height: 320,
     marginLeft: 20,
     marginRight: 20,

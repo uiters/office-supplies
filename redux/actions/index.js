@@ -8,6 +8,7 @@ import {
   UPDATESHOPPINGCART,
 } from "./Types";
 import { ADDTOBOOKMARK, GETBOOKMARK, REMOVEFROMBOOKMARKS, REMOVEEVERYBOOKMARKS } from "./Types";
+import {ADDUSERID} from "./Types";
 import baseURL from "../../api/BaseURL";
 
 //auth
@@ -96,4 +97,9 @@ export const removeFromBookMark = (email,id) => {
 
 export const removeEveryBookMarks = () => {
   return (dispatch) => dispatch({ type: REMOVEEVERYBOOKMARKS});
+};
+
+//user:
+export const addUserId = (id) => {
+  return (dispatch) => dispatch({ type: ADDUSERID, id:id });
 };

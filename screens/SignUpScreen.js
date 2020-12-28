@@ -12,8 +12,6 @@ import {
   ActivityIndicator
 } from "react-native";
 import { AppLoading } from "expo";
-import data from "../fakedata/homebookflatitem";
-import fakecategories from "../fakedata/fakecategories";
 import * as Font from "expo-font";
 import HomeScreenBookFlatListItem from "../components/homescreen/HomeScreenBookFlatListItem";
 import HomeScreenCategoryItem from "../components/homescreen/HomeScreenCategoryItem";
