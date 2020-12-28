@@ -49,12 +49,6 @@ const InvoiceRow = (props) => {
               </Text>
             </View>
             <View style={styles.quantityContainer}>
-              <Text style={styles.quantityTitle}>Seller:</Text>
-              <Text style={{...styles.itemTitle, color:"black"}}>
-                {props.sellerId.email}
-              </Text>
-            </View>
-            <View style={styles.quantityContainer}>
               <Text style={styles.quantityTitle}>Status:</Text>
               <Text style={{...styles.itemTitle, color:"red"}}>
                 {props.status===0?"Processing":"Delivered"}

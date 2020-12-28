@@ -8,6 +8,7 @@ import {
   Image,
   ScrollView,
   Alert,
+  ActivityIndicator
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import SaveButton from "../components/sharedcomponents/SaveButton";
@@ -19,9 +20,12 @@ const ChangePasswordScreen = ({ route, navigation }) => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [retypedNewPassword, setRetypedNewPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onChangePassword = async () => {
+    setLoading(true);
     if(newPassword !== retypedNewPassword){
+      setLoading(false);
       Alert.alert("Retyped new password and new password do not match!");
     }else{
       try {
@@ -39,15 +43,28 @@ const ChangePasswordScreen = ({ route, navigation }) => {
           })
         });
         if (response.ok) {
+          setLoading(false);
           Alert.alert("Password changed");
+          navigation.goBack();
         } else {
+          setLoading(false);
           Alert.alert("Current password not match, please try again!");
         }
       } catch (error) {
-        console.log(error.status);
+        setLoading(false);
+        Alert.alert(error.status);
       }
     }
   };
+  if(loading){
+    return (
+      <ActivityIndicator
+        size="large"
+        color="#E0E0E0"
+        style={{ alignItems: "center", justifyContent: "center", flex: 1 }}
+      />
+    );
+  }else{
   return (
     <View style={styles.container}>
       <Text style={styles.Text}>Current Password:</Text>
@@ -72,7 +89,7 @@ const ChangePasswordScreen = ({ route, navigation }) => {
        
       <SaveButton onPress={onChangePassword} />
     </View>
-  );
+  );}
 };
 
 const styles = StyleSheet.create({

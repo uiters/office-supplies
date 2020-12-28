@@ -9,6 +9,7 @@ import {
   ScrollView,
   FlatList,
   Alert,
+  ActivityIndicator
 } from "react-native";
 import { AppLoading } from "expo";
 import data from "../fakedata/homebookflatitem";
@@ -29,19 +30,19 @@ const SignInScreen = ({ route, navigation }, props) => {
   const [passWord, setPassword] = useState("");
   const [dialogVisibility, setDialogVisibility] = useState(false);
   let isAuthenticate = useSelector((state) => state.auth.isAuthenticate);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
 
   const onSignIn = async () => {
-    setDialogVisibility(true);
+    setLoading(true);
     if (email === "" || passWord === "") {
-      setDialogVisibility(false);
+      setLoading(false);
       Alert.alert("Information has not fully been input!");
     } else {
       const res = await dispatch(signInRequest({ email, password: passWord }));
-      setDialogVisibility(false);
+      setLoading(false);
       if (res === "token") {
-        Alert.alert("Signed In Sucessfully!");
         navigation.navigate("Home");
         setPassword("");
       } else if (res === 401) {
@@ -54,6 +55,16 @@ const SignInScreen = ({ route, navigation }, props) => {
   const onForgotPassword = () => {
     navigation.navigate("ForgotPasswordScreen");
   };
+  
+  if(loading){
+    return (
+      <ActivityIndicator
+        size="large"
+        color="#E0E0E0"
+        style={{ alignItems: "center", justifyContent: "center", flex: 1 }}
+      />
+    );
+  }else{
   return (
     <View style={styles.container}>
       
@@ -82,7 +93,7 @@ const SignInScreen = ({ route, navigation }, props) => {
         </View>
       </ScrollView>
     </View>
-  );
+  );}
 };
 
 const styles = StyleSheet.create({

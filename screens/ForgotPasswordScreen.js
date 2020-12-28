@@ -8,6 +8,7 @@ import {
   Image,
   ScrollView,
   Alert,
+  ActivityIndicator
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import ConfirmForgotPassword from "../components/sharedcomponents/ConfirmForgotPasswordButton";
@@ -15,8 +16,11 @@ import baseURL from "../api/BaseURL";
 
 const ForgotPasswordScreen = ({ route, navigation }) => {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
   const onConfirmForgotPassword = async () => {
+    setLoading(true);
     if (email === "") {
+      setLoading(false);
       Alert.alert("Please type in your email!");
     } else {
       try {
@@ -32,15 +36,25 @@ const ForgotPasswordScreen = ({ route, navigation }) => {
         });
         if(response.ok){
           const json = await response.json()
+          setLoading(false);
           Alert.alert(JSON.stringify(json));
           navigation.goBack();
         }
       } catch (err) {
+        setLoading(false);
         Alert.alert(error.status);
       }
     }
   };
-
+if(loading){
+  return (
+    <ActivityIndicator
+      size="large"
+      color="#E0E0E0"
+      style={{ alignItems: "center", justifyContent: "center", flex: 1 }}
+    />
+  );
+}else{
   return (
     <View style={styles.container}>
       <Text style={styles.Text}>Please type in your email:</Text>
@@ -52,7 +66,7 @@ const ForgotPasswordScreen = ({ route, navigation }) => {
       />
       <ConfirmForgotPassword onPress={onConfirmForgotPassword} />
     </View>
-  );
+  );}
 };
 
 const styles = StyleSheet.create({

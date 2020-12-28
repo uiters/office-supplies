@@ -9,6 +9,8 @@ import {
   ScrollView,
   Picker,
   TextInput,
+  TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import SearchButton from "../components/sharedcomponents/SearchButton";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -16,9 +18,15 @@ import { FlatList } from "react-native-gesture-handler";
 import HomeScreenBookFlatListItem from "../components/homescreen/HomeScreenBookFlatListItem";
 
 const SearchScreen = ({ route, navigation }) => {
-  const { products } = route.params;
+  const { products, keyWord } = route.params;
   const [filteredProducts, setFilteredProducts] = useState(products);
-  const [text, setText] = useState("");
+  const [text, setText] = useState(keyWord);
+  const [isRenderFooterVisible, setIsRenderFooterVisible] = useState(
+    products.length >= 10 ? true : false
+  );
+  const [loading, setLoading] = useState(false);
+  const [pageIndex, setPageIndex] = useState(1);
+
   const onSubmitEditing = () => {
     console.log(text);
   };
@@ -33,49 +41,106 @@ const SearchScreen = ({ route, navigation }) => {
       setFilteredProducts(prods);
     }
   };
-
-  return (
-    <View style={styles.container}>
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.TextInput}
-          value={text}
-          onChangeText={(text) => onChangeText(text)}
-          placeholder="What are you looking for?"
-          onSubmitEditing={onSubmitEditing}
+  const getData = async () => {
+    const index = pageIndex + 1;
+    setLoading(true);
+    try {
+      const response = await fetch(
+        baseURL + "/product/?page=" + index + "&keyword=" + text,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.ok) {
+        const json = await response.json();
+        if (pageIndex === 1) {
+          setFilteredProducts(json.result);
+        } else {
+          const arr = [...filteredProducts, json.result];
+          setFilteredProducts(arr);
+        }
+        setPageIndex(pageIndex + 1);
+        setLoading(false);
+      }
+    } catch (err) {
+      Alert.alert(err.status + "");
+    }
+  };
+  const renderFooter = () => {
+    return (
+      //Footer View with Load More button
+      <View style={styles.footer}>
+        <TouchableOpacity
+          activeOpacity={0.9}
+          onPress={getData}
+          //On Click of button load more data
+          style={styles.loadMoreBtn}
+        >
+          <Text style={styles.btnText}>Load More</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+  if (loading) {
+    return (
+      <ActivityIndicator
+        size="large"
+        color="#E0E0E0"
+        style={{ alignItems: "center", justifyContent: "center", flex: 1 }}
+      />
+    );
+  } else {
+    return (
+      <View style={styles.container}>
+        <View style={styles.searchContainer}>
+          <TextInput
+            style={styles.TextInput}
+            value={text}
+            onChangeText={(text) => {
+              onChangeText(text);
+              setPageIndex(1);
+            }}
+            placeholder="What are you looking for?"
+            onSubmitEditing={onSubmitEditing}
+          />
+        </View>
+        <FlatList
+          horizontal={false}
+          numColumns={2}
+          data={filteredProducts}
+          renderItem={({ item }) => (
+            <HomeScreenBookFlatListItem
+              source={item.productImage[0]}
+              title={item.productName}
+              price={item.price}
+              onPress={() =>
+                navigation.navigate("ProductDetailScreen", {
+                  source: item.productImage[0],
+                  title: item.productName,
+                  description: item.description,
+                  price: item.price,
+                  id: item.id,
+                  remainingQuantity: item.quantity,
+                  productDetails: item.productDetails,
+                  userId: item.userId,
+                  typeId: item.typeId,
+                  categoriesId: item.categoriesId.map(
+                    (item) => item.categoryName
+                  ),
+                })
+              }
+            />
+          )}
+          keyExtractor={(item) => item.id}
+          ListFooterComponent={isRenderFooterVisible ? renderFooter : null}
         />
       </View>
-      <FlatList
-        horizontal={false}
-        numColumns={2}
-        data={filteredProducts}
-        renderItem={({ item }) => (
-          <HomeScreenBookFlatListItem
-            source={item.productImage[0]}
-            title={item.productName}
-            price={item.price}
-            onPress={() =>
-              navigation.navigate("ProductDetailScreen", {
-                source: item.productImage[0],
-                title: item.productName,
-                description: item.description,
-                price: item.price,
-                id: item.id,
-                remainingQuantity: item.quantity,
-                productDetails: item.productDetails,
-                userId: item.userId,
-                typeId: item.typeId,
-                categoriesId: item.categoriesId.map(
-                  (item) => item.categoryName
-                ),
-              })
-            }
-          />
-        )}
-        keyExtractor={(item) => item.id}
-      />
-    </View>
-  );
+    );
+  }
 };
 
 const styles = StyleSheet.create({
@@ -114,6 +179,25 @@ const styles = StyleSheet.create({
   },
   flatList: {
     marginTop: 30,
+  },
+  footer: {
+    padding: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  loadMoreBtn: {
+    padding: 10,
+    backgroundColor: "#800000",
+    borderRadius: 4,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  btnText: {
+    color: "white",
+    fontSize: 15,
+    textAlign: "center",
   },
 });
 

@@ -9,6 +9,7 @@ import {
   ScrollView,
   FlatList,
   Alert,
+  ActivityIndicator
 } from "react-native";
 import { AppLoading } from "expo";
 import data from "../fakedata/homebookflatitem";
@@ -27,14 +28,18 @@ const SignUpScreen = ({ route, navigation }) => {
   const [retypedPassWord, setRetypedPassword] = useState("");
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  let signupHandler = () => {
+  const signupHandler = () => {
+    setLoading(true);
     if(email===""||passWord===""||retypedPassWord===""||name===""||phoneNumber===""){
+      setLoading(false);
       Alert.alert(
         "Information has not been fully input!"
       );
     }
     if (retypedPassWord !== passWord) {
+      setLoading(false);
       Alert.alert(
         "Retyped password and password do not match! Please type again!"
       );
@@ -56,6 +61,7 @@ const SignUpScreen = ({ route, navigation }) => {
       })
         .then((response) => response.json())
         .then((json) => {
+          setLoading(false);
             if(json.hasOwnProperty("errors")){
                 let error="";
                 json.errors.forEach(element => {
@@ -68,6 +74,15 @@ const SignUpScreen = ({ route, navigation }) => {
         .catch((err) => Alert.alert("Error: " + err));
     }
   };
+  if(loading){
+    return (
+      <ActivityIndicator
+        size="large"
+        color="#E0E0E0"
+        style={{ alignItems: "center", justifyContent: "center", flex: 1 }}
+      />
+    );
+  }else{
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -124,7 +139,7 @@ const SignUpScreen = ({ route, navigation }) => {
         </View>
       </ScrollView>
     </View>
-  );
+  );}
 };
 
 const styles = StyleSheet.create({

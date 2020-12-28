@@ -8,6 +8,7 @@ import {
   Image,
   ScrollView,
   Alert,
+  ActivityIndicator
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import SaveButton from "../components/sharedcomponents/SaveButton"
@@ -23,6 +24,8 @@ const ProfileScreen = ({ route, navigation }) => {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [userID, setUserID] = useState("");
+  const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
     console.log(token);
@@ -30,6 +33,7 @@ const ProfileScreen = ({ route, navigation }) => {
   },[token]);
 
   const onGetUserInformation = async (token) => {
+    setLoading(true);
     try {
       const response = await fetch(baseURL+"/user/me", {
         method: "GET",
@@ -46,6 +50,7 @@ const ProfileScreen = ({ route, navigation }) => {
         setFullName(user.profile.fullName);
         setEmail(user.email);
         setUserID(user.id);
+        setLoading(false);
       } else {
         return response.status;
       }
@@ -55,8 +60,8 @@ const ProfileScreen = ({ route, navigation }) => {
   };
 
   const onChangeProfile = async () => {
+    setLoading(true);
     try {
-      
       const response = await fetch(baseURL+"/user", {
         method: "PUT",
         headers: {
@@ -73,9 +78,10 @@ const ProfileScreen = ({ route, navigation }) => {
         })
       });
       if (response.ok) {
+        setLoading(false);
         Alert.alert("Profile Information Updated Sucessfully");
       } else {
-        console.log(response.json);
+        setLoading(false);
         Alert.alert(response.status+", "+response.json());
       }
     } catch (error) {
@@ -83,7 +89,15 @@ const ProfileScreen = ({ route, navigation }) => {
     }
   };
   
-
+if(loading){
+  return (
+    <ActivityIndicator
+      size="large"
+      color="#E0E0E0"
+      style={{ alignItems: "center", justifyContent: "center", flex: 1 }}
+    />
+  );
+}else{
   return (
     <View style={styles.container}>
         <Text style={styles.Text}>Email:</Text>
@@ -105,7 +119,7 @@ const ProfileScreen = ({ route, navigation }) => {
         <SaveButton onPress={onChangeProfile}/>
         <NavigateToChangePasswordScreenButton onPress={()=>navigation.navigate("ChangePassword")}/>        
     </View>
-  );
+  );}
 };
 
 const styles = StyleSheet.create({

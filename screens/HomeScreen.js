@@ -9,6 +9,7 @@ import {
   ScrollView,
   FlatList,
   Alert,
+  ActivityIndicator
 } from "react-native";
 import { AppLoading } from "expo";
 import data from "../fakedata/homebookflatitem";
@@ -21,6 +22,7 @@ import { isEnabled } from "react-native/Libraries/Performance/Systrace";
 import { useSelector } from "react-redux";
 import ShoppingCartItem from "../components/sharedcomponents/ShoppingCartItem";
 import productTypeImages from "../constants/ProductTypeImages";
+
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -35,6 +37,7 @@ const HomeScreen = ({ route, navigation }) => {
   const [fontLoaded, setFontLoaded] = useState(false);
   const [productTypeData, setProductTypeData] = useState([]);
   const [sampleProduct, setSampleProduct] = useState([]);
+  const [loading, setLoading] = useState(false);
   let shoppingCart = useSelector((state) => state.cart.shoppingCart);
   const onGetSampleProduct = async () => {
     try {
@@ -85,6 +88,7 @@ const HomeScreen = ({ route, navigation }) => {
     );
   } else {
     const onSubmitEditing = async () => {
+      setLoading(true);
       try {
         const response = await fetch(
           baseURL + "/product/?page=1&keyword=" + text,
@@ -100,14 +104,24 @@ const HomeScreen = ({ route, navigation }) => {
           const json = await response.json();
           navigation.navigate("SearchScreen", {
             products: json.result,
+            keyWord:text
           });
+          setLoading(false);
           setText("");
         }
       } catch (err) {
         Alert.alert(err.status + "");
       }
     };
-
+if(loading){
+  return (
+    <ActivityIndicator
+      size="large"
+      color="#E0E0E0"
+      style={{ alignItems: "center", justifyContent: "center", flex: 1 }}
+    />
+  );
+}else{
     return (
       <View style={styles.container}>
         <ImageBackground
@@ -148,9 +162,7 @@ const HomeScreen = ({ route, navigation }) => {
                         productDetails: item.productDetails,
                         userId: item.userId,
                         typeId: item.typeId,
-                        categoriesId: item.categoriesId.map(
-                          (item) => item.categoryName
-                        ),
+                        categoriesId: item.categoriesId
                       })
                     }
                   />
@@ -184,7 +196,7 @@ const HomeScreen = ({ route, navigation }) => {
         </ScrollView>
       </View>
     );
-  }
+  }}
 };
 const styles = StyleSheet.create({
   container: {
