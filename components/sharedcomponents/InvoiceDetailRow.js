@@ -36,7 +36,7 @@ const InvoiceRow = (props) => {
           <View style={styles.information}>
             <View style={styles.quantityContainer}>
             <Text style={styles.quantityTitle}>Product Name:</Text>
-            <Text style={{...styles.itemTitle, color:"black"}}>{props.productId.productName}</Text>
+            <Text style={{...styles.itemTitle, color:"black", marginRight:10}}>{props.productId.productName}</Text>
             </View>
             <View style={styles.quantityContainer}>
               <Text style={styles.quantityTitle}>Quantity:</Text>

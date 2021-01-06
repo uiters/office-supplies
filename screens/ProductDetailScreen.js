@@ -115,7 +115,7 @@ const ProductDetailScreen = ({ navigation, route }) => {
               <Text style={styles.subContainerInfoTitle}>Categorie(s):</Text>
               <View style={{flexDirection:"column"}}>
               {
-                categoriesId&&categoriesId.map(cate => <Text id={cate._id} style={{...styles.subContainerInfoProp, width:"100%"}}>{cate.categoryName}</Text>)
+                categoriesId&&categoriesId.map(cate => <Text key={cate._id} style={{...styles.subContainerInfoProp, width:"100%"}}>{cate.categoryName}</Text>)
               }
               </View>
             </View>

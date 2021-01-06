@@ -82,7 +82,7 @@ const ProductDetailHeader = ({ navigation, route }) => {
           })
         );
         
-        
+        await console.log(categoriesId);
       } else {
         await setIsBookMarked(false);
         await dispatch(

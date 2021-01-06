@@ -48,9 +48,7 @@ const BookMarkScreen = ({ route, navigation }) => {
                 productDetails: item.productDetails,
                 userId: item.userId,
                 typeId: item.typeId,
-                categoriesId: item.categoriesId.map(
-                  (item) => item.categoryName
-                ),
+                categoriesId: item.categoriesId
               })
             }
           />
