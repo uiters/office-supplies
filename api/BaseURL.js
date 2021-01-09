@@ -1,2 +1,2 @@
- const baseURL = "http://192.168.1.138:3000/api";
+ const baseURL = "https://offie-supplies-and-bookstore.herokuapp.com/api";
  export default baseURL;
