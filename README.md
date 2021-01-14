@@ -105,21 +105,23 @@
 
 - Language : Javascript
 
-- FrameWork : React Native 0.55.4
+- FrameWork : React Native 0.63.0
 
-- Database: phpMyAdmin
+- Backend: NodeJs + Express
+
+- Database: MongoDb
 
 * react-native - https://github.com/facebook/react-native
 
 * react-navigation - https://github.com/react-navigation/react-navigation
 
-* react-native-maps - https://github.com/react-native-community/react-native-maps
+* react-native-paper - https://callstack.github.io/react-native-paper/
 
-* react-native-swiper - https://github.com/leecade/react-native-swiper
+* react-redux - https://redux.js.org/
 
-* react-native-linear-gradient - https://github.com/react-native-community/react-native-linear-gradient
+* react-native-async-storage - https://github.com/react-native-async-storage/async-storage
 
-* react-native-view-more-text - https://github.com/nlt2390/react-native-view-more-text
+* react-native-dropdown-picker - https://www.npmjs.com/package/react-native-dropdown-picker
 
 ## Tác giả
 Ngô Tấn Phát - 17520877@gm.uit.edu.vn
