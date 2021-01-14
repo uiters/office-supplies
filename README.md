@@ -25,6 +25,8 @@
 
 1. [Giấy phép](#giấy-phép)
 
+1. [Cách cài đặt](#cách-cài-đặt)
+
 ## Chức năng
 ### Đăng nhập / Đăng kí
    * Đăng nhập
@@ -141,3 +143,11 @@ Nguyễn Trọng Tài - 17521002@gm.uit.edu.vn
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+## Cách cài đặt
+
+- `git checkout latestupdate`
+- `npm i`
+- `expo start`
+
+
