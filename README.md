@@ -11,7 +11,7 @@
    
    1. [Bookmark sản phẩm](#bookmark-sản-phẩm)
 
-   1. [Xem/thêm sản phẩm vào/chỉnh sửa giỏ hàng](#xem/thêm-sản-phẩm-vào/chỉnh-sửa-giỏ-hàng)
+   1. [Xem/thêm sản phẩm vào/chỉnh sửa giỏ hàng](#xem-/-thêm-sản-phẩm-vào-/-chỉnh-sửa-giỏ-hàng)
 
    1. [Xem order](#xem-order)
 
